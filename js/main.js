@@ -47,9 +47,11 @@ function initTypewriterEffect() {
     const terminalBody = document.querySelector('.terminal-body');
     const hobbiesSection = document.querySelector('.hobbies');
     const contactSection = document.querySelector('.contact');
+    const initialCommand = document.getElementById('initial-command');
+    const initialCursor = document.getElementById('initial-cursor');
     
-    if (!terminalBody) {
-        console.error('Terminal body not found!');
+    if (!terminalBody || !initialCommand || !initialCursor) {
+        console.error('Required terminal elements not found!');
         return;
     }
     
@@ -58,29 +60,18 @@ function initTypewriterEffect() {
     console.log('Is mobile:', isMobile, 'Window width:', window.innerWidth);
     const commandTypingSpeed = isMobile ? 80 : 100; // Slower typing for commands
     const contentTypingSpeed = isMobile ? 30 : 40; // Faster for content
-    const initialDelay = isMobile ? 800 : 1000;
+    const initialDelay = 100; // Very short delay - start almost immediately
     
     // Content to display
     const introContent = "Hello! I'm Moses, a passionate software engineer with a deep curiosity for technology and continuous learning. I love building elegant solutions to complex problems and exploring the fascinating world of computers.";
     const aboutContent = "When I'm not coding, I enjoy discovering new technologies, contributing to open-source projects, and sharing knowledge with the developer community.";
     
-    // Clear terminal body and rebuild structure
-    terminalBody.innerHTML = '';
-    
-    // Step 1: Create first command line and type "cat intro.txt"
+    // Step 1: Type "cat intro.txt" in the existing command line
     setTimeout(() => {
-        const firstCommandLine = document.createElement('div');
-        firstCommandLine.className = 'terminal-line';
-        firstCommandLine.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span><span class="terminal-command" id="command1"></span><span class="cursor terminal-cursor" id="cursor1">█</span>';
-        terminalBody.appendChild(firstCommandLine);
-        
-        const command1Element = document.getElementById('command1');
-        
-        // Type "cat intro.txt"
-        typeWriter('cat intro.txt', command1Element, commandTypingSpeed, function() {
+        typeWriter('cat intro.txt', initialCommand, commandTypingSpeed, function() {
             // Remove cursor and add pause before "enter"
             setTimeout(() => {
-                document.getElementById('cursor1').style.display = 'none';
+                initialCursor.style.display = 'none';
                 
                 // Step 2: Show intro content
                 setTimeout(() => {
