@@ -214,11 +214,12 @@ h1 {
     cursor: pointer;
     position: relative;
     border: 2px solid transparent;
-    /* Ensure animations work on ALL devices */
-    animation: slowBob 3s ease-in-out infinite;
-    -webkit-animation: slowBob 3s ease-in-out infinite;
-    -moz-animation: slowBob 3s ease-in-out infinite;
-    -o-animation: slowBob 3s ease-in-out infinite;
+    /* Simple universal animation that works everywhere */
+    animation: universalBob 2s ease-in-out infinite !important;
+    -webkit-animation: universalBob 2s ease-in-out infinite !important;
+    -moz-animation: universalBob 2s ease-in-out infinite !important;
+    -o-animation: universalBob 2s ease-in-out infinite !important;
+    will-change: transform;
 }
 
 /* Different animation delays for staggered effect */
@@ -315,18 +316,36 @@ h1 {
     }
 }
 
-/* Alternative animations for variety */
-.hobby-tag:nth-child(odd) {
-    animation: slowBob 3s ease-in-out infinite;
+/* UNIVERSAL ANIMATION - Works on ALL devices */
+@keyframes universalBob {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
 }
 
-.hobby-tag:nth-child(even) {
-    animation: gentleVibrate 2s ease-in-out infinite;
+@-webkit-keyframes universalBob {
+    0%, 100% {
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+    50% {
+        -webkit-transform: translateY(-2px);
+        transform: translateY(-2px);
+    }
 }
 
-/* Special animations for certification tags */
-.certification-tag {
-    animation: floatAround 5s ease-in-out infinite;
+@-moz-keyframes universalBob {
+    0%, 100% {
+        -moz-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+    50% {
+        -moz-transform: translateY(-2px);
+        transform: translateY(-2px);
+    }
 }
 
 .hobby-tag:hover {
