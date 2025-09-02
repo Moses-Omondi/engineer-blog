@@ -207,6 +207,10 @@ h1 {
     margin-left: 2px;
 }
 
+#cursor-2 {
+    display: none; /* Initially hidden */
+}
+
 @keyframes blink {
     0%, 50% {
         opacity: 1;
