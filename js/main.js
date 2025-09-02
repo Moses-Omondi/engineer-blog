@@ -50,6 +50,11 @@ function initTypewriterEffect() {
     
     console.log('Elements found, starting typewriter...');
     
+    // Check if mobile for timing adjustments
+    const isMobile = window.innerWidth <= 480;
+    const typingSpeed = isMobile ? 35 : 40; // Slightly faster on mobile
+    const initialDelay = isMobile ? 600 : 800; // Slightly faster start on mobile
+    
     const textToType = "Hello! I'm Moses, a passionate software engineer with a deep curiosity for technology and continuous learning. I love building elegant solutions to complex problems and exploring the fascinating world of computers.";
     
     // Clear the element first
@@ -59,13 +64,13 @@ function initTypewriterEffect() {
     setTimeout(() => {
         console.log('Starting to type...');
         
-        typeWriter(textToType, typewriterText, 40, function() {
+        typeWriter(textToType, typewriterText, typingSpeed, function() {
             console.log('Typing complete!');
             
             // Remove cursor after typing is complete
             setTimeout(() => {
                 if (cursor) cursor.style.display = 'none';
-            }, 1000);
+            }, isMobile ? 800 : 1000);
             
             // Show the second paragraph after typing completes
             setTimeout(() => {
@@ -73,7 +78,7 @@ function initTypewriterEffect() {
                     contentAfterTyping.classList.add('show');
                     console.log('Second paragraph shown');
                 }
-            }, 1200);
+            }, isMobile ? 1000 : 1200);
             
             // Show hobbies section
             setTimeout(() => {
@@ -81,7 +86,7 @@ function initTypewriterEffect() {
                     hobbiesSection.classList.add('show');
                     console.log('Hobbies section shown');
                 }
-            }, 2000);
+            }, isMobile ? 1600 : 2000);
             
             // Show contact section
             setTimeout(() => {
@@ -89,10 +94,10 @@ function initTypewriterEffect() {
                     contactSection.classList.add('show');
                     console.log('Contact section shown');
                 }
-            }, 2500);
+            }, isMobile ? 2000 : 2500);
         });
         
-    }, 800); // Initial delay before typing starts
+    }, initialDelay); // Initial delay before typing starts
 }
 
 // Load saved theme on page load
