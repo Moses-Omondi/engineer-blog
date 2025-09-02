@@ -184,6 +184,63 @@ h1 {
     text-align: left;
 }
 
+/* Typewriter Effect */
+.typewriter-container {
+    position: relative;
+    min-height: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.typewriter {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 0;
+    display: inline;
+}
+
+.cursor {
+    display: inline-block;
+    color: var(--gradient-start);
+    animation: blink 1s infinite;
+    font-weight: 100;
+    font-size: 1.2rem;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+.content-after-typing {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+}
+
+.content-after-typing.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Initially hide hobby section and contact */
+.hobbies,
+.contact {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease;
+}
+
+.hobbies.show,
+.contact.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Hobbies Section */
 .hobbies {
     margin-bottom: 40px;
