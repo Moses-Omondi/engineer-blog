@@ -1,0 +1,106 @@
+/* Blog-specific styles */
+.container {
+    max-width: 800px;
+}
+
+.blog-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.blog-header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 15px;
+    letter-spacing: -0.02em;
+}
+
+.blog-header p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.blog-posts {
+    display: grid;
+    gap: 30px;
+}
+
+.blog-post {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.blog-post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.blog-post h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.blog-post h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.blog-post h2 a:hover {
+    color: var(--gradient-start);
+}
+
+.blog-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.blog-date::before {
+    content: "📅 ";
+}
+
+.blog-category::before {
+    content: "🏷️ ";
+}
+
+.blog-excerpt {
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.read-more {
+    color: var(--gradient-start);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: var(--gradient-end);
+}
+
+.no-posts {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-top: 50px;
+}
+
+/* Blog-specific card background variable */
+:root {
+    --card-bg: #fafafa;
+}
+
+[data-theme="dark"] {
+    --card-bg: #222;
+}
