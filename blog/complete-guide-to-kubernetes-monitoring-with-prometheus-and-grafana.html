@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Guide to Kubernetes Monitoring with Prometheus and Grafana - Moses Omondi</title>
+    <style>
+        :root {
+            --bg-color: #fff;
+            --text-color: #333;
+            --text-secondary: #666;
+            --text-tertiary: #555;
+            --border-color: #eee;
+            --tag-bg: #f5f5f5;
+            --tag-hover: #e8e8e8;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --code-bg: #f8f9fa;
+            --code-border: #e9ecef;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #999;
+            --border-color: #333;
+            --tag-bg: #2a2a2a;
+            --tag-hover: #404040;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --code-bg: #2d2d2d;
+            --code-border: #404040;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--gradient-start);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 1px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--gradient-start);
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--gradient-start);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .article-header {
+            margin-bottom: 40px;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .article-date::before {
+            content: "📅 ";
+        }
+
+        .article-category::before {
+            content: "🏷️ ";
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            color: var(--text-color);
+        }
+
+        .article-content h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: var(--text-color);
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 30px 0 15px;
+            color: var(--text-color);
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+        }
+
+        .article-content code {
+            background: var(--code-bg);
+            border: 1px solid var(--code-border);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        .article-content pre {
+            background: var(--code-bg);
+            border: 1px solid var(--code-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--gradient-start);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .article-content a {
+            color: var(--gradient-start);
+            text-decoration: none;
+        }
+
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .container {
+                padding-top: 80px;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .article-content {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .container {
+                padding: 30px 15px 40px;
+                padding-top: 70px;
+            }
+            
+            .article-title {
+                font-size: 1.7rem;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <a href="../blog.html" class="back-link">← Back to Blog</a>
+        
+        <article>
+            <div class="article-header">
+                <h1 class="article-title">Complete Guide to Kubernetes Monitoring with Prometheus and Grafana</h1>
+                <div class="article-meta">
+                    <span class="article-date">September 2, 2025</span>
+                    <span class="article-category">Kubernetes</span>
+                </div>
+            </div>
+            
+            <div class="article-content">
+                <h1>Complete Guide to Kubernetes Monitoring with Prometheus and Grafana</h1>
+
+<p>Monitoring your Kubernetes clusters is critical for maintaining reliability, performance, and security. In this comprehensive guide, we'll build a production-ready monitoring stack using <strong>Prometheus</strong>, <strong>Grafana</strong>, and <strong>AlertManager</strong>.</p>
+
+<h2>Why Kubernetes Monitoring Matters</h2>
+
+<p>Kubernetes environments are complex, with multiple layers of abstraction:</p>
+
+<ul>
+<li><strong>Cluster-level metrics</strong> (nodes, pods, deployments)</li>
+<li><strong>Application metrics</strong> (custom business logic)</li>
+<li><strong>Infrastructure metrics</strong> (CPU, memory, network, storage)</li>
+<li><strong>Security events</strong> (failed authentications, privilege escalations)</li>
+
+<p>Without proper monitoring, issues can cascade quickly, leading to outages and performance degradation.</p>
+
+<h2>Architecture Overview</h2>
+
+<p>Our monitoring stack will consist of:</p>
+
+<h3>Core Components</h3>
+- <strong>Prometheus</strong> - Metrics collection and storage
+- <strong>Grafana</strong> - Visualization and dashboarding  
+- <strong>AlertManager</strong> - Alert routing and management
+- <strong>Node Exporter</strong> - Host-level metrics
+- <strong>kube-state-metrics</strong> - Kubernetes object metrics
+
+<h3>Data Flow</h3>
+<li>Exporters collect metrics from various sources</li>
+<li>Prometheus scrapes and stores metrics</li>
+<li>Grafana queries Prometheus for visualization</li>
+<li>AlertManager handles alerting rules and notifications</li>
+
+<h2>Setting Up Prometheus</h2>
+
+<h3>Installation via Helm</h3>
+
+<p>First, add the Prometheus community Helm repository:</p>
+
+<pre><code>bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+</code></pre>
+
+<p>Create a custom values file for production configuration:</p>
+
+<pre><code>yaml
+<h1>prometheus-values.yaml</h1>
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: fast-ssd
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 100Gi
+
+<p>alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: fast-ssd
+          accessModes: ["ReadWriteOnce"]  
+          resources:
+            requests:
+              storage: 10Gi</p>
+
+<p>grafana:
+  adminPassword: "secure-admin-password"
+  persistence:
+    enabled: true
+    storageClassName: fast-ssd
+    size: 10Gi
+</code></pre></p>
+
+<p>Install the monitoring stack:</p>
+
+<pre><code>bash
+helm install monitoring prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --create-namespace \
+  --values prometheus-values.yaml
+</code></pre>
+
+<h2>Essential Monitoring Metrics</h2>
+
+<h3>Cluster Health Metrics</h3>
+
+<p>Monitor these critical cluster indicators:</p>
+
+<pre><code>promql
+<h1>Cluster node availability</h1>
+up{job="kubernetes-nodes"}
+
+<h1>Pod restart rates</h1>
+rate(kube_pod_container_status_restarts_total[5m])
+
+<h1>Resource utilization</h1>
+node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100
+
+<h1>Disk usage</h1>
+(node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes * 100
+</code></pre>
+
+<h3>Application Performance</h3>
+
+<p>Track application-specific metrics:</p>
+
+<pre><code>promql
+<h1>HTTP request rates</h1>
+rate(http_requests_total[5m])
+
+<h1>Request duration percentiles  </h1>
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+
+<h1>Error rates</h1>
+rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m])
+</code></pre>
+
+<h2>Creating Effective Dashboards</h2>
+
+<h3>Grafana Dashboard Best Practices</h3>
+
+<p><li><strong>Start with Overview</strong> - High-level cluster health</li>
+<li><strong>Drill Down Capability</strong> - Link to detailed views</li>
+<li><strong>Consistent Time Ranges</strong> - Synchronize across panels</li>
+<li><strong>Appropriate Visualizations</strong> - Choose the right chart types</li></p>
+
+<h3>Sample Dashboard JSON</h3>
+
+<p>Here's a starter dashboard for Kubernetes monitoring:</p>
+
+<pre><code>json
+{
+  "dashboard": {
+    "title": "Kubernetes Cluster Overview",
+    "panels": [
+      {
+        "title": "Cluster Nodes Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(up{job=\"kubernetes-nodes\"})",
+            "legendFormat": "Available Nodes"
+          }
+        ]
+      },
+      {
+        "title": "Pod Status Distribution", 
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "sum by (phase) (kube_pod_status_phase)",
+            "legendFormat": "{{phase}}"
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+
+<h2>Alerting Rules Configuration</h2>
+
+<h3>Critical Alerts</h3>
+
+<p>Set up essential alerts for production environments:</p>
+
+<pre><code>yaml
+<h1>high-priority-alerts.yaml</h1>
+groups:
+  - name: kubernetes-critical
+    rules:
+      - alert: KubernetesNodeDown
+        expr: up{job="kubernetes-nodes"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kubernetes node {{ $labels.instance }} is down"
+          
+      - alert: PodCrashLooping
+        expr: rate(kube_pod_container_status_restarts_total[15m]) <em> 60 </em> 15 > 0
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping"
+          
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+</code></pre>
+
+<h2>Advanced Configuration</h2>
+
+<h3>Custom Metrics Collection</h3>
+
+<p>For application-specific monitoring, expose metrics in your applications:</p>
+
+<pre><code>go
+// Example Go application with Prometheus metrics
+package main
+
+<p>import (
+    "github.com/prometheus/client_golang/prometheus"
+    "github.com/prometheus/client_golang/prometheus/promhttp"
+)</p>
+
+<p>var (
+    httpRequests = prometheus.NewCounterVec(
+        prometheus.CounterOpts{
+            Name: "http_requests_total",
+            Help: "Total number of HTTP requests",
+        },
+        []string{"method", "status"},
+    )
+)</p>
+
+<p>func init() {
+    prometheus.MustRegister(httpRequests)
+}</p>
+
+<p>func handler(w http.ResponseWriter, r *http.Request) {
+    httpRequests.WithLabelValues(r.Method, "200").Inc()
+    // Your handler logic here
+}
+</code></pre></p>
+
+<h3>ServiceMonitor Configuration</h3>
+
+<p>Tell Prometheus how to scrape your application:</p>
+
+<pre><code>yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: my-app-monitor
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: my-application
+  endpoints:
+  - port: metrics
+    path: /metrics
+    interval: 30s
+</code></pre>
+
+<h2>Security Considerations</h2>
+
+<h3>RBAC Configuration</h3>
+
+<p>Ensure proper permissions for monitoring components:</p>
+
+<pre><code>yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus-server
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "nodes/proxy", "services", "endpoints", "pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions"]
+  resources: ["ingresses"]
+  verbs: ["get", "list", "watch"]
+</code></pre>
+
+<h3>Network Policies</h3>
+
+<p>Restrict network access to monitoring components:</p>
+
+<pre><code>yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: prometheus-netpol
+  namespace: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      app: prometheus
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+</code></pre>
+
+<h2>Performance Optimization</h2>
+
+<h3>Storage Optimization</h3>
+
+<p>- <strong>Use SSDs</strong> for Prometheus storage
+- <strong>Configure retention</strong> based on your needs
+- <strong>Consider remote storage</strong> for long-term data</p>
+
+<h3>Query Optimization</h3>
+
+<p>- <strong>Use recording rules</strong> for frequently-used queries
+- <strong>Limit cardinality</strong> of metrics labels
+- <strong>Configure appropriate scrape intervals</strong></p>
+
+<h2>Troubleshooting Common Issues</h2>
+
+<h3>High Cardinality Problems</h3>
+
+<pre><code>promql
+<h1>Check series count by metric</h1>
+topk(10, count by (__name__)({__name__=~".+"}))
+
+<h1>Identify high-cardinality labels</h1>
+topk(10, count by (job)({__name__!=""}))
+</code></pre>
+
+<h3>Performance Issues</h3>
+
+<p><li><strong>Monitor Prometheus itself</strong> - Check memory and CPU usage</li>
+<li><strong>Review query performance</strong> - Use query analyzer</li>
+<li><strong>Optimize dashboard queries</strong> - Reduce time ranges and frequency</li></p>
+
+<h2>Production Checklist</h2>
+
+<p>- [ ] Persistent storage configured for all components
+- [ ] Resource limits and requests set appropriately  
+- [ ] Backup strategy implemented for Grafana dashboards
+- [ ] AlertManager notifications configured (Slack, email, PagerDuty)
+- [ ] Security policies applied (RBAC, NetworkPolicies)
+- [ ] Monitoring for the monitoring stack itself
+- [ ] Documentation and runbooks created
+- [ ] Team training completed</p>
+
+<h2>Conclusion</h2>
+
+<p>A well-configured monitoring stack is essential for running production Kubernetes workloads. By following this guide, you'll have:</p>
+
+<p>- <strong>Comprehensive visibility</strong> into your cluster health
+- <strong>Proactive alerting</strong> for critical issues  
+- <strong>Historical data</strong> for capacity planning
+- <strong>Security monitoring</strong> for compliance and threat detection</p>
+
+<p>Remember: <strong>Monitoring is not just about collecting data—it's about actionable insights that help you maintain reliable systems.</strong></p>
+
+<h2>Next Steps</h2>
+
+<p><li><strong>Customize dashboards</strong> for your specific applications</li>
+<li><strong>Set up log aggregation</strong> with tools like Fluentd or Fluent Bit</li>
+<li><strong>Implement distributed tracing</strong> with Jaeger or Zipkin</li>
+<li><strong>Automate runbook procedures</strong> based on common alerts</li>
+</ul></p>
+
+<p>Happy monitoring! 🚀</p>
+            </div>
+        </article>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+            } else {
+                themeIcon.textContent = '🌙';
+            }
+        });
+    </script>
+</body>
+
+</html>
