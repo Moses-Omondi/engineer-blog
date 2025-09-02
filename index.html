@@ -438,6 +438,27 @@
                 padding: 6px 12px;
             }
             
+            /* Mobile tooltip overlay */
+            .tooltip-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 9999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px);
+            }
+            
+            .tooltip-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
             .certification-tooltip {
                 position: fixed !important;
                 left: 50% !important;
@@ -451,6 +472,7 @@
                 margin-bottom: 0 !important;
                 font-size: 0.9rem;
                 z-index: 10000;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             }
             
             .certification-tag.active .certification-tooltip {
@@ -525,6 +547,9 @@
             </button>
         </div>
     </nav>
+    
+    <!-- Mobile tooltip overlay -->
+    <div class="tooltip-overlay" id="tooltipOverlay"></div>
     
     <div class="container">
         <div class="profile">
@@ -668,29 +693,57 @@
             
             // Mobile tooltip functionality
             const certificationTags = document.querySelectorAll('.certification-tag');
+            const tooltipOverlay = document.getElementById('tooltipOverlay');
+            
+            // Function to check if we're on mobile
+            function isMobile() {
+                return window.innerWidth <= 480;
+            }
+            
+            // Function to close all tooltips and overlay
+            function closeAllTooltips() {
+                certificationTags.forEach(tag => {
+                    tag.classList.remove('active');
+                });
+                if (tooltipOverlay) {
+                    tooltipOverlay.classList.remove('active');
+                }
+            }
             
             certificationTags.forEach(tag => {
                 tag.addEventListener('click', function(e) {
                     e.stopPropagation();
                     
-                    // Close all other active tooltips
-                    certificationTags.forEach(otherTag => {
-                        if (otherTag !== tag) {
-                            otherTag.classList.remove('active');
-                        }
-                    });
+                    const isCurrentlyActive = tag.classList.contains('active');
                     
-                    // Toggle current tooltip
-                    tag.classList.toggle('active');
+                    // Close all tooltips first
+                    closeAllTooltips();
+                    
+                    // If this tooltip wasn't active, open it
+                    if (!isCurrentlyActive) {
+                        tag.classList.add('active');
+                        
+                        // Show overlay on mobile
+                        if (isMobile() && tooltipOverlay) {
+                            tooltipOverlay.classList.add('active');
+                        }
+                    }
                 });
             });
             
-            // Close tooltips when clicking outside
-            document.addEventListener('click', function() {
-                certificationTags.forEach(tag => {
-                    tag.classList.remove('active');
-                });
+            // Close tooltips when clicking on overlay or outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.certification-tooltip')) {
+                    closeAllTooltips();
+                }
             });
+            
+            // Close tooltips when clicking overlay
+            if (tooltipOverlay) {
+                tooltipOverlay.addEventListener('click', function() {
+                    closeAllTooltips();
+                });
+            }
             
             // Prevent tooltip from closing when clicking inside it
             const tooltips = document.querySelectorAll('.certification-tooltip');
@@ -698,6 +751,11 @@
                 tooltip.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
+            });
+            
+            // Handle window resize - close tooltips when switching between desktop/mobile
+            window.addEventListener('resize', function() {
+                closeAllTooltips();
             });
         });
     </script>
