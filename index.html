@@ -202,11 +202,108 @@
             border-radius: 20px;
             font-size: 0.9rem;
             color: var(--text-tertiary);
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
         }
 
         .hobby-tag:hover {
-            background: var(--tag-hover);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 2px solid var(--gradient-start);
+        }
+
+        /* Certification tooltip styles */
+        .certification-tag {
+            position: relative;
+        }
+
+        .certification-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-color);
+            border: 2px solid var(--gradient-start);
+            border-radius: 12px;
+            padding: 15px;
+            min-width: 280px;
+            box-shadow: 0 10px 40px var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-bottom: 10px;
+        }
+
+        .certification-tag:hover .certification-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .cert-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cert-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+        }
+
+        .cert-info h4 {
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .cert-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .cert-details {
+            color: var(--text-tertiary);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .cert-status {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        /* Tooltip arrow */
+        .certification-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: var(--gradient-start);
         }
 
         .contact {
@@ -312,6 +409,17 @@
                 font-size: 0.85rem;
                 padding: 6px 12px;
             }
+            
+            .certification-tooltip {
+                min-width: 260px;
+                font-size: 0.9rem;
+            }
+            
+            .cert-logo {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
 
             .contact a {
                 margin: 0 10px;
@@ -395,11 +503,81 @@
                 <span class="hobby-tag">Java | Python | Bash</span>
                 <span class="hobby-tag">Linux</span>
                 <span class="hobby-tag">Pytorch</span>
-                <span class="hobby-tag">Docker</span>
-                <span class="hobby-tag">Kubernetes</span>
-                <span class="hobby-tag">AWS</span>
-                <span class="hobby-tag">CI/CD | SAST | DAST | SCA</span>
-                <span class="hobby-tag">Security</span>
+                <span class="hobby-tag certification-tag">Docker
+                    <div class="certification-tooltip">
+                        <div class="cert-header">
+                            <div class="cert-logo">🐳</div>
+                            <div class="cert-info">
+                                <h4>Docker Expertise</h4>
+                                <p>Container Orchestration</p>
+                            </div>
+                        </div>
+                        <div class="cert-details">
+                            Extensive experience with containerization, multi-stage builds, and Docker Compose for development workflows.
+                        </div>
+                        <span class="cert-status">Production Ready</span>
+                    </div>
+                </span>
+                <span class="hobby-tag certification-tag">Kubernetes
+                    <div class="certification-tooltip">
+                        <div class="cert-header">
+                            <div class="cert-logo">⎈</div>
+                            <div class="cert-info">
+                                <h4>Kubernetes Administration</h4>
+                                <p>Cloud Native Orchestration</p>
+                            </div>
+                        </div>
+                        <div class="cert-details">
+                            Proficient in K8s cluster management, deployments, services, and monitoring solutions.
+                        </div>
+                        <span class="cert-status">Advanced Level</span>
+                    </div>
+                </span>
+                <span class="hobby-tag certification-tag">AWS
+                    <div class="certification-tooltip">
+                        <div class="cert-header">
+                            <div class="cert-logo">☁️</div>
+                            <div class="cert-info">
+                                <h4>AWS Certified Professional</h4>
+                                <p>Amazon Web Services</p>
+                            </div>
+                        </div>
+                        <div class="cert-details">
+                            Certified in AWS Solutions Architecture with hands-on experience in EC2, S3, Lambda, ECS, and security best practices.
+                        </div>
+                        <span class="cert-status">Certified</span>
+                    </div>
+                </span>
+                <span class="hobby-tag certification-tag">CI/CD | SAST | DAST | SCA
+                    <div class="certification-tooltip">
+                        <div class="cert-header">
+                            <div class="cert-logo">🔒</div>
+                            <div class="cert-info">
+                                <h4>DevSecOps Pipeline Security</h4>
+                                <p>Application Security Testing</p>
+                            </div>
+                        </div>
+                        <div class="cert-details">
+                            Expert in integrating security testing throughout CI/CD pipelines: Static Analysis (SAST), Dynamic Analysis (DAST), and Software Composition Analysis (SCA).
+                        </div>
+                        <span class="cert-status">Expert Level</span>
+                    </div>
+                </span>
+                <span class="hobby-tag certification-tag">Security
+                    <div class="certification-tooltip">
+                        <div class="cert-header">
+                            <div class="cert-logo">🛡️</div>
+                            <div class="cert-info">
+                                <h4>Cybersecurity Specialist</h4>
+                                <p>Infrastructure & Application Security</p>
+                            </div>
+                        </div>
+                        <div class="cert-details">
+                            Comprehensive security expertise including threat modeling, vulnerability assessment, and security architecture design.
+                        </div>
+                        <span class="cert-status">Professional</span>
+                    </div>
+                </span>
                 <span class="hobby-tag">Software Engineering</span>
                 <span class="hobby-tag">Problem Solving</span>
             </div>
