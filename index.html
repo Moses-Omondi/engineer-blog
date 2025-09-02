@@ -239,7 +239,8 @@
             margin-bottom: 10px;
         }
 
-        .certification-tag:hover .certification-tooltip {
+        .certification-tag:hover .certification-tooltip,
+        .certification-tag.active .certification-tooltip {
             opacity: 1;
             visibility: visible;
             transform: translateX(-50%) translateY(-5px);
@@ -641,6 +642,40 @@
             } else {
                 themeIcon.textContent = '🌙';
             }
+            
+            // Mobile tooltip functionality
+            const certificationTags = document.querySelectorAll('.certification-tag');
+            
+            certificationTags.forEach(tag => {
+                tag.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Close all other active tooltips
+                    certificationTags.forEach(otherTag => {
+                        if (otherTag !== tag) {
+                            otherTag.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current tooltip
+                    tag.classList.toggle('active');
+                });
+            });
+            
+            // Close tooltips when clicking outside
+            document.addEventListener('click', function() {
+                certificationTags.forEach(tag => {
+                    tag.classList.remove('active');
+                });
+            });
+            
+            // Prevent tooltip from closing when clicking inside it
+            const tooltips = document.querySelectorAll('.certification-tooltip');
+            tooltips.forEach(tooltip => {
+                tooltip.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
         });
     </script>
 </body>
