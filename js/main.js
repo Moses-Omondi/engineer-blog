@@ -15,7 +15,7 @@ function toggleTheme() {
     }
 }
 
-// Typewriter Effect - Fixed and Simplified
+// Typewriter Effect - Types text character by character
 function typeWriter(text, element, speed = 50, callback) {
     let i = 0;
     
@@ -32,107 +32,128 @@ function typeWriter(text, element, speed = 50, callback) {
     type();
 }
 
-// Initialize typewriter effect and content reveal
+// Initialize realistic terminal typing sequence
 function initTypewriterEffect() {
-    console.log('Initializing typewriter effect...');
-    console.log('Window width:', window.innerWidth);
-    console.log('User agent:', navigator.userAgent);
+    console.log('Initializing realistic terminal typing...');
     
-    const typewriterText = document.getElementById('typewriter-text');
-    const cursor = document.getElementById('cursor');
-    const typewriterText2 = document.getElementById('typewriter-text-2');
-    const cursor2 = document.getElementById('cursor-2');
-    const contentAfterTyping = document.getElementById('contentAfterTyping');
+    const terminalBody = document.querySelector('.terminal-body');
     const hobbiesSection = document.querySelector('.hobbies');
     const contactSection = document.querySelector('.contact');
     
-    // Check if elements exist
-    if (!typewriterText || !typewriterText2) {
-        console.error('Typewriter text elements not found!');
-        console.log('typewriterText:', typewriterText);
-        console.log('typewriterText2:', typewriterText2);
+    if (!terminalBody) {
+        console.error('Terminal body not found!');
         return;
     }
     
-    console.log('Elements found, starting typewriter...');
-    
     // Check if mobile for timing adjustments
     const isMobile = window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    console.log('Is mobile:', isMobile);
-    const typingSpeed = isMobile ? 35 : 40; // Slightly faster on mobile
-    const typingSpeed2 = isMobile ? 30 : 35; // Even faster for second paragraph
-    const initialDelay = isMobile ? 600 : 800; // Slightly faster start on mobile
+    const commandTypingSpeed = isMobile ? 80 : 100; // Slower typing for commands
+    const contentTypingSpeed = isMobile ? 30 : 40; // Faster for content
+    const initialDelay = isMobile ? 800 : 1000;
     
-    const textToType1 = "Hello! I'm Moses, a passionate software engineer with a deep curiosity for technology and continuous learning. I love building elegant solutions to complex problems and exploring the fascinating world of computers.";
-    const textToType2 = "When I'm not coding, I enjoy discovering new technologies, contributing to open-source projects, and sharing knowledge with the developer community.";
+    // Content to display
+    const introContent = "Hello! I'm Moses, a passionate software engineer with a deep curiosity for technology and continuous learning. I love building elegant solutions to complex problems and exploring the fascinating world of computers.";
+    const aboutContent = "When I'm not coding, I enjoy discovering new technologies, contributing to open-source projects, and sharing knowledge with the developer community.";
     
-    // Clear the elements first
-    typewriterText.textContent = '';
-    typewriterText2.textContent = '';
+    // Clear terminal body and rebuild structure
+    terminalBody.innerHTML = '';
     
-    // Hide second cursor initially
-    if (cursor2) cursor2.style.display = 'none';
-    
-    // Start typing after a small delay
+    // Step 1: Create first command line and type "cat intro.txt"
     setTimeout(() => {
-        console.log('Starting first paragraph typing...');
+        const firstCommandLine = document.createElement('div');
+        firstCommandLine.className = 'terminal-line';
+        firstCommandLine.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span><span class="terminal-command" id="command1"></span><span class="cursor terminal-cursor" id="cursor1">█</span>';
+        terminalBody.appendChild(firstCommandLine);
         
-        typeWriter(textToType1, typewriterText, typingSpeed, function() {
-            console.log('First paragraph typing complete!');
-            
-            // Remove first cursor and add a new line
+        const command1Element = document.getElementById('command1');
+        
+        // Type "cat intro.txt"
+        typeWriter('cat intro.txt', command1Element, commandTypingSpeed, function() {
+            // Remove cursor and add pause before "enter"
             setTimeout(() => {
-                if (cursor) cursor.style.display = 'none';
+                document.getElementById('cursor1').style.display = 'none';
                 
-                // Show the second paragraph container and start typing
-                if (contentAfterTyping) {
-                    contentAfterTyping.classList.add('show');
-                    console.log('Second paragraph container shown');
+                // Step 2: Show intro content
+                setTimeout(() => {
+                    const introContainer = document.createElement('div');
+                    introContainer.className = 'typewriter-container';
+                    introContainer.innerHTML = '<p class="typewriter terminal-output" id="intro-output"></p><span class="cursor terminal-cursor" id="intro-cursor">█</span>';
+                    terminalBody.appendChild(introContainer);
                     
-                    // Show second cursor and start typing second paragraph
-                    setTimeout(() => {
-                        if (cursor2) cursor2.style.display = 'inline-block';
-                        console.log('Starting second paragraph typing...');
-                        
-                        typeWriter(textToType2, typewriterText2, typingSpeed2, function() {
-                            console.log('Second paragraph typing complete!');
+                    const introOutput = document.getElementById('intro-output');
+                    
+                    // Type intro content
+                    typeWriter(introContent, introOutput, contentTypingSpeed, function() {
+                        // Remove intro cursor
+                        setTimeout(() => {
+                            document.getElementById('intro-cursor').style.display = 'none';
                             
-                            // Remove second cursor after typing
+                            // Step 3: Create second command line and type "cat about.txt"
                             setTimeout(() => {
-                                if (cursor2) cursor2.style.display = 'none';
+                                const secondCommandLine = document.createElement('div');
+                                secondCommandLine.className = 'terminal-line';
+                                secondCommandLine.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span><span class="terminal-command" id="command2"></span><span class="cursor terminal-cursor" id="cursor2">█</span>';
+                                terminalBody.appendChild(secondCommandLine);
                                 
-                                // Add terminal prompt after completion
-                                const terminalBody = document.querySelector('.terminal-body');
-                                if (terminalBody) {
-                                    const promptLine = document.createElement('div');
-                                    promptLine.className = 'terminal-line';
-                                    promptLine.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span>';
-                                    terminalBody.appendChild(promptLine);
-                                }
-                            }, isMobile ? 600 : 800);
-                            
-                            // Show hobbies section
-                            setTimeout(() => {
-                                if (hobbiesSection) {
-                                    hobbiesSection.classList.add('show');
-                                    console.log('Hobbies section shown');
-                                }
-                            }, isMobile ? 1200 : 1500);
-                            
-                            // Show contact section
-                            setTimeout(() => {
-                                if (contactSection) {
-                                    contactSection.classList.add('show');
-                                    console.log('Contact section shown');
-                                }
-                            }, isMobile ? 1600 : 2000);
-                        });
-                    }, isMobile ? 300 : 400); // Brief delay before second typing starts
-                }
-            }, isMobile ? 600 : 800);
+                                const command2Element = document.getElementById('command2');
+                                
+                                // Type "cat about.txt"
+                                typeWriter('cat about.txt', command2Element, commandTypingSpeed, function() {
+                                    // Remove cursor and add pause before "enter"
+                                    setTimeout(() => {
+                                        document.getElementById('cursor2').style.display = 'none';
+                                        
+                                        // Step 4: Show about content
+                                        setTimeout(() => {
+                                            const aboutContainer = document.createElement('div');
+                                            aboutContainer.className = 'typewriter-container';
+                                            aboutContainer.innerHTML = '<p class="typewriter terminal-output" id="about-output"></p><span class="cursor terminal-cursor" id="about-cursor">█</span>';
+                                            terminalBody.appendChild(aboutContainer);
+                                            
+                                            const aboutOutput = document.getElementById('about-output');
+                                            
+                                            // Type about content
+                                            typeWriter(aboutContent, aboutOutput, contentTypingSpeed, function() {
+                                                // Remove about cursor
+                                                setTimeout(() => {
+                                                    document.getElementById('about-cursor').style.display = 'none';
+                                                    
+                                                    // Add final prompt
+                                                    setTimeout(() => {
+                                                        const finalPromptLine = document.createElement('div');
+                                                        finalPromptLine.className = 'terminal-line';
+                                                        finalPromptLine.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span>';
+                                                        terminalBody.appendChild(finalPromptLine);
+                                                    }, isMobile ? 500 : 700);
+                                                    
+                                                    // Show hobbies section
+                                                    setTimeout(() => {
+                                                        if (hobbiesSection) {
+                                                            hobbiesSection.classList.add('show');
+                                                            console.log('Hobbies section shown');
+                                                        }
+                                                    }, isMobile ? 1200 : 1500);
+                                                    
+                                                    // Show contact section
+                                                    setTimeout(() => {
+                                                        if (contactSection) {
+                                                            contactSection.classList.add('show');
+                                                            console.log('Contact section shown');
+                                                        }
+                                                    }, isMobile ? 1600 : 2000);
+                                                    
+                                                }, isMobile ? 600 : 800);
+                                            });
+                                        }, isMobile ? 300 : 500); // Pause after pressing enter
+                                    }, isMobile ? 600 : 800); // Pause before pressing enter
+                                });
+                            }, isMobile ? 800 : 1000); // Pause between commands
+                        }, isMobile ? 600 : 800);
+                    });
+                }, isMobile ? 300 : 500); // Pause after pressing enter
+            }, isMobile ? 600 : 800); // Pause before pressing enter
         });
-        
-    }, initialDelay); // Initial delay before typing starts
+    }, initialDelay);
 }
 
 // Load saved theme on page load
