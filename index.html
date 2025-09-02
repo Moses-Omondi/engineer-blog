@@ -22,11 +22,12 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 40px 20px 60px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            padding-top: 80px;
         }
 
         .profile {
@@ -134,8 +135,9 @@
 
         /* Responsive Design */
         @media (max-width: 480px) {
-            .container {
-                padding: 40px 15px;
+                .container {
+                padding: 30px 15px 40px;
+                padding-top: 60px;
             }
 
             .profile-image {
