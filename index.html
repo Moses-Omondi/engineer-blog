@@ -228,10 +228,56 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 480px) {
-                .container {
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .container {
                 padding: 30px 15px 40px;
-                padding-top: 60px;
+                padding-top: 90px;
+            }
+            
+            .profile-image {
+                width: 130px;
+                height: 130px;
+                font-size: 2.8rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .description {
+                font-size: 1.05rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 12px 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+            }
+            
+            .theme-toggle {
+                padding: 6px 10px;
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding: 20px 15px 30px;
+                padding-top: 80px;
             }
 
             .profile-image {
@@ -250,15 +296,43 @@
 
             .description {
                 font-size: 1rem;
+                margin-bottom: 30px;
+            }
+            
+            .hobbies {
+                margin-bottom: 30px;
+            }
+            
+            .hobbies h2 {
+                font-size: 1.2rem;
+                margin-bottom: 12px;
+            }
+            
+            .hobby-tag {
+                font-size: 0.85rem;
+                padding: 6px 12px;
             }
 
             .contact a {
                 margin: 0 10px;
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
         }
 
         @media (max-width: 320px) {
+            .nav-container {
+                padding: 10px 12px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .container {
+                padding: 15px 12px 25px;
+                padding-top: 75px;
+            }
+            
             .profile-image {
                 width: 100px;
                 height: 100px;
@@ -267,6 +341,19 @@
 
             h1 {
                 font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .description {
+                font-size: 0.95rem;
+            }
+            
+            .hobby-tag {
+                font-size: 0.8rem;
+                padding: 5px 10px;
             }
         }
     </style>

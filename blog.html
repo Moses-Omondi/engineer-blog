@@ -222,21 +222,108 @@
             }
             
             .container {
-                padding-top: 80px;
+                padding: 30px 15px 40px;
+                padding-top: 90px;
+            }
+            
+            .blog-header {
+                margin-bottom: 40px;
             }
             
             .blog-header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .blog-header p {
+                font-size: 1rem;
             }
             
             .blog-post {
-                padding: 20px;
+                padding: 25px 20px;
+                border-radius: 8px;
+            }
+            
+            .blog-post h2 {
+                font-size: 1.3rem;
+                line-height: 1.3;
+            }
+            
+            .blog-excerpt {
+                font-size: 0.95rem;
+                line-height: 1.6;
             }
         }
 
         @media (max-width: 480px) {
             .nav-container {
-                padding: 15px;
+                padding: 12px 15px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+            }
+            
+            .theme-toggle {
+                padding: 6px 10px;
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding: 20px 15px 30px;
+                padding-top: 80px;
+            }
+            
+            .blog-header {
+                margin-bottom: 30px;
+            }
+            
+            .blog-header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .blog-header p {
+                font-size: 0.95rem;
+            }
+            
+            .blog-posts {
+                gap: 20px;
+            }
+            
+            .blog-post {
+                padding: 20px 16px;
+            }
+            
+            .blog-post h2 {
+                font-size: 1.2rem;
+                margin-bottom: 8px;
+            }
+            
+            .blog-meta {
+                flex-direction: column;
+                gap: 4px;
+                margin-bottom: 12px;
+                font-size: 0.85rem;
+            }
+            
+            .blog-excerpt {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 12px;
+            }
+            
+            .read-more {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .nav-container {
+                padding: 10px 12px;
             }
             
             .nav-links {
@@ -244,17 +331,20 @@
             }
             
             .container {
-                padding: 30px 15px 40px;
-                padding-top: 70px;
+                padding: 15px 12px 25px;
+                padding-top: 75px;
             }
             
             .blog-header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
-            .blog-meta {
-                flex-direction: column;
-                gap: 5px;
+            .blog-post {
+                padding: 16px 14px;
+            }
+            
+            .blog-post h2 {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -291,38 +381,6 @@
                     Exploring the impact of artificial intelligence on modern software development practices, from code generation to automated testing and deployment strategies.
                 </div>
                 <a href="blog/ai-in-software-development.html" class="read-more">Read more →</a>
-            </article>
-        </div>
-                <div class="blog-excerpt">
-                    Learn how to integrate security practices into your development and operations workflow from day one. This guide covers essential tools, processes, and mindset shifts needed for effective DevSecOps implementation.
-                </div>
-                <a href="blog/getting-started-with-devsecops.html" class="read-more">Read more →</a>
-            </article>
-
-            <!-- Sample blog post 2 -->
-            <article class="blog-post" onclick="location.href='blog/ai-in-software-development.html'">
-                <h2><a href="blog/ai-in-software-development.html">How AI is Transforming Software Development</a></h2>
-                <div class="blog-meta">
-                    <span class="blog-date">August 28, 2025</span>
-                    <span class="blog-category">AI</span>
-                </div>
-                <div class="blog-excerpt">
-                    Exploring the impact of artificial intelligence on modern software development practices, from code generation to automated testing and deployment strategies.
-                </div>
-                <a href="blog/ai-in-software-development.html" class="read-more">Read more →</a>
-            </article>
-
-            <!-- Sample blog post 3 -->
-            <article class="blog-post" onclick="location.href='blog/kubernetes-security-best-practices.html'">
-                <h2><a href="blog/kubernetes-security-best-practices.html">Kubernetes Security: Best Practices and Common Pitfalls</a></h2>
-                <div class="blog-meta">
-                    <span class="blog-date">August 25, 2025</span>
-                    <span class="blog-category">Security</span>
-                </div>
-                <div class="blog-excerpt">
-                    A comprehensive guide to securing your Kubernetes clusters, covering RBAC, network policies, pod security standards, and monitoring strategies for production environments.
-                </div>
-                <a href="blog/kubernetes-security-best-practices.html" class="read-more">Read more →</a>
             </article>
         </div>
     </div>

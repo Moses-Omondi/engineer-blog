@@ -495,9 +495,8 @@ function updateBlogIndex(posts) {
     try {
         let blogHtml = fs.readFileSync('blog.html', 'utf8');
         
-        // Generate blog post cards
-        const postCards = posts.map(post => `
-            <!-- ${post.title} -->
+        // Generate blog post cards with proper indentation
+        const postCards = posts.map(post => `            <!-- ${post.title} -->
             <article class="blog-post" onclick="location.href='${post.filename}'">
                 <h2><a href="${post.filename}">${post.title}</a></h2>
                 <div class="blog-meta">
@@ -508,12 +507,12 @@ function updateBlogIndex(posts) {
                     ${post.excerpt}
                 </div>
                 <a href="${post.filename}" class="read-more">Read more →</a>
-            </article>`).join('\n');
+            </article>`).join('\n\n');
         
-        // Replace the blog posts section
+        // More precise regex to replace only the blog posts content
         const updatedHtml = blogHtml.replace(
-            /<div class="blog-posts">[\s\S]*?<\/div>/,
-            `<div class="blog-posts">${postCards}\n        </div>`
+            /(<div class="blog-posts">)[\s\S]*?(<\/div>\s*<\/div>\s*<script>)/,
+            `$1\n${postCards}\n        </div>\n    $2`
         );
         
         fs.writeFileSync('blog.html', updatedHtml);
