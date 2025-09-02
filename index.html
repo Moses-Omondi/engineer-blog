@@ -698,9 +698,7 @@
                 themeIcon.textContent = '🌙';
             }
             
-            // Mobile tooltip functionality
-            const allHobbyTags = document.querySelectorAll('.hobby-tag');
-            const tagsWithTooltips = Array.from(allHobbyTags).filter(tag => tag.querySelector('.certification-tooltip'));
+            // Mobile tooltip functionality - completely rewritten for reliability
             const tooltipOverlay = document.getElementById('tooltipOverlay');
             
             // Function to check if we're on mobile
@@ -708,66 +706,89 @@
                 return window.innerWidth <= 480;
             }
             
-            // Function to close all tooltips and overlay
-            function closeAllTooltips() {
-                tagsWithTooltips.forEach(tag => {
-                    tag.classList.remove('active');
-                });
+            // Function to close the overlay
+            function closeOverlay() {
                 if (tooltipOverlay) {
                     tooltipOverlay.classList.remove('active');
+                    tooltipOverlay.innerHTML = '';
                 }
+                // Remove active class from all tags
+                document.querySelectorAll('.hobby-tag.active').forEach(tag => {
+                    tag.classList.remove('active');
+                });
             }
             
-            // Add click listeners to all tags that have tooltips
-            tagsWithTooltips.forEach(tag => {
-                tag.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    
-                    // Close all tooltips first
-                    closeAllTooltips();
-                    
-                    // Always open the clicked tooltip
-                    tag.classList.add('active');
-                    
-                    // Show overlay on mobile and move tooltip content
-                    if (isMobile() && tooltipOverlay) {
-                        const tooltip = tag.querySelector('.certification-tooltip');
-                        if (tooltip) {
-                            // Clone the tooltip and add it to the overlay
+            // Find all tags with tooltips and add event listeners
+            const tagSelectors = [
+                { tag: 'Docker', selector: '.hobby-tag:has(.cert-logo:contains("🐳"))' },
+                { tag: 'Kubernetes', selector: '.hobby-tag:has(.cert-logo:contains("⎈"))' },
+                { tag: 'AWS', selector: '.hobby-tag:has(.cert-logo:contains("☁️"))' },
+                { tag: 'CI/CD', selector: '.hobby-tag:has(.cert-logo:contains("🔒"))' },
+                { tag: 'Security', selector: '.hobby-tag:has(.cert-logo:contains("🛡️"))' }
+            ];
+            
+            // Get all hobby tags and check which ones have tooltips
+            const allTags = document.querySelectorAll('.hobby-tag');
+            
+            allTags.forEach(tag => {
+                const tooltip = tag.querySelector('.certification-tooltip');
+                if (tooltip) {
+                    // Add click event listener to this tag
+                    tag.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        console.log('Clicked tag:', tag.textContent.trim());
+                        
+                        // Close any existing overlays first
+                        closeOverlay();
+                        
+                        // Add active class to clicked tag
+                        tag.classList.add('active');
+                        
+                        // Show overlay on mobile
+                        if (isMobile() && tooltipOverlay) {
+                            // Clone the tooltip content from this specific tag
                             const tooltipClone = tooltip.cloneNode(true);
                             tooltipOverlay.innerHTML = '';
                             tooltipOverlay.appendChild(tooltipClone);
                             tooltipOverlay.classList.add('active');
+                            
+                            console.log('Showing tooltip for:', tag.textContent.trim());
                         }
-                    }
-                });
-            });
-            
-            // Close tooltips when clicking on overlay or outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.certification-tooltip')) {
-                    closeAllTooltips();
+                    });
+                    
+                    console.log('Added listener to tag:', tag.textContent.trim());
                 }
             });
             
-            // Close tooltips when clicking overlay
+            // Close overlay when clicking outside
+            document.addEventListener('click', function(e) {
+                // Only close if click is not on a tooltip tag or inside a tooltip
+                if (!e.target.closest('.hobby-tag') && !e.target.closest('.certification-tooltip')) {
+                    closeOverlay();
+                }
+            });
+            
+            // Close overlay when clicking on the overlay background
             if (tooltipOverlay) {
-                tooltipOverlay.addEventListener('click', function() {
-                    closeAllTooltips();
+                tooltipOverlay.addEventListener('click', function(e) {
+                    // Only close if clicking on the overlay itself, not the tooltip content
+                    if (e.target === tooltipOverlay) {
+                        closeOverlay();
+                    }
                 });
             }
             
-            // Prevent tooltip from closing when clicking inside it
-            const tooltips = document.querySelectorAll('.certification-tooltip');
-            tooltips.forEach(tooltip => {
-                tooltip.addEventListener('click', function(e) {
+            // Prevent tooltip content from closing when clicked
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.tooltip-overlay .certification-tooltip')) {
                     e.stopPropagation();
-                });
+                }
             });
             
-            // Handle window resize - close tooltips when switching between desktop/mobile
+            // Handle window resize
             window.addEventListener('resize', function() {
-                closeAllTooltips();
+                closeOverlay();
             });
         });
     </script>
