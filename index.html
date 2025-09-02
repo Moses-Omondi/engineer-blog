@@ -51,13 +51,16 @@
         }
 
         .profile-image:hover {
-        
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }            transform: scale(1.05);
+
+            .profile-image img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+                object-position: center top;
+            }
+
+            transform: scale(1.05);
         }
 
         h1 {
@@ -177,10 +180,6 @@
 <body>
     <div class="container">
         <div class="profile">
-            <div class="profile-image">
-                MO
-            </div>
-
             <h1>Moses Omondi</h1>
             <p class="subtitle">DevSecOps | AI</p>
         </div>
