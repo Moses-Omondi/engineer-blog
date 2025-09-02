@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moses Omondi</title>
     <style>
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&family=Crimson+Text:wght@400;600&family=Merriweather:wght@400;700&display=swap');
+
         :root {
             --bg-color: #fff;
             --text-color: #333;
@@ -38,7 +39,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         html {
             overflow-x: hidden;
         }
@@ -49,7 +50,8 @@
             color: var(--text-color);
             background: var(--bg-color);
             transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-x: hidden;
+            /* Prevent horizontal scrolling */
         }
 
         .nav {
@@ -168,6 +170,12 @@
             font-weight: 300;
             margin-bottom: 10px;
             letter-spacing: -0.02em;
+        }
+
+        /* Option 10: Reader Serif - Merriweather */
+        h1 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-weight: 700;
         }
 
         .subtitle {
@@ -358,49 +366,49 @@
             .nav-links {
                 gap: 20px;
             }
-            
+
             .container {
                 padding: 30px 15px 40px;
                 padding-top: 120px;
             }
-            
+
             .profile-image {
                 width: 130px;
                 height: 130px;
                 font-size: 2.8rem;
             }
-            
+
             h1 {
                 font-size: 2.2rem;
             }
-            
+
             .subtitle {
                 font-size: 1.1rem;
             }
-            
+
             .description {
                 font-size: 1.05rem;
             }
         }
-        
+
         @media (max-width: 480px) {
             .nav-container {
                 padding: 12px 15px;
             }
-            
+
             .nav-links {
                 gap: 20px;
             }
-            
+
             .nav-link {
                 font-size: 0.9rem;
             }
-            
+
             .theme-toggle {
                 padding: 6px 10px;
                 font-size: 1.1rem;
             }
-            
+
             .container {
                 padding: 20px 15px 30px;
                 padding-top: 110px;
@@ -424,22 +432,22 @@
                 font-size: 1rem;
                 margin-bottom: 30px;
             }
-            
+
             .hobbies {
                 margin-bottom: 30px;
             }
-            
+
             .hobbies h2 {
                 font-size: 1.2rem;
                 margin-bottom: 12px;
             }
-            
+
             .hobby-tag {
                 font-size: 0.85rem;
                 padding: 6px 12px;
             }
-            
-            
+
+
             /* Mobile tooltip overlay */
             .tooltip-overlay {
                 position: fixed;
@@ -459,16 +467,16 @@
                 justify-content: center;
                 padding: 20px;
             }
-            
+
             .tooltip-overlay.active {
                 opacity: 1;
                 visibility: visible;
             }
-            
+
             .certification-tag .certification-tooltip {
                 display: none !important;
             }
-            
+
             .tooltip-overlay .certification-tooltip {
                 display: block !important;
                 position: static !important;
@@ -486,11 +494,11 @@
                 opacity: 1 !important;
                 visibility: visible !important;
             }
-            
+
             .certification-tooltip::after {
                 display: none;
             }
-            
+
             .cert-logo {
                 width: 35px;
                 height: 35px;
@@ -507,16 +515,16 @@
             .nav-container {
                 padding: 10px 12px;
             }
-            
+
             .nav-links {
                 gap: 15px;
             }
-            
+
             .container {
                 padding: 15px 12px 25px;
                 padding-top: 100px;
             }
-            
+
             .profile-image {
                 width: 100px;
                 height: 100px;
@@ -526,15 +534,15 @@
             h1 {
                 font-size: 1.8rem;
             }
-            
+
             .subtitle {
                 font-size: 1rem;
             }
-            
+
             .description {
                 font-size: 0.95rem;
             }
-            
+
             .hobby-tag {
                 font-size: 0.8rem;
                 padding: 5px 10px;
@@ -555,10 +563,10 @@
             </button>
         </div>
     </nav>
-    
+
     <!-- Mobile tooltip overlay -->
     <div class="tooltip-overlay" id="tooltipOverlay"></div>
-    
+
     <div class="container">
         <div class="profile">
             <h1>Moses Omondi</h1>
@@ -592,7 +600,8 @@
                             </div>
                         </div>
                         <div class="cert-details">
-                            Extensive experience with containerization, multi-stage builds, and Docker Compose for development workflows.
+                            Extensive experience with containerization, multi-stage builds, and Docker Compose for
+                            development workflows.
                         </div>
                     </div>
                 </span>
@@ -620,10 +629,12 @@
                             </div>
                         </div>
                         <div class="cert-details">
-                            Certified in AWS Solutions Architecture with hands-on experience in EC2, S3, Lambda, ECS, and security best practices.
+                            Certified in AWS Solutions Architecture with hands-on experience in EC2, S3, Lambda, ECS,
+                            and security best practices.
                         </div>
                         <div class="cert-verify">
-                            <a href="https://cp.certmetrics.com/amazon/en/public/verify/credential/988abea14ee7475f8720e1871293bf7a" target="_blank" rel="noopener noreferrer" class="verify-link">
+                            <a href="https://cp.certmetrics.com/amazon/en/public/verify/credential/988abea14ee7475f8720e1871293bf7a"
+                                target="_blank" rel="noopener noreferrer" class="verify-link">
                                 🔗 Verify Certification
                             </a>
                         </div>
@@ -640,7 +651,8 @@
                             </div>
                         </div>
                         <div class="cert-details">
-                            Expert in integrating security testing throughout CI/CD pipelines: Static Analysis (SAST), Dynamic Analysis (DAST), and Software Composition Analysis (SCA).
+                            Expert in integrating security testing throughout CI/CD pipelines: Static Analysis (SAST),
+                            Dynamic Analysis (DAST), and Software Composition Analysis (SCA).
                         </div>
                     </div>
                 </span>
@@ -654,7 +666,8 @@
                             </div>
                         </div>
                         <div class="cert-details">
-                            Comprehensive security expertise including threat modeling, vulnerability assessment, and security architecture design.
+                            Comprehensive security expertise including threat modeling, vulnerability assessment, and
+                            security architecture design.
                         </div>
                     </div>
                 </span>
@@ -675,7 +688,7 @@
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
             const currentTheme = body.getAttribute('data-theme');
-            
+
             if (currentTheme === 'dark') {
                 body.removeAttribute('data-theme');
                 themeIcon.textContent = '🌙';
@@ -686,27 +699,27 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-        
+
         // Load saved theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const savedTheme = localStorage.getItem('theme');
             const themeIcon = document.getElementById('theme-icon');
-            
+
             if (savedTheme === 'dark') {
                 document.body.setAttribute('data-theme', 'dark');
                 themeIcon.textContent = '☀️';
             } else {
                 themeIcon.textContent = '🌙';
             }
-            
+
             // Mobile tooltip functionality - completely rewritten for reliability
             const tooltipOverlay = document.getElementById('tooltipOverlay');
-            
+
             // Function to check if we're on mobile
             function isMobile() {
                 return window.innerWidth <= 480;
             }
-            
+
             // Function to close the overlay
             function closeOverlay() {
                 if (tooltipOverlay) {
@@ -718,7 +731,7 @@
                     tag.classList.remove('active');
                 });
             }
-            
+
             // Find all tags with tooltips and add event listeners
             const tagSelectors = [
                 { tag: 'Docker', selector: '.hobby-tag:has(.cert-logo:contains("🐳"))' },
@@ -727,25 +740,25 @@
                 { tag: 'CI/CD', selector: '.hobby-tag:has(.cert-logo:contains("🔒"))' },
                 { tag: 'Security', selector: '.hobby-tag:has(.cert-logo:contains("🛡️"))' }
             ];
-            
+
             // Get all hobby tags and check which ones have tooltips
             const allTags = document.querySelectorAll('.hobby-tag');
-            
+
             allTags.forEach(tag => {
                 const tooltip = tag.querySelector('.certification-tooltip');
                 if (tooltip) {
                     // Add click event listener to this tag
-                    tag.addEventListener('click', function(e) {
+                    tag.addEventListener('click', function (e) {
                         e.stopPropagation();
-                        
+
                         console.log('Clicked tag:', tag.textContent.trim());
-                        
+
                         // Close any existing overlays first
                         closeOverlay();
-                        
+
                         // Add active class to clicked tag
                         tag.classList.add('active');
-                        
+
                         // Show overlay on mobile
                         if (isMobile() && tooltipOverlay) {
                             // Clone the tooltip content from this specific tag
@@ -753,42 +766,42 @@
                             tooltipOverlay.innerHTML = '';
                             tooltipOverlay.appendChild(tooltipClone);
                             tooltipOverlay.classList.add('active');
-                            
+
                             console.log('Showing tooltip for:', tag.textContent.trim());
                         }
                     });
-                    
+
                     console.log('Added listener to tag:', tag.textContent.trim());
                 }
             });
-            
+
             // Close overlay when clicking outside
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 // Only close if click is not on a tooltip tag or inside a tooltip
                 if (!e.target.closest('.hobby-tag') && !e.target.closest('.certification-tooltip')) {
                     closeOverlay();
                 }
             });
-            
+
             // Close overlay when clicking on the overlay background
             if (tooltipOverlay) {
-                tooltipOverlay.addEventListener('click', function(e) {
+                tooltipOverlay.addEventListener('click', function (e) {
                     // Only close if clicking on the overlay itself, not the tooltip content
                     if (e.target === tooltipOverlay) {
                         closeOverlay();
                     }
                 });
             }
-            
+
             // Prevent tooltip content from closing when clicked
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (e.target.closest('.tooltip-overlay .certification-tooltip')) {
                     e.stopPropagation();
                 }
             });
-            
+
             // Handle window resize
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize', function () {
                 closeOverlay();
             });
         });
