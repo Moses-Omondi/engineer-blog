@@ -463,7 +463,12 @@
                 visibility: visible;
             }
             
-            .certification-tooltip {
+            .certification-tag .certification-tooltip {
+                display: none !important;
+            }
+            
+            .tooltip-overlay .certification-tooltip {
+                display: block !important;
                 position: static !important;
                 left: auto !important;
                 top: auto !important;
@@ -478,11 +483,6 @@
                 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
                 opacity: 1 !important;
                 visibility: visible !important;
-            }
-            
-            .certification-tag.active .certification-tooltip {
-                transform: none !important;
-                position: static !important;
             }
             
             .certification-tooltip::after {
