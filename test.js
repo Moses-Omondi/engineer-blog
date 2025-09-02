@@ -1,7 +1,7 @@
-// Test script for Moses's Engineer Blog
+// Test script for Moses's Personal Profile Website
 const fs = require('fs');
 
-console.log('🧪 Testing Moses\'s Engineer Blog...\n');
+console.log('🧪 Testing Moses\'s Personal Profile Website...\n');
 
 // Test 1: Check if main page exists
 function testIndexExists() {
@@ -14,14 +14,15 @@ function testIndexExists() {
     }
 }
 
-// Test 2: Check if HTML has required content
+// Test 2: Check if HTML has required content for personal profile
 function testContent() {
     const content = fs.readFileSync('index.html', 'utf8');
 
     const checks = [
         { name: 'Title tag', text: '<title>' },
         { name: 'Moses Omondi name', text: 'Moses Omondi' },
-        { name: 'Latest Blog Posts', text: 'Latest Blog Posts' },
+        { name: 'Software Engineer title', text: 'Software Engineer' },
+        { name: 'Things I Love section', text: 'Things I Love' },
         { name: 'HTML structure', text: '<!DOCTYPE html>' }
     ];
 
@@ -64,7 +65,7 @@ console.log('\n📊 FINAL RESULTS:');
 console.log('==================');
 
 if (test1 && test2 && test3) {
-    console.log('🎉 ALL TESTS PASSED! Blog is ready for deployment!');
+    console.log('🎉 ALL TESTS PASSED! Personal profile is ready for deployment!');
     process.exit(0);  // Success exit code
 } else {
     console.log('💥 SOME TESTS FAILED! Fix the issues before deploying.');
