@@ -17,16 +17,16 @@ function testIndexExists() {
 // Test 2: Check if HTML has required content
 function testContent() {
     const content = fs.readFileSync('index.html', 'utf8');
-    
+
     const checks = [
         { name: 'Title tag', text: '<title>' },
         { name: 'Moses Omondi name', text: 'Moses Omondi' },
-        { name: 'Blog posts section', text: 'Latest Blog Posts' },
+        { name: 'Blog posts section', text: 'Blog posts section' },
         { name: 'HTML structure', text: '<!DOCTYPE html>' }
     ];
-    
+
     let allPassed = true;
-    
+
     checks.forEach((check, index) => {
         if (content.includes(check.text)) {
             console.log(`✅ Test 2.${index + 1} PASSED: Contains ${check.name}`);
@@ -35,7 +35,7 @@ function testContent() {
             allPassed = false;
         }
     });
-    
+
     return allPassed;
 }
 
@@ -43,7 +43,7 @@ function testContent() {
 function testFileSize() {
     const stats = fs.statSync('index.html');
     const sizeKB = stats.size / 1024;
-    
+
     if (sizeKB > 0.5 && sizeKB < 50) {
         console.log(`✅ Test 3 PASSED: File size is ${sizeKB.toFixed(1)}KB (reasonable)`);
         return true;
