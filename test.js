@@ -21,7 +21,7 @@ function testContent() {
     const checks = [
         { name: 'Title tag', text: '<title>' },
         { name: 'Moses Omondi name', text: 'Moses Omondi' },
-        { name: 'Software Engineer | DevSecOps | AI title', text: 'Software Engineer | DevSecOps | AI' },
+        { name: 'DevSecOps | AI title', text: 'DevSecOps | AI Engineer' },
         { name: 'Things I Love section', text: 'Things I Love' },
         { name: 'HTML structure', text: '<!DOCTYPE html>' }
     ];
