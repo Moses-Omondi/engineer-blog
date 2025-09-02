@@ -75,7 +75,7 @@ function initTypewriterEffect() {
         typeWriter(textToType1, typewriterText, typingSpeed, function() {
             console.log('First paragraph typing complete!');
             
-            // Remove first cursor after typing is complete
+            // Remove first cursor and add a new line
             setTimeout(() => {
                 if (cursor) cursor.style.display = 'none';
                 
@@ -95,6 +95,15 @@ function initTypewriterEffect() {
                             // Remove second cursor after typing
                             setTimeout(() => {
                                 if (cursor2) cursor2.style.display = 'none';
+                                
+                                // Add terminal prompt after completion
+                                const terminalBody = document.querySelector('.terminal-body');
+                                if (terminalBody) {
+                                    const promptLine = document.createElement('div');
+                                    promptLine.className = 'terminal-line';
+                                    promptLine.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span>';
+                                    terminalBody.appendChild(promptLine);
+                                }
                             }, isMobile ? 600 : 800);
                             
                             // Show hobbies section

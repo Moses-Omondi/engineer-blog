@@ -31,14 +31,34 @@
         </div>
 
         <div class="description">
-            <div class="typewriter-container">
-                <p id="typewriter-text" class="typewriter"></p>
-                <span class="cursor" id="cursor">|</span>
-            </div>
-            <div class="content-after-typing" id="contentAfterTyping">
-                <div class="typewriter-container">
-                    <p id="typewriter-text-2" class="typewriter"></p>
-                    <span class="cursor" id="cursor-2">|</span>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="btn-close"></span>
+                        <span class="btn-minimize"></span>
+                        <span class="btn-maximize"></span>
+                    </div>
+                    <div class="terminal-title">Terminal — mosesomondi@Desktop</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">mosesomondi@Desktop ~ % </span>
+                        <span class="terminal-command">cat intro.txt</span>
+                    </div>
+                    <div class="typewriter-container">
+                        <p id="typewriter-text" class="typewriter terminal-output"></p>
+                        <span class="cursor terminal-cursor" id="cursor">█</span>
+                    </div>
+                    <div class="content-after-typing" id="contentAfterTyping">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">mosesomondi@Desktop ~ % </span>
+                            <span class="terminal-command">cat about.txt</span>
+                        </div>
+                        <div class="typewriter-container">
+                            <p id="typewriter-text-2" class="typewriter terminal-output"></p>
+                            <span class="cursor terminal-cursor" id="cursor-2">█</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
