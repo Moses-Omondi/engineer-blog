@@ -230,15 +230,15 @@ h1 {
 /* Initially hide hobby section and contact */
 .hobbies,
 .contact {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 0 !important;
+    transform: translateY(30px) !important;
     transition: all 1s ease;
 }
 
 .hobbies.show,
 .contact.show {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
 /* Hobbies Section */

@@ -15,60 +15,84 @@ function toggleTheme() {
     }
 }
 
-// Typewriter Effect
-function typeWriter(text, element, speed = 50) {
-    return new Promise((resolve) => {
-        let i = 0;
-        
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                resolve();
-            }
+// Typewriter Effect - Fixed and Simplified
+function typeWriter(text, element, speed = 50, callback) {
+    let i = 0;
+    
+    function type() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else if (callback) {
+            callback();
         }
-        
-        type();
-    });
+    }
+    
+    type();
 }
 
 // Initialize typewriter effect and content reveal
 function initTypewriterEffect() {
+    console.log('Initializing typewriter effect...');
+    
     const typewriterText = document.getElementById('typewriter-text');
     const cursor = document.getElementById('cursor');
     const contentAfterTyping = document.getElementById('contentAfterTyping');
     const hobbiesSection = document.querySelector('.hobbies');
     const contactSection = document.querySelector('.contact');
     
+    // Check if elements exist
+    if (!typewriterText) {
+        console.error('Typewriter text element not found!');
+        return;
+    }
+    
+    console.log('Elements found, starting typewriter...');
+    
     const textToType = "Hello! I'm Moses, a passionate software engineer with a deep curiosity for technology and continuous learning. I love building elegant solutions to complex problems and exploring the fascinating world of computers.";
     
+    // Clear the element first
+    typewriterText.textContent = '';
+    
     // Start typing after a small delay
-    setTimeout(async () => {
-        await typeWriter(textToType, typewriterText, 30); // 30ms delay between characters
+    setTimeout(() => {
+        console.log('Starting to type...');
         
-        // Remove cursor after typing is complete
-        setTimeout(() => {
-            cursor.style.display = 'none';
-        }, 1000);
+        typeWriter(textToType, typewriterText, 40, function() {
+            console.log('Typing complete!');
+            
+            // Remove cursor after typing is complete
+            setTimeout(() => {
+                if (cursor) cursor.style.display = 'none';
+            }, 1000);
+            
+            // Show the second paragraph after typing completes
+            setTimeout(() => {
+                if (contentAfterTyping) {
+                    contentAfterTyping.classList.add('show');
+                    console.log('Second paragraph shown');
+                }
+            }, 1200);
+            
+            // Show hobbies section
+            setTimeout(() => {
+                if (hobbiesSection) {
+                    hobbiesSection.classList.add('show');
+                    console.log('Hobbies section shown');
+                }
+            }, 2000);
+            
+            // Show contact section
+            setTimeout(() => {
+                if (contactSection) {
+                    contactSection.classList.add('show');
+                    console.log('Contact section shown');
+                }
+            }, 2500);
+        });
         
-        // Show the second paragraph after typing completes
-        setTimeout(() => {
-            contentAfterTyping.classList.add('show');
-        }, 1200);
-        
-        // Show hobbies section
-        setTimeout(() => {
-            hobbiesSection.classList.add('show');
-        }, 2000);
-        
-        // Show contact section
-        setTimeout(() => {
-            contactSection.classList.add('show');
-        }, 2500);
-        
-    }, 500); // Initial delay before typing starts
+    }, 800); // Initial delay before typing starts
 }
 
 // Load saved theme on page load
