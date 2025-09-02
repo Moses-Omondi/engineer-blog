@@ -528,6 +528,39 @@ h1 {
     .hobby-tag {
         font-size: 0.85rem;
         padding: 6px 12px;
+        /* Ensure animations work on mobile */
+        animation: slowBob 4s ease-in-out infinite !important;
+    }
+    
+    /* Simpler, performance-optimized animations for mobile */
+    .hobby-tag:nth-child(odd) {
+        animation: mobileFloat 3s ease-in-out infinite !important;
+    }
+    
+    .hobby-tag:nth-child(even) {
+        animation: mobileBob 4s ease-in-out infinite !important;
+    }
+    
+    /* Mobile-optimized keyframes - lighter animations */
+    @keyframes mobileFloat {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-2px);
+        }
+    }
+    
+    @keyframes mobileBob {
+        0%, 100% {
+            transform: translateX(0px);
+        }
+        25% {
+            transform: translateX(1px);
+        }
+        75% {
+            transform: translateX(-1px);
+        }
     }
     
     /* Mobile Tooltip Overlay */
@@ -628,5 +661,11 @@ h1 {
     .hobby-tag {
         font-size: 0.8rem;
         padding: 5px 10px;
+        /* Ensure animations work on small mobile screens */
+        animation: mobileFloat 3s ease-in-out infinite !important;
+    }
+    
+    .hobby-tag:nth-child(even) {
+        animation: mobileBob 4s ease-in-out infinite !important;
     }
 }
