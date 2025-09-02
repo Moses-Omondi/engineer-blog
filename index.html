@@ -284,6 +284,28 @@
             line-height: 1.4;
         }
 
+        .cert-verify {
+            margin: 10px 0 5px 0;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .verify-link {
+            color: var(--gradient-start);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .verify-link:hover {
+            color: var(--gradient-end);
+            text-decoration: underline;
+        }
+
         .cert-status {
             display: inline-block;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
@@ -545,7 +567,12 @@
                         <div class="cert-details">
                             Certified in AWS Solutions Architecture with hands-on experience in EC2, S3, Lambda, ECS, and security best practices.
                         </div>
-                        <span class="cert-status">Certified</span>
+                        <div class="cert-verify">
+                            <a href="https://cp.certmetrics.com/amazon/en/public/verify/credential/988abea14ee7475f8720e1871293bf7a" target="_blank" rel="noopener noreferrer" class="verify-link">
+                                🔗 Verify Certification
+                            </a>
+                        </div>
+                        <span class="cert-status">AWS Certified</span>
                     </div>
                 </span>
                 <span class="hobby-tag certification-tag">CI/CD | SAST | DAST | SCA
