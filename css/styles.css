@@ -215,10 +215,10 @@ h1 {
     position: relative;
     border: 2px solid transparent;
     /* Simple universal animation that works everywhere */
-    animation: universalBob 2s ease-in-out infinite !important;
-    -webkit-animation: universalBob 2s ease-in-out infinite !important;
-    -moz-animation: universalBob 2s ease-in-out infinite !important;
-    -o-animation: universalBob 2s ease-in-out infinite !important;
+    animation: universalBob 1.5s ease-in-out infinite !important;
+    -webkit-animation: universalBob 1.5s ease-in-out infinite !important;
+    -moz-animation: universalBob 1.5s ease-in-out infinite !important;
+    -o-animation: universalBob 1.5s ease-in-out infinite !important;
     will-change: transform;
 }
 
