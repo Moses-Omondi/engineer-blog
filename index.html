@@ -439,17 +439,22 @@
             }
             
             .certification-tooltip {
-                position: fixed;
-                left: 10px !important;
-                right: 10px !important;
-                width: calc(100vw - 20px) !important;
-                min-width: unset !important;
-                max-width: unset !important;
-                transform: none !important;
-                bottom: auto !important;
+                position: fixed !important;
+                left: 50% !important;
                 top: 50% !important;
-                margin-top: -100px;
+                transform: translate(-50%, -50%) !important;
+                width: calc(100vw - 40px) !important;
+                max-width: 350px !important;
+                min-width: unset !important;
+                bottom: auto !important;
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
                 font-size: 0.9rem;
+                z-index: 10000;
+            }
+            
+            .certification-tag.active .certification-tooltip {
+                transform: translate(-50%, -50%) !important;
             }
             
             .certification-tooltip::after {
