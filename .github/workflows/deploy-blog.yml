@@ -45,4 +45,4 @@ jobs:
         publish_dir: ./
         
     - name: 🎉 Deployment successful
-      run: echo "🌐 Blog is now live at: https://YOUR_USERNAME.github.io/engineer-blog"
+      run: echo "Blog is live"
