@@ -723,25 +723,21 @@
                 tag.addEventListener('click', function(e) {
                     e.stopPropagation();
                     
-                    const isCurrentlyActive = tag.classList.contains('active');
-                    
                     // Close all tooltips first
                     closeAllTooltips();
                     
-                    // If this tooltip wasn't active, open it
-                    if (!isCurrentlyActive) {
-                        tag.classList.add('active');
-                        
-                        // Show overlay on mobile and move tooltip content
-                        if (isMobile() && tooltipOverlay) {
-                            const tooltip = tag.querySelector('.certification-tooltip');
-                            if (tooltip) {
-                                // Clone the tooltip and add it to the overlay
-                                const tooltipClone = tooltip.cloneNode(true);
-                                tooltipOverlay.innerHTML = '';
-                                tooltipOverlay.appendChild(tooltipClone);
-                                tooltipOverlay.classList.add('active');
-                            }
+                    // Always open the clicked tooltip
+                    tag.classList.add('active');
+                    
+                    // Show overlay on mobile and move tooltip content
+                    if (isMobile() && tooltipOverlay) {
+                        const tooltip = tag.querySelector('.certification-tooltip');
+                        if (tooltip) {
+                            // Clone the tooltip and add it to the overlay
+                            const tooltipClone = tooltip.cloneNode(true);
+                            tooltipOverlay.innerHTML = '';
+                            tooltipOverlay.appendChild(tooltipClone);
+                            tooltipOverlay.classList.add('active');
                         }
                     }
                 });
