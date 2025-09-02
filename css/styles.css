@@ -249,6 +249,10 @@ h1 {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90vw;
 }
 
 [data-theme="dark"] .terminal-title {
