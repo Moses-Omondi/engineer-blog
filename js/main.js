@@ -17,6 +17,12 @@ function toggleTheme() {
 
 // Typewriter Effect - Types text character by character
 function typeWriter(text, element, speed = 50, callback) {
+    if (!element) {
+        console.error('Typewriter element not found!');
+        if (callback) callback();
+        return;
+    }
+    
     let i = 0;
     
     function type() {
@@ -24,11 +30,13 @@ function typeWriter(text, element, speed = 50, callback) {
             element.textContent += text.charAt(i);
             i++;
             setTimeout(type, speed);
-        } else if (callback) {
-            callback();
+        } else {
+            console.log('Typewriter finished for:', text.substring(0, 20) + '...');
+            if (callback) callback();
         }
     }
     
+    console.log('Starting typewriter for:', text.substring(0, 20) + '...', 'Speed:', speed);
     type();
 }
 
@@ -46,7 +54,8 @@ function initTypewriterEffect() {
     }
     
     // Check if mobile for timing adjustments
-    const isMobile = window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile = window.innerWidth <= 480;
+    console.log('Is mobile:', isMobile, 'Window width:', window.innerWidth);
     const commandTypingSpeed = isMobile ? 80 : 100; // Slower typing for commands
     const contentTypingSpeed = isMobile ? 30 : 40; // Faster for content
     const initialDelay = isMobile ? 800 : 1000;
@@ -261,6 +270,18 @@ document.addEventListener('DOMContentLoaded', function() {
         closeOverlay();
     });
     
-    // Initialize typewriter effect
-    initTypewriterEffect();
+    // Initialize typewriter effect with error handling
+    try {
+        initTypewriterEffect();
+    } catch (error) {
+        console.error('Error initializing typewriter:', error);
+        // Fallback: try again after a short delay
+        setTimeout(() => {
+            try {
+                initTypewriterEffect();
+            } catch (retryError) {
+                console.error('Retry failed:', retryError);
+            }
+        }, 500);
+    }
 });
