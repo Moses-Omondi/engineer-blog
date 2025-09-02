@@ -438,13 +438,6 @@
                 padding: 6px 12px;
             }
             
-            /* Add visual indicator for clickable certification tags on mobile */
-            .certification-tag::after {
-                content: '👆';
-                font-size: 0.7rem;
-                margin-left: 4px;
-                opacity: 0.6;
-            }
             
             /* Mobile tooltip overlay */
             .tooltip-overlay {
@@ -706,7 +699,8 @@
             }
             
             // Mobile tooltip functionality
-            const certificationTags = document.querySelectorAll('.certification-tag');
+            const allHobbyTags = document.querySelectorAll('.hobby-tag');
+            const tagsWithTooltips = Array.from(allHobbyTags).filter(tag => tag.querySelector('.certification-tooltip'));
             const tooltipOverlay = document.getElementById('tooltipOverlay');
             
             // Function to check if we're on mobile
@@ -716,7 +710,7 @@
             
             // Function to close all tooltips and overlay
             function closeAllTooltips() {
-                certificationTags.forEach(tag => {
+                tagsWithTooltips.forEach(tag => {
                     tag.classList.remove('active');
                 });
                 if (tooltipOverlay) {
@@ -724,7 +718,8 @@
                 }
             }
             
-            certificationTags.forEach(tag => {
+            // Add click listeners to all tags that have tooltips
+            tagsWithTooltips.forEach(tag => {
                 tag.addEventListener('click', function(e) {
                     e.stopPropagation();
                     
