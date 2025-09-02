@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moses Omondi</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap');
+        
         :root {
             --bg-color: #fff;
             --text-color: #333;
@@ -163,10 +165,43 @@
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s ease-in-out infinite;
+            position: relative;
+            transform: translateZ(0);
+            will-change: background-position;
+        }
+        
+        /* Enhanced gradient animation */
+        @keyframes gradientShift {
+            0%, 100% { 
+                background-position: 0% 50%; 
+            }
+            25% { 
+                background-position: 100% 30%; 
+            }
+            50% { 
+                background-position: 100% 70%; 
+            }
+            75% { 
+                background-position: 0% 70%; 
+            }
+        }
+        
+        /* Add subtle glow effect on hover */
+        h1:hover {
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3));
+            transform: translateY(-1px) scale(1.02);
         }
 
         .subtitle {
