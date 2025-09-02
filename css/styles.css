@@ -126,6 +126,8 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 140px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Profile Section */
@@ -768,11 +770,18 @@ h1 {
     .terminal-window {
         border-radius: 8px;
         margin: 15px 0;
+        max-width: 100%;
+        overflow-x: auto;
     }
     
     .terminal-header {
-        height: 38px;
-        padding: 0 12px;
+        height: 36px;
+        padding: 0 10px;
+        position: relative;
+    }
+    
+    .terminal-buttons {
+        gap: 6px;
     }
     
     .terminal-buttons span {
@@ -781,19 +790,48 @@ h1 {
     }
     
     .terminal-title {
-        font-size: 11px;
+        font-size: 10px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 50%;
+        margin-top: -5px;
     }
     
     .terminal-body {
-        padding: 12px 16px;
-        font-size: 12px;
-        min-height: 150px;
+        padding: 10px 12px;
+        font-size: 11px;
+        min-height: 120px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
-    .terminal-prompt,
-    .terminal-command,
+    .terminal-line {
+        margin-bottom: 6px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .terminal-prompt {
+        font-size: 11px;
+        word-wrap: normal;
+        white-space: nowrap;
+    }
+    
+    .terminal-command {
+        font-size: 11px;
+    }
+    
     .terminal-output {
-        font-size: 12px;
+        font-size: 11px;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+    }
+    
+    .terminal-cursor {
+        font-size: 11px;
     }
     
     /* Mobile Typewriter Effect */

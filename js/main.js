@@ -35,6 +35,8 @@ function typeWriter(text, element, speed = 50, callback) {
 // Initialize typewriter effect and content reveal
 function initTypewriterEffect() {
     console.log('Initializing typewriter effect...');
+    console.log('Window width:', window.innerWidth);
+    console.log('User agent:', navigator.userAgent);
     
     const typewriterText = document.getElementById('typewriter-text');
     const cursor = document.getElementById('cursor');
@@ -47,13 +49,16 @@ function initTypewriterEffect() {
     // Check if elements exist
     if (!typewriterText || !typewriterText2) {
         console.error('Typewriter text elements not found!');
+        console.log('typewriterText:', typewriterText);
+        console.log('typewriterText2:', typewriterText2);
         return;
     }
     
     console.log('Elements found, starting typewriter...');
     
     // Check if mobile for timing adjustments
-    const isMobile = window.innerWidth <= 480;
+    const isMobile = window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    console.log('Is mobile:', isMobile);
     const typingSpeed = isMobile ? 35 : 40; // Slightly faster on mobile
     const typingSpeed2 = isMobile ? 30 : 35; // Even faster for second paragraph
     const initialDelay = isMobile ? 600 : 800; // Slightly faster start on mobile
