@@ -156,7 +156,7 @@ function initTypewriterEffect() {
     }, initialDelay);
 }
 
-// Swipe Navigation System
+// Navigation System with Mobile/Desktop Detection
 class SwipeNavigation {
     constructor() {
         this.currentPage = this.getCurrentPage();
@@ -167,8 +167,10 @@ class SwipeNavigation {
         this.endY = 0;
         this.minSwipeDistance = 50;
         this.maxVerticalDistance = 100;
+        this.isMobile = this.detectMobile();
         
         this.init();
+        this.saveTerminalState();
     }
     
     getCurrentPage() {
@@ -179,22 +181,104 @@ class SwipeNavigation {
         return 'home';
     }
     
+    detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+               ('ontouchstart' in window) || 
+               (navigator.maxTouchPoints > 0);
+    }
+    
     init() {
-        // Add touch event listeners
-        document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
-        document.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
-        document.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
+        if (this.isMobile) {
+            // Mobile: Touch events for swiping
+            document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+            document.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+            document.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
+            
+            // Add swipe indicators for mobile only
+            this.addSwipeIndicators();
+        } else {
+            // Desktop: Click events for navigation
+            this.addDesktopNavigation();
+        }
+    }
+    
+    addDesktopNavigation() {
+        // Add subtle click areas on left/right edges for desktop navigation
+        const leftClickArea = document.createElement('div');
+        leftClickArea.className = 'desktop-nav-area left';
+        leftClickArea.addEventListener('click', () => {
+            if (this.currentPage === 'blog') {
+                this.navigateToPage('home');
+            }
+        });
         
-        // Add mouse event listeners for desktop testing
-        document.addEventListener('mousedown', this.handleMouseDown.bind(this));
-        document.addEventListener('mousemove', this.handleMouseMove.bind(this));
-        document.addEventListener('mouseup', this.handleMouseUp.bind(this));
+        const rightClickArea = document.createElement('div');
+        rightClickArea.className = 'desktop-nav-area right';
+        rightClickArea.addEventListener('click', () => {
+            if (this.currentPage === 'home') {
+                this.navigateToPage('blog');
+            }
+        });
         
-        // Prevent default drag behavior
-        document.addEventListener('dragstart', (e) => e.preventDefault());
+        document.body.appendChild(leftClickArea);
+        document.body.appendChild(rightClickArea);
         
-        // Add visual swipe indicators
-        this.addSwipeIndicators();
+        // Add CSS for desktop navigation areas
+        const style = document.createElement('style');
+        style.textContent = `
+            .desktop-nav-area {
+                position: fixed;
+                top: 0;
+                width: 60px;
+                height: 100vh;
+                z-index: 999;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                opacity: 0;
+            }
+            
+            .desktop-nav-area:hover {
+                background-color: rgba(var(--gradient-start), 0.1);
+                opacity: 1;
+            }
+            
+            .desktop-nav-area.left {
+                left: 0;
+            }
+            
+            .desktop-nav-area.right {
+                right: 0;
+            }
+            
+            .desktop-nav-area::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                height: 0;
+                border-style: solid;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .desktop-nav-area.left::before {
+                left: 20px;
+                border-width: 8px 12px 8px 0;
+                border-color: transparent var(--text-color) transparent transparent;
+            }
+            
+            .desktop-nav-area.right::before {
+                right: 20px;
+                border-width: 8px 0 8px 12px;
+                border-color: transparent transparent transparent var(--text-color);
+            }
+            
+            .desktop-nav-area:hover::before {
+                opacity: 0.7;
+            }
+        `;
+        document.head.appendChild(style);
     }
     
     handleTouchStart(e) {
@@ -328,6 +412,55 @@ class SwipeNavigation {
         
         setTimeout(() => overlay.classList.add('active'), 10);
     }
+    
+    saveTerminalState() {
+        if (this.currentPage === 'home') {
+            const terminalBody = document.querySelector('.terminal-body');
+            const hobbiesSection = document.querySelector('.hobbies');
+            const contactSection = document.querySelector('.contact');
+            
+            if (terminalBody) {
+                localStorage.setItem('terminalState', terminalBody.innerHTML);
+            }
+            
+            if (hobbiesSection && hobbiesSection.classList.contains('show')) {
+                localStorage.setItem('hobbiesShown', 'true');
+            }
+            
+            if (contactSection && contactSection.classList.contains('show')) {
+                localStorage.setItem('contactShown', 'true');
+            }
+        }
+    }
+    
+    restoreTerminalState() {
+        if (this.currentPage === 'home') {
+            const terminalBody = document.querySelector('.terminal-body');
+            const hobbiesSection = document.querySelector('.hobbies');
+            const contactSection = document.querySelector('.contact');
+            
+            const savedTerminalState = localStorage.getItem('terminalState');
+            const hobbiesWasShown = localStorage.getItem('hobbiesShown') === 'true';
+            const contactWasShown = localStorage.getItem('contactShown') === 'true';
+            
+            if (savedTerminalState && terminalBody) {
+                // Skip the typewriter effect and restore the saved state
+                terminalBody.innerHTML = savedTerminalState;
+                
+                // Show sections immediately if they were previously shown
+                if (hobbiesWasShown && hobbiesSection) {
+                    hobbiesSection.classList.add('show');
+                }
+                
+                if (contactWasShown && contactSection) {
+                    contactSection.classList.add('show');
+                }
+                
+                return true; // State was restored
+            }
+        }
+        return false; // No state to restore
+    }
 }
 
 // Load saved theme on page load
@@ -435,25 +568,28 @@ document.addEventListener('DOMContentLoaded', function() {
         closeOverlay();
     });
     
-    // Initialize typewriter effect with error handling
+    // Initialize swipe navigation first to handle terminal state restoration
+    let swipeNav;
     try {
-        initTypewriterEffect();
-    } catch (error) {
-        console.error('Error initializing typewriter:', error);
-        // Fallback: try again after a short delay
-        setTimeout(() => {
-            try {
-                initTypewriterEffect();
-            } catch (retryError) {
-                console.error('Retry failed:', retryError);
-            }
-        }, 500);
-    }
-    
-    // Initialize swipe navigation
-    try {
-        new SwipeNavigation();
+        swipeNav = new SwipeNavigation();
     } catch (error) {
         console.error('Error initializing swipe navigation:', error);
+    }
+    
+    // Initialize typewriter effect only if state wasn't restored
+    if (!swipeNav || !swipeNav.restoreTerminalState()) {
+        try {
+            initTypewriterEffect();
+        } catch (error) {
+            console.error('Error initializing typewriter:', error);
+            // Fallback: try again after a short delay
+            setTimeout(() => {
+                try {
+                    initTypewriterEffect();
+                } catch (retryError) {
+                    console.error('Retry failed:', retryError);
+                }
+            }, 500);
+        }
     }
 });

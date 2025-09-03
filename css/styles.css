@@ -703,19 +703,21 @@ h1 {
 /* Swipe Navigation Styles */
 .swipe-indicator {
     position: fixed;
-    bottom: 20px;
+    bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1001;
-    background: rgba(102, 126, 234, 0.9);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    background: rgba(var(--text-color), 0.1);
+    color: var(--text-color);
+    border: 1px solid rgba(var(--text-color), 0.2);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.7rem;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     animation: swipeIndicatorPulse 2s ease-in-out infinite;
     transition: opacity 0.5s ease;
+    pointer-events: none;
 }
 
 .swipe-indicator.fade-out {
