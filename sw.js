@@ -47,8 +47,8 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (request.method !== 'GET') return;
   
-  // HTML requests - Network First strategy
-  if (request.headers.get('accept').includes('text/html')) {
+// HTML requests - Network First strategy
+  if (request.headers.get('accept') && request.headers.get('accept').includes('text/html')) {
     event.respondWith(
       fetch(request)
         .then(response => {
