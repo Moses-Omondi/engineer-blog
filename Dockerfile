@@ -25,13 +25,11 @@ RUN apk add --no-cache nodejs npm
 # Copy build artifacts
 COPY --from=builder /app/dist /usr/share/nginx/html/
 COPY --from=builder /app/*.html /usr/share/nginx/html/
-COPY --from=builder /app/css /usr/share/nginx/html/css/
-COPY --from=builder /app/js /usr/share/nginx/html/js/
-COPY --from=builder /app/images /usr/share/nginx/html/images/
+COPY --from=builder /app/public /usr/share/nginx/html/public/
 COPY --from=builder /app/blog /usr/share/nginx/html/blog/
 
 # Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

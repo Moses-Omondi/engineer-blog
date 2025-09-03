@@ -9,9 +9,9 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/blog.html',
-  '/css/styles.css',
-  '/js/main.js',
-  '/js/blog.js',
+  '/public/css/styles.css',
+  '/public/js/main.js',
+  '/public/js/blog.js',
   '/offline.html'
 ];
 
