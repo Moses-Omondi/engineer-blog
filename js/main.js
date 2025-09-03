@@ -568,16 +568,43 @@ document.addEventListener('DOMContentLoaded', function() {
         closeOverlay();
     });
     
-    // Initialize swipe navigation first to handle terminal state restoration
-    let swipeNav;
-    try {
-        swipeNav = new SwipeNavigation();
-    } catch (error) {
-        console.error('Error initializing swipe navigation:', error);
+    // Check if we need to restore terminal state
+    const currentPage = window.location.pathname.includes('blog.html') ? 'blog' : 'home';
+    let stateRestored = false;
+    
+    // Temporarily clear state to fix any issues (remove this after testing)
+    // localStorage.removeItem('terminalState');
+    // localStorage.removeItem('hobbiesShown');
+    // localStorage.removeItem('contactShown');
+    
+    if (currentPage === 'home') {
+        const terminalBody = document.querySelector('.terminal-body');
+        const hobbiesSection = document.querySelector('.hobbies');
+        const contactSection = document.querySelector('.contact');
+        
+        const savedTerminalState = localStorage.getItem('terminalState');
+        const hobbiesWasShown = localStorage.getItem('hobbiesShown') === 'true';
+        const contactWasShown = localStorage.getItem('contactShown') === 'true';
+        
+        if (savedTerminalState && terminalBody) {
+            // Restore the saved state
+            terminalBody.innerHTML = savedTerminalState;
+            
+            // Show sections immediately if they were previously shown
+            if (hobbiesWasShown && hobbiesSection) {
+                hobbiesSection.classList.add('show');
+            }
+            
+            if (contactWasShown && contactSection) {
+                contactSection.classList.add('show');
+            }
+            
+            stateRestored = true;
+        }
     }
     
     // Initialize typewriter effect only if state wasn't restored
-    if (!swipeNav || !swipeNav.restoreTerminalState()) {
+    if (!stateRestored) {
         try {
             initTypewriterEffect();
         } catch (error) {
@@ -591,5 +618,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 500);
         }
+    }
+    
+    // Initialize swipe navigation
+    try {
+        new SwipeNavigation();
+    } catch (error) {
+        console.error('Error initializing swipe navigation:', error);
     }
 });
