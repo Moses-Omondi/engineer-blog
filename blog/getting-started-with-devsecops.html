@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +23,6 @@
             margin: 0 auto;
             padding: 120px 20px 60px;
             line-height: 1.8;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .blog-header {
@@ -39,7 +37,6 @@
             font-weight: 600;
             margin-bottom: 20px;
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .blog-meta {
@@ -57,17 +54,10 @@
             margin-top: 2em;
             margin-bottom: 1em;
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .blog-article p {
             margin-bottom: 1.5em;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        .blog-article ul,
-        .blog-article ol {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .blog-article pre {
@@ -77,7 +67,6 @@
             padding: 20px;
             overflow-x: auto;
             margin: 2em 0;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
         }
         
         .blog-article code {
@@ -85,7 +74,6 @@
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.9em;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
         }
         
         .blog-article blockquote {
@@ -94,7 +82,6 @@
             margin: 2em 0;
             font-style: italic;
             color: var(--text-secondary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .back-link {
@@ -103,7 +90,6 @@
             color: var(--gradient-start);
             text-decoration: none;
             font-weight: 500;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .back-link:hover {
@@ -121,7 +107,6 @@
         }
     </style>
 </head>
-
 <body>
     <nav class="nav">
         <div class="nav-container">
@@ -129,12 +114,12 @@
                 <a href="../index.html" class="nav-link">Home</a>
                 <a href="../blog.html" class="nav-link active">Blog</a>
             </div>
-            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+            <button class="theme-toggle" onclick="toggleTheme()">
                 <span id="theme-icon">🌙</span>
             </button>
         </div>
     </nav>
-    
+
     <main class="blog-content">
         <a href="../blog.html" class="back-link">← Back to Blog</a>
         
@@ -145,165 +130,111 @@
                 <span>•</span>
                 <span>DevSecOps</span>
                 <span>•</span>
-                <span>6 min read</span>
+                <span>4 min read</span>
             </div>
         </header>
         
         <article class="blog-article">
-            
-            <div class="article-content">
-                <p>DevSecOps represents a fundamental shift in how we approach software development, operations, and security. By integrating security practices throughout the entire development lifecycle, we can build more secure, reliable, and maintainable systems from the ground up.</p>
+            <h1>Getting Started with DevSecOps: A Practical Guide</h1>
+<p>DevSecOps represents a fundamental shift in how we approach software development, operations, and security. By integrating security practices throughout the entire development lifecycle, we can build more secure, reliable, and maintainable systems from the ground up.</p>
+<h2>What is DevSecOps?</h2>
+<p>DevSecOps extends the DevOps methodology by incorporating security as a shared responsibility throughout the IT lifecycle. Instead of treating security as a final gate before production, DevSecOps embeds security considerations into every phase of development and deployment.</p>
+<blockquote>
+<p>"Security is not a product, but a process." - Bruce Schneier</p>
+</blockquote>
+<h2>Core Principles</h2>
+<p>Successful DevSecOps implementation is built on several key principles:</p>
+<h3>1. Shift Left</h3>
+<p>Move security testing and validation as early as possible in the development process. This includes:</p>
+<ul>
+<li>Static Application Security Testing (SAST) during code development</li>
+<li>Dependency scanning for known vulnerabilities</li>
+<li>Infrastructure as Code security scanning</li>
+<li>Security-focused code reviews</li>
+</ul>
+<h3>2. Automation First</h3>
+<p>Automate security checks to ensure consistency and reduce human error:</p>
+<ul>
+<li>Automated vulnerability scanning in CI/CD pipelines</li>
+<li>Dynamic Application Security Testing (DAST) in staging environments</li>
+<li>Automated compliance checks</li>
+<li>Container image security scanning</li>
+</ul>
+<h3>3. Continuous Monitoring</h3>
+<p>Implement comprehensive monitoring and alerting across your entire infrastructure:</p>
+<ul>
+<li>Runtime application protection</li>
+<li>Infrastructure monitoring and anomaly detection</li>
+<li>Security information and event management (SIEM)</li>
+<li>Regular penetration testing</li>
+</ul>
+<h2>Essential Tools and Technologies</h2>
+<p>Building a solid DevSecOps toolchain requires careful selection of tools that integrate well with your existing development workflow:</p>
+<h3>SAST Tools</h3>
+<ul>
+<li><strong>SonarQube:</strong> Comprehensive code quality and security analysis</li>
+<li><strong>Checkmarx:</strong> Enterprise-grade static analysis</li>
+<li><strong>Semgrep:</strong> Fast, lightweight static analysis</li>
+</ul>
+<h3>Dependency Scanning</h3>
+<ul>
+<li><strong>Snyk:</strong> Vulnerability scanning for dependencies and containers</li>
+<li><strong>OWASP Dependency-Check:</strong> Open-source dependency vulnerability scanner</li>
+<li><strong>GitHub Security Advisories:</strong> Built-in GitHub dependency scanning</li>
+</ul>
+<h3>Container Security</h3>
+<ul>
+<li><strong>Twistlock (Prisma Cloud):</strong> Comprehensive container security platform</li>
+<li><strong>Aqua Security:</strong> Full-stack container security</li>
+<li><strong>Docker Bench:</strong> Security configuration checks for Docker</li>
+</ul>
+<h2>Implementation Strategy</h2>
+<p>Rolling out DevSecOps across your organization requires a thoughtful, phased approach:</p>
+<h3>Phase 1: Foundation</h3>
+<ol>
+<li>Establish security requirements and standards</li>
+<li>Implement basic SAST and dependency scanning</li>
+<li>Create security-focused coding guidelines</li>
+<li>Set up basic monitoring and logging</li>
+</ol>
+<h3>Phase 2: Integration</h3>
+<ol>
+<li>Integrate security tools into CI/CD pipelines</li>
+<li>Implement infrastructure as code security scanning</li>
+<li>Add DAST to staging environments</li>
+<li>Establish incident response procedures</li>
+</ol>
+<h3>Phase 3: Optimization</h3>
+<ol>
+<li>Fine-tune security tools to reduce false positives</li>
+<li>Implement advanced monitoring and threat detection</li>
+<li>Add security metrics to dashboards</li>
+<li>Conduct regular security training and awareness programs</li>
+</ol>
+<h2>Common Challenges and Solutions</h2>
+<p>Every organization faces obstacles when implementing DevSecOps. Here are some common challenges and practical solutions:</p>
+<h3>Challenge: Tool Proliferation</h3>
+<p><strong>Solution:</strong> Start with a few well-integrated tools rather than trying to implement everything at once. Focus on tools that provide APIs and integrate well with your existing toolchain.</p>
+<h3>Challenge: False Positive Fatigue</h3>
+<p><strong>Solution:</strong> Invest time in tuning your security tools. Create custom rules and suppression lists for your specific environment. Regularly review and update these configurations.</p>
+<h3>Challenge: Cultural Resistance</h3>
+<p><strong>Solution:</strong> Start small with willing teams. Show quick wins and gradually expand. Provide training and make security tools as frictionless as possible for developers.</p>
+<h2>Measuring Success</h2>
+<p>To ensure your DevSecOps implementation is effective, track these key metrics:</p>
+<ul>
+<li><strong>Mean Time to Detection (MTTD):</strong> How quickly you identify security issues</li>
+<li><strong>Mean Time to Resolution (MTTR):</strong> How quickly you fix security vulnerabilities</li>
+<li><strong>Security Debt:</strong> Number of known vulnerabilities in your systems</li>
+<li><strong>Security Test Coverage:</strong> Percentage of code covered by security testing</li>
+<li><strong>Compliance Score:</strong> Adherence to security standards and regulations</li>
+</ul>
+<h2>Conclusion</h2>
+<p>DevSecOps is not just about tools—it's about creating a culture where security is everyone's responsibility. By starting small, focusing on automation, and gradually expanding your capabilities, you can build a robust security posture that scales with your organization.</p>
+<p>Remember that DevSecOps is a journey, not a destination. Continuously evaluate your processes, update your tools, and adapt to new threats and technologies. The investment in time and resources will pay dividends in reduced security incidents, faster delivery, and greater confidence in your software systems.</p>
 
-                <h2>What is DevSecOps?</h2>
-                <p>DevSecOps extends the DevOps methodology by incorporating security as a shared responsibility throughout the IT lifecycle. Instead of treating security as a final gate before production, DevSecOps embeds security considerations into every phase of development and deployment.</p>
-
-                <blockquote>
-                    "Security is not a product, but a process." - Bruce Schneier
-                </blockquote>
-
-                <h2>Core Principles</h2>
-                <p>Successful DevSecOps implementation is built on several key principles:</p>
-
-                <h3>1. Shift Left</h3>
-                <p>Move security testing and validation as early as possible in the development process. This includes:</p>
-                <ul>
-                    <li>Static Application Security Testing (SAST) during code development</li>
-                    <li>Dependency scanning for known vulnerabilities</li>
-                    <li>Infrastructure as Code security scanning</li>
-                    <li>Security-focused code reviews</li>
-                </ul>
-
-                <h3>2. Automation First</h3>
-                <p>Automate security checks to ensure consistency and reduce human error:</p>
-                <ul>
-                    <li>Automated vulnerability scanning in CI/CD pipelines</li>
-                    <li>Dynamic Application Security Testing (DAST) in staging environments</li>
-                    <li>Automated compliance checks</li>
-                    <li>Container image security scanning</li>
-                </ul>
-
-                <h3>3. Continuous Monitoring</h3>
-                <p>Implement comprehensive monitoring and alerting across your entire infrastructure:</p>
-                <ul>
-                    <li>Runtime application protection</li>
-                    <li>Infrastructure monitoring and anomaly detection</li>
-                    <li>Security information and event management (SIEM)</li>
-                    <li>Regular penetration testing</li>
-                </ul>
-
-                <h2>Essential Tools and Technologies</h2>
-                <p>Building a solid DevSecOps toolchain requires careful selection of tools that integrate well with your existing development workflow:</p>
-
-                <h3>SAST Tools</h3>
-                <ul>
-                    <li><strong>SonarQube:</strong> Comprehensive code quality and security analysis</li>
-                    <li><strong>Checkmarx:</strong> Enterprise-grade static analysis</li>
-                    <li><strong>Semgrep:</strong> Fast, lightweight static analysis</li>
-                </ul>
-
-                <h3>Dependency Scanning</h3>
-                <ul>
-                    <li><strong>Snyk:</strong> Vulnerability scanning for dependencies and containers</li>
-                    <li><strong>OWASP Dependency-Check:</strong> Open-source dependency vulnerability scanner</li>
-                    <li><strong>GitHub Security Advisories:</strong> Built-in GitHub dependency scanning</li>
-                </ul>
-
-                <h3>Container Security</h3>
-                <ul>
-                    <li><strong>Twistlock (Prisma Cloud):</strong> Comprehensive container security platform</li>
-                    <li><strong>Aqua Security:</strong> Full-stack container security</li>
-                    <li><strong>Docker Bench:</strong> Security configuration checks for Docker</li>
-                </ul>
-
-                <h2>Implementation Strategy</h2>
-                <p>Rolling out DevSecOps across your organization requires a thoughtful, phased approach:</p>
-
-                <h3>Phase 1: Foundation</h3>
-                <ol>
-                    <li>Establish security requirements and standards</li>
-                    <li>Implement basic SAST and dependency scanning</li>
-                    <li>Create security-focused coding guidelines</li>
-                    <li>Set up basic monitoring and logging</li>
-                </ol>
-
-                <h3>Phase 2: Integration</h3>
-                <ol>
-                    <li>Integrate security tools into CI/CD pipelines</li>
-                    <li>Implement infrastructure as code security scanning</li>
-                    <li>Add DAST to staging environments</li>
-                    <li>Establish incident response procedures</li>
-                </ol>
-
-                <h3>Phase 3: Optimization</h3>
-                <ol>
-                    <li>Fine-tune security tools to reduce false positives</li>
-                    <li>Implement advanced monitoring and threat detection</li>
-                    <li>Add security metrics to dashboards</li>
-                    <li>Conduct regular security training and awareness programs</li>
-                </ol>
-
-                <h2>Common Challenges and Solutions</h2>
-                <p>Every organization faces obstacles when implementing DevSecOps. Here are some common challenges and practical solutions:</p>
-
-                <h3>Challenge: Tool Proliferation</h3>
-                <p><strong>Solution:</strong> Start with a few well-integrated tools rather than trying to implement everything at once. Focus on tools that provide APIs and integrate well with your existing toolchain.</p>
-
-                <h3>Challenge: False Positive Fatigue</h3>
-                <p><strong>Solution:</strong> Invest time in tuning your security tools. Create custom rules and suppression lists for your specific environment. Regularly review and update these configurations.</p>
-
-                <h3>Challenge: Cultural Resistance</h3>
-                <p><strong>Solution:</strong> Start small with willing teams. Show quick wins and gradually expand. Provide training and make security tools as frictionless as possible for developers.</p>
-
-                <h2>Measuring Success</h2>
-                <p>To ensure your DevSecOps implementation is effective, track these key metrics:</p>
-
-                <ul>
-                    <li><strong>Mean Time to Detection (MTTD):</strong> How quickly you identify security issues</li>
-                    <li><strong>Mean Time to Resolution (MTTR):</strong> How quickly you fix security vulnerabilities</li>
-                    <li><strong>Security Debt:</strong> Number of known vulnerabilities in your systems</li>
-                    <li><strong>Security Test Coverage:</strong> Percentage of code covered by security testing</li>
-                    <li><strong>Compliance Score:</strong> Adherence to security standards and regulations</li>
-                </ul>
-
-                <h2>Conclusion</h2>
-                <p>DevSecOps is not just about tools—it's about creating a culture where security is everyone's responsibility. By starting small, focusing on automation, and gradually expanding your capabilities, you can build a robust security posture that scales with your organization.</p>
-
-                <p>Remember that DevSecOps is a journey, not a destination. Continuously evaluate your processes, update your tools, and adapt to new threats and technologies. The investment in time and resources will pay dividends in reduced security incidents, faster delivery, and greater confidence in your software systems.</p>
-            </div>
         </article>
     </main>
 
-    <script>
-        // Theme toggle functionality
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
-            const currentTheme = body.getAttribute('data-theme');
-            
-            if (currentTheme === 'dark') {
-                body.removeAttribute('data-theme');
-                themeIcon.textContent = '🌙';
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-        
-        // Load saved theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeIcon = document.getElementById('theme-icon');
-            
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-            } else {
-                themeIcon.textContent = '🌙';
-            }
-        });
-    </script>
+    <script src="../js/main.js"></script>
 </body>
-
 </html>
