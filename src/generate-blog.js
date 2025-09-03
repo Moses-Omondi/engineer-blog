@@ -12,22 +12,33 @@ import sanitizeHtml from 'sanitize-html';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Logger utility
+// Logger utility - production-ready
 class Logger {
-  static info(message, ...args) {
-    console.log(`[INFO] ${message}`, ...args);
+  static get isProduction() {
+    return process.env.NODE_ENV === 'production';
   }
-  
+
+  static info(message, ...args) {
+    if (!Logger.isProduction) {
+      console.log(`[INFO] ${message}`, ...args);
+    }
+  }
+
   static error(message, ...args) {
+    // Always log errors, even in production
     console.error(`[ERROR] ${message}`, ...args);
   }
-  
+
   static warn(message, ...args) {
-    console.warn(`[WARN] ${message}`, ...args);
+    if (!Logger.isProduction) {
+      console.warn(`[WARN] ${message}`, ...args);
+    }
   }
-  
+
   static success(message, ...args) {
-    console.log(`[SUCCESS] ${message}`, ...args);
+    if (!Logger.isProduction) {
+      console.log(`[SUCCESS] ${message}`, ...args);
+    }
   }
 }
 
@@ -229,7 +240,7 @@ class BlogGenerator {
     try {
       const content = await fs.readFile(filePath, 'utf8');
       const { data: frontMatter, content: body } = matter(content);
-      
+
       // Validate required fields
       if (!frontMatter.title) {
         throw new Error('Missing required field: title');
@@ -246,10 +257,14 @@ class BlogGenerator {
 
       // Convert markdown to HTML
       const htmlContent = marked(body);
-      
+
       // Sanitize HTML for security
       const sanitizedContent = sanitizeHtml(htmlContent, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'iframe', 'pre']),
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+          'img',
+          'iframe',
+          'pre',
+        ]),
         allowedAttributes: {
           ...sanitizeHtml.defaults.allowedAttributes,
           img: ['src', 'alt', 'title', 'width', 'height'],
@@ -284,9 +299,10 @@ class BlogGenerator {
 
   async generateBlogPost(markdownPath) {
     try {
-      const { metadata, content, readTime } = await this.processMarkdownFile(markdownPath);
+      const { metadata, content, readTime } =
+        await this.processMarkdownFile(markdownPath);
       const template = await this.loadTemplate();
-      
+
       const html = template
         .replace(/{{TITLE}}/g, metadata.title)
         .replace(/{{EXCERPT}}/g, metadata.excerpt)
@@ -298,11 +314,14 @@ class BlogGenerator {
 
       const outputPath = path.join(this.blogDir, `${metadata.slug}.html`);
       await fs.writeFile(outputPath, html, 'utf8');
-      
+
       Logger.success(`Generated: ${outputPath}`);
       return { metadata, readTime };
     } catch (error) {
-      Logger.error(`Failed to generate blog post from ${markdownPath}:`, error.message);
+      Logger.error(
+        `Failed to generate blog post from ${markdownPath}:`,
+        error.message
+      );
       throw error;
     }
   }
@@ -310,9 +329,13 @@ class BlogGenerator {
   async updateBlogIndex(posts) {
     try {
       // Sort posts by date (newest first)
-      posts.sort((a, b) => new Date(b.metadata.date) - new Date(a.metadata.date));
+      posts.sort(
+        (a, b) => new Date(b.metadata.date) - new Date(a.metadata.date)
+      );
 
-      const postsHtml = posts.map(post => `
+      const postsHtml = posts
+        .map(
+          post => `
             <article class="blog-post" onclick="location.href='blog/${post.metadata.slug}.html'">
                 <h2><a href="blog/${post.metadata.slug}.html">${post.metadata.title}</a></h2>
                 <div class="blog-meta">
@@ -324,12 +347,14 @@ class BlogGenerator {
                 </div>
                 <a href="blog/${post.metadata.slug}.html" class="read-more">Read more →</a>
             </article>
-      `).join('\n\n');
+      `
+        )
+        .join('\n\n');
 
       // Read current blog.html and update the posts section
       const blogIndexPath = path.join(this.rootDir, 'blog.html');
       let blogHtml;
-      
+
       try {
         blogHtml = await fs.readFile(blogIndexPath, 'utf8');
       } catch {
@@ -353,17 +378,17 @@ class BlogGenerator {
   async generateAll() {
     try {
       await this.ensureDirectoriesExist();
-      
+
       const files = await fs.readdir(this.postsDir);
       const markdownFiles = files.filter(file => file.endsWith('.md'));
-      
+
       if (markdownFiles.length === 0) {
         Logger.warn('No markdown files found in posts directory');
         return;
       }
 
       Logger.info(`Found ${markdownFiles.length} markdown files to process`);
-      
+
       const posts = [];
       for (const file of markdownFiles) {
         const filePath = path.join(this.postsDir, file);
@@ -409,7 +434,9 @@ async function main() {
   } else {
     Logger.info('Usage:');
     Logger.info('  node generate-blog.js --all          # Generate all posts');
-    Logger.info('  node generate-blog.js <file.md>      # Generate single post');
+    Logger.info(
+      '  node generate-blog.js <file.md>      # Generate single post'
+    );
   }
 }
 
@@ -420,7 +447,10 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 // Always run main when this file is executed directly
-if (import.meta.url.startsWith('file://') && process.argv[1].includes('generate-blog.js')) {
+if (
+  import.meta.url.startsWith('file://') &&
+  process.argv[1].includes('generate-blog.js')
+) {
   main();
 }
 
