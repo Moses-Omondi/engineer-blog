@@ -1,6 +1,8 @@
 /* Blog-specific styles */
 .container {
-    max-width: 800px;
+    max-width: 800px !important;
+    transform: none !important;
+    transition: none !important;
 }
 
 .blog-header {
