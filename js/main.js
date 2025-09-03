@@ -156,6 +156,180 @@ function initTypewriterEffect() {
     }, initialDelay);
 }
 
+// Swipe Navigation System
+class SwipeNavigation {
+    constructor() {
+        this.currentPage = this.getCurrentPage();
+        this.isTransitioning = false;
+        this.startX = 0;
+        this.startY = 0;
+        this.endX = 0;
+        this.endY = 0;
+        this.minSwipeDistance = 50;
+        this.maxVerticalDistance = 100;
+        
+        this.init();
+    }
+    
+    getCurrentPage() {
+        const path = window.location.pathname;
+        if (path.includes('blog.html')) {
+            return 'blog';
+        }
+        return 'home';
+    }
+    
+    init() {
+        // Add touch event listeners
+        document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+        document.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+        document.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: true });
+        
+        // Add mouse event listeners for desktop testing
+        document.addEventListener('mousedown', this.handleMouseDown.bind(this));
+        document.addEventListener('mousemove', this.handleMouseMove.bind(this));
+        document.addEventListener('mouseup', this.handleMouseUp.bind(this));
+        
+        // Prevent default drag behavior
+        document.addEventListener('dragstart', (e) => e.preventDefault());
+        
+        // Add visual swipe indicators
+        this.addSwipeIndicators();
+    }
+    
+    handleTouchStart(e) {
+        if (this.isTransitioning) return;
+        
+        this.startX = e.touches[0].clientX;
+        this.startY = e.touches[0].clientY;
+    }
+    
+    handleTouchMove(e) {
+        if (this.isTransitioning) return;
+        
+        this.endX = e.touches[0].clientX;
+        this.endY = e.touches[0].clientY;
+        
+        // Show visual feedback during swipe
+        this.showSwipeFeedback();
+    }
+    
+    handleTouchEnd(e) {
+        if (this.isTransitioning) return;
+        
+        this.processSwipe();
+        this.hideSwipeFeedback();
+    }
+    
+    handleMouseDown(e) {
+        if (this.isTransitioning) return;
+        
+        this.startX = e.clientX;
+        this.startY = e.clientY;
+        this.isMouseDown = true;
+    }
+    
+    handleMouseMove(e) {
+        if (this.isTransitioning || !this.isMouseDown) return;
+        
+        this.endX = e.clientX;
+        this.endY = e.clientY;
+        
+        this.showSwipeFeedback();
+    }
+    
+    handleMouseUp(e) {
+        if (this.isTransitioning || !this.isMouseDown) return;
+        
+        this.isMouseDown = false;
+        this.processSwipe();
+        this.hideSwipeFeedback();
+    }
+    
+    processSwipe() {
+        const deltaX = this.endX - this.startX;
+        const deltaY = Math.abs(this.endY - this.startY);
+        
+        // Check if it's a valid horizontal swipe
+        if (Math.abs(deltaX) > this.minSwipeDistance && deltaY < this.maxVerticalDistance) {
+            if (deltaX > 0) {
+                // Swipe right - go to previous page (Home if on Blog)
+                if (this.currentPage === 'blog') {
+                    this.navigateToPage('home');
+                }
+            } else {
+                // Swipe left - go to next page (Blog if on Home)
+                if (this.currentPage === 'home') {
+                    this.navigateToPage('blog');
+                }
+            }
+        }
+    }
+    
+    navigateToPage(page) {
+        if (this.isTransitioning || this.currentPage === page) return;
+        
+        this.isTransitioning = true;
+        
+        // Add transition class to body
+        document.body.classList.add('page-transitioning');
+        
+        // Show transition overlay
+        this.showTransitionOverlay();
+        
+        // Navigate after short delay for smooth transition
+        setTimeout(() => {
+            if (page === 'home') {
+                window.location.href = 'index.html';
+            } else if (page === 'blog') {
+                window.location.href = 'blog.html';
+            }
+        }, 200);
+    }
+    
+    addSwipeIndicators() {
+        // Add subtle swipe indicators to the page
+        const indicator = document.createElement('div');
+        indicator.className = 'swipe-indicator';
+        indicator.innerHTML = `
+            <div class="swipe-hint">
+                <span class="swipe-arrow left">‹</span>
+                <span class="swipe-text">Swipe to navigate</span>
+                <span class="swipe-arrow right">›</span>
+            </div>
+        `;
+        document.body.appendChild(indicator);
+        
+        // Show indicator for a few seconds, then hide
+        setTimeout(() => {
+            indicator.classList.add('fade-out');
+        }, 3000);
+    }
+    
+    showSwipeFeedback() {
+        const deltaX = this.endX - this.startX;
+        const container = document.querySelector('.container');
+        
+        if (Math.abs(deltaX) > 20) {
+            const direction = deltaX > 0 ? 'right' : 'left';
+            container.classList.add(`swipe-${direction}`);
+        }
+    }
+    
+    hideSwipeFeedback() {
+        const container = document.querySelector('.container');
+        container.classList.remove('swipe-left', 'swipe-right');
+    }
+    
+    showTransitionOverlay() {
+        const overlay = document.createElement('div');
+        overlay.className = 'page-transition-overlay';
+        document.body.appendChild(overlay);
+        
+        setTimeout(() => overlay.classList.add('active'), 10);
+    }
+}
+
 // Load saved theme on page load
 document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme');
@@ -274,5 +448,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Retry failed:', retryError);
             }
         }, 500);
+    }
+    
+    // Initialize swipe navigation
+    try {
+        new SwipeNavigation();
+    } catch (error) {
+        console.error('Error initializing swipe navigation:', error);
     }
 });

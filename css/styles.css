@@ -698,6 +698,129 @@ h1 {
     color: var(--text-color);
 }
 
+/* Swipe Navigation Styles */
+.swipe-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    background: rgba(102, 126, 234, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: swipeIndicatorPulse 2s ease-in-out infinite;
+    transition: opacity 0.5s ease;
+}
+
+.swipe-indicator.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.swipe-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.swipe-arrow {
+    font-size: 1.2rem;
+    font-weight: bold;
+    animation: swipeArrowBounce 1s ease-in-out infinite alternate;
+}
+
+.swipe-arrow.left {
+    animation-delay: 0s;
+}
+
+.swipe-arrow.right {
+    animation-delay: 0.5s;
+}
+
+@keyframes swipeIndicatorPulse {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateX(-50%) scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes swipeArrowBounce {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(2px);
+    }
+}
+
+/* Swipe Feedback Styles */
+.container {
+    transition: transform 0.2s ease;
+}
+
+.container.swipe-left {
+    transform: translateX(-10px);
+}
+
+.container.swipe-right {
+    transform: translateX(10px);
+}
+
+/* Page Transition Styles */
+.page-transitioning {
+    overflow: hidden;
+}
+
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.page-transition-overlay.active {
+    opacity: 1;
+}
+
+.page-transition-overlay::before {
+    content: 'Navigating...';
+    animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+    0%, 20% {
+        content: 'Navigating';
+    }
+    40% {
+        content: 'Navigating.';
+    }
+    60% {
+        content: 'Navigating..';
+    }
+    80%, 100% {
+        content: 'Navigating...';
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-links {
@@ -1011,6 +1134,21 @@ h1 {
     .contact a {
         margin: 0 10px;
         font-size: 0.85rem;
+    }
+    
+    /* Mobile Swipe Indicator Adjustments */
+    .swipe-indicator {
+        bottom: 15px;
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+    
+    .swipe-arrow {
+        font-size: 1rem;
+    }
+    
+    .swipe-hint {
+        gap: 6px;
     }
 }
 
