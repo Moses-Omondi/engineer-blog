@@ -227,7 +227,7 @@ function addStaticTerminalContent() {
         const commandLine2 = document.createElement('div');
         commandLine2.className = 'terminal-line';
         commandLine2.style.marginTop = '20px';
-        commandLine2.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span><span>cat about.txt</span>';
+        commandLine2.innerHTML = '<span class="terminal-prompt">mosesomondi@Desktop ~ % </span><span class="terminal-command">cat about.txt</span>';
         terminalBody.appendChild(commandLine2);
         
         // Add about content
