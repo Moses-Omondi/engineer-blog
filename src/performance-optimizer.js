@@ -22,7 +22,7 @@ class PerformanceOptimizer {
   async extractCriticalCSS() {
     const cssPath = path.join(this.rootDir, 'css', 'styles.css');
     const cssContent = await fs.readFile(cssPath, 'utf8');
-    
+
     // Critical CSS rules for above-the-fold content
     const criticalSelectors = [
       ':root',
@@ -48,36 +48,41 @@ class PerformanceOptimizer {
       '.cursor',
       'h1',
       'h2',
-      'p'
+      'p',
     ];
-    
+
     // Parse CSS and extract critical rules
     const criticalRules = [];
     const root = postcss.parse(cssContent);
-    
+
     root.walkRules(rule => {
       // Check if this rule matches any critical selector
       const isMatch = criticalSelectors.some(selector => {
         if (selector.startsWith(':') || selector.startsWith('[')) {
           return rule.selector.includes(selector);
         }
-        return rule.selector === selector || 
-               rule.selector.startsWith(selector + ' ') ||
-               rule.selector.startsWith(selector + ',') ||
-               rule.selector.includes(', ' + selector) ||
-               rule.selector.includes(',' + selector);
+        return (
+          rule.selector === selector ||
+          rule.selector.startsWith(selector + ' ') ||
+          rule.selector.startsWith(selector + ',') ||
+          rule.selector.includes(', ' + selector) ||
+          rule.selector.includes(',' + selector)
+        );
       });
-      
+
       if (isMatch) {
         criticalRules.push(rule.toString());
       }
     });
-    
+
     // Minify critical CSS
-    const minified = await postcss([cssnano()]).process(criticalRules.join('\n'), {
-      from: undefined
-    });
-    
+    const minified = await postcss([cssnano()]).process(
+      criticalRules.join('\n'),
+      {
+        from: undefined,
+      }
+    );
+
     this.criticalCSS = minified.css;
     return this.criticalCSS;
   }
@@ -87,15 +92,15 @@ class PerformanceOptimizer {
    */
   async optimizeHTML(htmlPath) {
     let content = await fs.readFile(htmlPath, 'utf8');
-    
+
     // Extract critical CSS if not done yet
     if (!this.criticalCSS) {
       await this.extractCriticalCSS();
     }
-    
+
     // Add critical CSS inline in head
     const criticalCSSTag = `<style>${this.criticalCSS}</style>`;
-    
+
     // Add resource hints for performance
     const resourceHints = `
     <!-- DNS Prefetch and Preconnect for external resources -->
@@ -116,24 +121,21 @@ class PerformanceOptimizer {
     <!-- Load main CSS asynchronously -->
     <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/styles.css"></noscript>`;
-    
+
     // Replace existing stylesheet link with optimized version
     content = content.replace(
       /<link rel="stylesheet" href="css\/styles\.css">/,
       resourceHints
     );
-    
+
     // Add loading="lazy" to images
-    content = content.replace(
-      /<img([^>]*?)>/g,
-      (match, attrs) => {
-        if (!attrs.includes('loading=')) {
-          return `<img${attrs} loading="lazy">`;
-        }
-        return match;
+    content = content.replace(/<img([^>]*?)>/g, (match, attrs) => {
+      if (!attrs.includes('loading=')) {
+        return `<img${attrs} loading="lazy">`;
       }
-    );
-    
+      return match;
+    });
+
     // Add Web Vitals monitoring script
     const webVitalsScript = `
     <script>
@@ -171,10 +173,10 @@ class PerformanceOptimizer {
         }
       }
     </script>`;
-    
+
     // Add Web Vitals script before closing body tag
     content = content.replace('</body>', `${webVitalsScript}</body>`);
-    
+
     return content;
   }
 
@@ -308,8 +310,9 @@ self.addEventListener('push', (event) => {
 
     const swPath = path.join(this.rootDir, 'sw.js');
     await fs.writeFile(swPath, swContent.trim(), 'utf8');
+    // eslint-disable-next-line no-console
     console.log('✅ Created service worker');
-    
+
     return swPath;
   }
 
@@ -364,8 +367,9 @@ self.addEventListener('push', (event) => {
 
     const offlinePath = path.join(this.rootDir, 'offline.html');
     await fs.writeFile(offlinePath, offlineHTML, 'utf8');
+    // eslint-disable-next-line no-console
     console.log('✅ Created offline page');
-    
+
     return offlinePath;
   }
 
@@ -374,7 +378,7 @@ self.addEventListener('push', (event) => {
    */
   async registerServiceWorker(htmlPath) {
     let content = await fs.readFile(htmlPath, 'utf8');
-    
+
     const swRegistration = `
     <script>
       // Register Service Worker
@@ -386,10 +390,10 @@ self.addEventListener('push', (event) => {
         });
       }
     </script>`;
-    
+
     // Add before closing body tag
     content = content.replace('</body>', `${swRegistration}</body>`);
-    
+
     return content;
   }
 }
@@ -401,6 +405,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     await optimizer.extractCriticalCSS();
     await optimizer.createServiceWorker();
     await optimizer.createOfflinePage();
+    // eslint-disable-next-line no-console
     console.log('✅ Performance optimizations completed');
   })();
 }

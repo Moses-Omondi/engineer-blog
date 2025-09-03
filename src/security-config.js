@@ -14,7 +14,7 @@ class SecurityConfig {
     this.rootDir = path.join(__dirname, '..');
     this.cspHashes = {
       scripts: [],
-      styles: []
+      styles: [],
     };
   }
 
@@ -22,10 +22,7 @@ class SecurityConfig {
    * Generate SHA256 hash for inline scripts/styles
    */
   generateHash(content) {
-    return crypto
-      .createHash('sha256')
-      .update(content)
-      .digest('base64');
+    return crypto.createHash('sha256').update(content).digest('base64');
   }
 
   /**
@@ -80,22 +77,20 @@ class SecurityConfig {
    * Process all HTML files and generate CSP hashes
    */
   async generateCSPHashes() {
-    const htmlFiles = [
-      'index.html',
-      'blog.html'
-    ];
+    const htmlFiles = ['index.html', 'blog.html'];
 
     for (const file of htmlFiles) {
       const filePath = path.join(this.rootDir, file);
       try {
         const content = await fs.readFile(filePath, 'utf8');
-        
+
         const scriptHashes = await this.extractInlineScripts(content);
         const styleHashes = await this.extractInlineStyles(content);
-        
+
         this.cspHashes.scripts.push(...scriptHashes);
         this.cspHashes.styles.push(...styleHashes);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(`Error processing ${file}:`, error.message);
       }
     }
@@ -111,9 +106,18 @@ class SecurityConfig {
    * Generate CSP header string
    */
   generateCSPHeader() {
-    const scriptSrc = ['\'self\'', ...this.cspHashes.scripts, 'cdnjs.cloudflare.com'].join(' ');
-    const styleSrc = ['\'self\'', ...this.cspHashes.styles, 'cdnjs.cloudflare.com', 'fonts.googleapis.com'].join(' ');
-    
+    const scriptSrc = [
+      "'self'",
+      ...this.cspHashes.scripts,
+      'cdnjs.cloudflare.com',
+    ].join(' ');
+    const styleSrc = [
+      "'self'",
+      ...this.cspHashes.styles,
+      'cdnjs.cloudflare.com',
+      'fonts.googleapis.com',
+    ].join(' ');
+
     return `default-src 'self'; script-src ${scriptSrc}; style-src ${styleSrc}; img-src 'self' data: https:; font-src 'self' fonts.gstatic.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;`;
   }
 
@@ -122,31 +126,37 @@ class SecurityConfig {
    */
   async updateNginxConfig() {
     const nginxPath = path.join(this.rootDir, 'nginx.conf');
-    
+
     try {
       await this.generateCSPHashes();
       const cspHeader = this.generateCSPHeader();
-      
+
       let nginxContent = await fs.readFile(nginxPath, 'utf8');
-      
+
       // Replace placeholder CSP with actual one
       nginxContent = nginxContent.replace(
         /add_header Content-Security-Policy.*?;/s,
         `add_header Content-Security-Policy "${cspHeader}" always;`
       );
-      
+
       await fs.writeFile(nginxPath, nginxContent, 'utf8');
+      // eslint-disable-next-line no-console
       console.log('✅ Updated nginx.conf with CSP hashes');
-      
+
       // Also create a development version with relaxed CSP
-      const devCspHeader = cspHeader.replace('upgrade-insecure-requests;', 'upgrade-insecure-requests; script-src-elem \'self\' \'unsafe-inline\'; style-src-elem \'self\' \'unsafe-inline\';');
-      
+      const devCspHeader = cspHeader.replace(
+        'upgrade-insecure-requests;',
+        "upgrade-insecure-requests; script-src-elem 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline';"
+      );
+
+      /* eslint-disable no-console */
       console.log('\n📋 CSP Header for production:');
       console.log(cspHeader);
       console.log('\n📋 CSP Header for development (relaxed):');
       console.log(devCspHeader);
-      
+      /* eslint-enable no-console */
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error updating nginx config:', error.message);
     }
   }
@@ -156,20 +166,21 @@ class SecurityConfig {
    */
   async addSRIToResources() {
     const htmlFiles = ['index.html', 'blog.html'];
-    
+
     for (const file of htmlFiles) {
       const filePath = path.join(this.rootDir, file);
       try {
         let content = await fs.readFile(filePath, 'utf8');
-        
+
         // Add SRI to highlight.js CSS
         content = content.replace(
           /<link rel="stylesheet" href="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/highlight\.js\/([^"]+)\.min\.css">/g,
           '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/$1.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKzF/1OxqktCkvJZ4n5Vk1SddqZBPnq5pSh7H6MAQE" crossorigin="anonymous">'
         );
-        
+
         await fs.writeFile(filePath, content, 'utf8');
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(`Error adding SRI to ${file}:`, error.message);
       }
     }
