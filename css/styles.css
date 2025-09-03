@@ -3,6 +3,7 @@
 /* CSS Custom Properties (Variables) */
 :root {
     --bg-color: #fff;
+    --bg-color-rgb: 255, 255, 255;
     --text-color: #333;
     --text-secondary: #666;
     --text-tertiary: #555;
@@ -17,6 +18,7 @@
 /* Dark Theme Variables */
 [data-theme="dark"] {
     --bg-color: #1a1a1a;
+    --bg-color-rgb: 26, 26, 26;
     --text-color: #e0e0e0;
     --text-secondary: #b0b0b0;
     --text-tertiary: #999;
@@ -774,7 +776,7 @@ h1 {
     transform: translateX(10px);
 }
 
-/* Page Transition Styles */
+/* Page Transition Styles - macOS Style */
 .page-transitioning {
     overflow: hidden;
 }
@@ -785,40 +787,71 @@ h1 {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    background: var(--bg-color);
     z-index: 9999;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 500;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .page-transition-overlay.active {
-    opacity: 1;
+    opacity: 0.98;
+    animation: macosTransition 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .page-transition-overlay::before {
-    content: 'Navigating...';
-    animation: loadingDots 1.5s infinite;
+    content: '';
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--text-color);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: macosSpinner 0.8s linear infinite;
+    opacity: 0.6;
 }
 
-@keyframes loadingDots {
-    0%, 20% {
-        content: 'Navigating';
+/* macOS-style animations */
+@keyframes macosTransition {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
     }
-    40% {
-        content: 'Navigating.';
+    50% {
+        opacity: 0.98;
+        transform: scale(1.01);
     }
-    60% {
-        content: 'Navigating..';
+    100% {
+        opacity: 0.98;
+        transform: scale(1);
     }
-    80%, 100% {
-        content: 'Navigating...';
+}
+
+@keyframes macosSpinner {
+    0% {
+        transform: rotate(0deg);
     }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Additional macOS-style fade effect */
+.page-transition-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, 
+        transparent 0%, 
+        rgba(var(--bg-color-rgb), 0.1) 70%, 
+        rgba(var(--bg-color-rgb), 0.3) 100%);
+    pointer-events: none;
 }
 
 /* Responsive Design */
