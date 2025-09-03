@@ -20,23 +20,27 @@ class Logger {
 
   static info(message, ...args) {
     if (!Logger.isProduction) {
+      // eslint-disable-next-line no-console
       console.log(`[INFO] ${message}`, ...args);
     }
   }
 
   static error(message, ...args) {
     // Always log errors, even in production
+    // eslint-disable-next-line no-console
     console.error(`[ERROR] ${message}`, ...args);
   }
 
   static warn(message, ...args) {
     if (!Logger.isProduction) {
+      // eslint-disable-next-line no-console
       console.warn(`[WARN] ${message}`, ...args);
     }
   }
 
   static success(message, ...args) {
     if (!Logger.isProduction) {
+      // eslint-disable-next-line no-console
       console.log(`[SUCCESS] ${message}`, ...args);
     }
   }
