@@ -24,6 +24,8 @@
 .blog-posts {
     display: grid;
     gap: 30px;
+    grid-template-columns: 1fr;
+    margin-bottom: 40px;
 }
 
 .blog-post {

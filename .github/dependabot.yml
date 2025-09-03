@@ -1,0 +1,38 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "Moses-Omondi"
+    assignees:
+      - "Moses-Omondi"
+    commit-message:
+      prefix: "chore(deps):"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "auto-update"
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    allow:
+      # Allow all dependency types
+      - dependency-type: "all"
+
+  # Enable security updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(ci):"
+    labels:
+      - "github-actions"
+      - "auto-update"
