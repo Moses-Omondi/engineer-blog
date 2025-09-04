@@ -376,8 +376,59 @@ function handlePageTransitionOnLoad() {
   }
 }
 
+// Countdown Timer for AfroTech
+function initCountdown() {
+  const countdownElement = document.getElementById('countdownText');
+  if (!countdownElement) return;
+
+  // AfroTech 2025 date (typically in November)
+  // Using November 12, 2025 as estimated date
+  const targetDate = new Date('2025-11-12T00:00:00').getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance < 0) {
+      countdownElement.textContent = 'Event Started!';
+      return;
+    }
+
+    // Calculate time units
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Format the countdown display
+    let displayText = '';
+
+    if (days > 0) {
+      displayText = `${days}d ${hours}h ${minutes}m`;
+    } else if (hours > 0) {
+      displayText = `${hours}h ${minutes}m ${seconds}s`;
+    } else if (minutes > 0) {
+      displayText = `${minutes}m ${seconds}s`;
+    } else {
+      displayText = `${seconds}s`;
+    }
+
+    countdownElement.textContent = displayText;
+  }
+
+  // Update immediately
+  updateCountdown();
+
+  // Update every second
+  setInterval(updateCountdown, 1000);
+}
+
 // Load saved theme on page load
 document.addEventListener('DOMContentLoaded', function () {
+  // Initialize countdown
+  initCountdown();
   // Handle page transitions first
   handlePageTransitionOnLoad();
 
