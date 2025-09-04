@@ -376,15 +376,15 @@ class SwipeNavigation {
       Math.abs(deltaX) > this.minSwipeDistance &&
       deltaY < this.maxVerticalDistance
     ) {
-      if (deltaX > 0) {
-        // Swipe RIGHT - go forward/next
+      if (deltaX < 0) {
+        // Swipe LEFT - push forward (like pushing a card away)
         if (this.currentPage === 'home') {
-          this.navigateToPage('blog'); // Home → Blog (forward)
+          this.navigateToPage('blog'); // Home → Blog (push home left, reveal blog)
         }
-      } else {
-        // Swipe LEFT - go back/previous
+      } else if (deltaX > 0) {
+        // Swipe RIGHT - pull back (like pulling a card back)
         if (this.currentPage === 'blog') {
-          this.navigateToPage('home'); // Blog → Home (back)
+          this.navigateToPage('home'); // Blog → Home (pull home back from left)
         }
       }
     }
