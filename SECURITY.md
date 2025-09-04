@@ -6,7 +6,7 @@ We release patches for security vulnerabilities on the latest stable version.
 
 ## Reporting a Vulnerability
 
-If you believe you have found a security vulnerability, please report it to us by sending an email to security@mosesomondi.dev. Please include:
+If you believe you have found a security vulnerability, please report it to us by sending an email to **mosesomondi.dev@gmail.com**. Please include:
 - A detailed description of the vulnerability
 - Steps to reproduce
 - Potential impact

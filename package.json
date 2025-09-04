@@ -41,7 +41,7 @@
   ],
   "author": {
     "name": "Moses Omondi",
-    "email": "moses@mosesomondi.dev",
+    "email": "mosesomondi.dev@gmail.com",
     "url": "https://mosesomondi.dev"
   },
   "license": "MIT",
@@ -59,6 +59,14 @@
     "gray-matter": "^4.0.3",
     "date-fns": "^3.6.0",
     "sanitize-html": "^2.12.1"
+  },
+  "overrides": {
+    "braces": ">=3.0.3",
+    "cookie": ">=0.7.0",
+    "ws": ">=8.17.1",
+    "tar-fs": ">=3.0.0",
+    "tmp": ">=0.2.4",
+    "esbuild": ">=0.25.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
