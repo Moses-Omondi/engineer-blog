@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +23,6 @@
             margin: 0 auto;
             padding: 120px 20px 60px;
             line-height: 1.8;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .blog-header {
@@ -39,7 +37,7 @@
             font-weight: 600;
             margin-bottom: 20px;
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            word-wrap: break-word;
         }
         
         .blog-meta {
@@ -51,23 +49,33 @@
             font-size: 0.9rem;
         }
         
+        .blog-article {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
         .blog-article h1,
         .blog-article h2,
         .blog-article h3 {
             margin-top: 2em;
             margin-bottom: 1em;
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            word-wrap: break-word;
         }
         
         .blog-article p {
             margin-bottom: 1.5em;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            word-wrap: break-word;
         }
         
         .blog-article ul,
         .blog-article ol {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding-left: 1.5em;
+            margin-bottom: 1.5em;
+        }
+        
+        .blog-article li {
+            margin-bottom: 0.5em;
         }
         
         .blog-article pre {
@@ -77,7 +85,17 @@
             padding: 20px;
             overflow-x: auto;
             margin: 2em 0;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            max-width: 100%;
+            font-size: 14px;
+        }
+        
+        .blog-article pre code {
+            display: block;
+            overflow-x: auto;
+            white-space: pre;
+            word-wrap: normal;
+            background: transparent;
+            padding: 0;
         }
         
         .blog-article code {
@@ -85,7 +103,7 @@
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.9em;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            word-break: break-word;
         }
         
         .blog-article blockquote {
@@ -94,7 +112,6 @@
             margin: 2em 0;
             font-style: italic;
             color: var(--text-secondary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .back-link {
@@ -103,25 +120,88 @@
             color: var(--gradient-start);
             text-decoration: none;
             font-weight: 500;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .back-link:hover {
             text-decoration: underline;
         }
         
+        /* Enhanced Mobile Responsiveness */
         @media (max-width: 768px) {
             .blog-title {
-                font-size: 2rem;
+                font-size: 1.75rem;
+                line-height: 1.3;
             }
             
             .blog-content {
                 padding: 100px 15px 40px;
             }
+            
+            .blog-header {
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+            }
+            
+            .blog-meta {
+                gap: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .blog-article h1 {
+                font-size: 1.5rem;
+            }
+            
+            .blog-article h2 {
+                font-size: 1.3rem;
+            }
+            
+            .blog-article h3 {
+                font-size: 1.15rem;
+            }
+            
+            .blog-article pre {
+                padding: 15px;
+                margin: 1.5em -15px;
+                border-radius: 0;
+                font-size: 12px;
+            }
+            
+            .blog-article blockquote {
+                padding-left: 15px;
+                margin: 1.5em 0;
+            }
+            
+            .back-link {
+                margin-bottom: 20px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .blog-title {
+                font-size: 1.5rem;
+            }
+            
+            .blog-content {
+                padding: 90px 12px 30px;
+            }
+            
+            .blog-article {
+                font-size: 0.95rem;
+            }
+            
+            .blog-article pre {
+                font-size: 11px;
+                padding: 12px;
+            }
+            
+            .blog-article ul,
+            .blog-article ol {
+                padding-left: 1.2em;
+            }
         }
     </style>
 </head>
-
 <body>
     <nav class="nav">
         <div class="nav-container">
@@ -129,12 +209,12 @@
                 <a href="../index.html" class="nav-link">Home</a>
                 <a href="../blog.html" class="nav-link active">Blog</a>
             </div>
-            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+            <button class="theme-toggle" onclick="toggleTheme()">
                 <span id="theme-icon">🌙</span>
             </button>
         </div>
     </nav>
-    
+
     <main class="blog-content">
         <a href="../blog.html" class="back-link">← Back to Blog</a>
         
@@ -145,165 +225,200 @@
                 <span>•</span>
                 <span>DevSecOps</span>
                 <span>•</span>
-                <span>6 min read</span>
+                <span>4 min read</span>
             </div>
         </header>
         
         <article class="blog-article">
-            
-            <div class="article-content">
-                <p>DevSecOps represents a fundamental shift in how we approach software development, operations, and security. By integrating security practices throughout the entire development lifecycle, we can build more secure, reliable, and maintainable systems from the ground up.</p>
+            <h1>Getting Started with DevSecOps: A Practical Guide</h1>
+<p>DevSecOps represents a fundamental shift in how we approach software security. Rather than treating security as a gate at the end of the development process, DevSecOps integrates security practices throughout the entire software development lifecycle.</p>
+<h2>Understanding DevSecOps</h2>
+<p>DevSecOps extends the DevOps philosophy by embedding security as a shared responsibility throughout the continuous integration and continuous delivery (CI/CD) pipeline. The goal is to bridge traditional gaps between development, security, and operations teams.</p>
+<h3>Core Principles</h3>
+<ol>
+<li><strong>Shift-Left Security</strong>: Move security testing earlier in the development process</li>
+<li><strong>Automation First</strong>: Automate security testing and compliance checks</li>
+<li><strong>Continuous Monitoring</strong>: Real-time security monitoring and response</li>
+<li><strong>Shared Responsibility</strong>: Everyone is responsible for security</li>
+</ol>
+<h2>Building Your DevSecOps Pipeline</h2>
+<h3>1. Static Application Security Testing (SAST)</h3>
+<p>SAST tools analyze source code for security vulnerabilities without executing the program.</p>
+<pre><code class="language-yaml"># Example GitHub Actions SAST workflow
+name: Security Scan
+on: [push, pull_request]
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run SAST scan
+        uses: github/super-linter@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+</code></pre>
+<h3>2. Dynamic Application Security Testing (DAST)</h3>
+<p>DAST tools test running applications for vulnerabilities by simulating attacks.</p>
+<pre><code class="language-bash"># Example OWASP ZAP scan
+docker run -t owasp/zap2docker-stable zap-baseline.py \
+  -t https://your-app.com \
+  -r scan-report.html
+</code></pre>
+<h3>3. Software Composition Analysis (SCA)</h3>
+<p>SCA tools identify vulnerabilities in third-party dependencies and open-source components.</p>
+<pre><code class="language-json">{
+  "scripts": {
+    "security-check": "npm audit --audit-level=moderate",
+    "dependency-check": "snyk test"
+  }
+}
+</code></pre>
+<h2>Essential DevSecOps Tools</h2>
+<h3>Container Security</h3>
+<ul>
+<li><strong>Docker Bench</strong>: Security auditing for Docker containers</li>
+<li><strong>Trivy</strong>: Vulnerability scanner for containers and artifacts</li>
+<li><strong>Falco</strong>: Runtime security monitoring</li>
+</ul>
+<h3>Infrastructure as Code Security</h3>
+<pre><code class="language-hcl"># Example Terraform security scanning
+resource "aws_s3_bucket" "secure_bucket" {
+  bucket = "my-secure-bucket"
+  
+  # Enable versioning for data protection
+  versioning {
+    enabled = true
+  }
+  
+  # Enable encryption at rest
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+}
+</code></pre>
+<h2>Implementing Security Gates</h2>
+<h3>Pre-Commit Hooks</h3>
+<pre><code class="language-bash">#!/bin/bash
+# .git/hooks/pre-commit
+# Scan for secrets before commit
+git diff --staged --name-only | xargs -0 trufflehog --regex --entropy=False
+</code></pre>
+<h3>CI/CD Security Checks</h3>
+<pre><code class="language-yaml">stages:
+  - build
+  - test
+  - security
+  - deploy
 
-                <h2>What is DevSecOps?</h2>
-                <p>DevSecOps extends the DevOps methodology by incorporating security as a shared responsibility throughout the IT lifecycle. Instead of treating security as a final gate before production, DevSecOps embeds security considerations into every phase of development and deployment.</p>
+security_scan:
+  stage: security
+  script:
+    - docker build -t $IMAGE_NAME .
+    - trivy image --severity HIGH,CRITICAL $IMAGE_NAME
+  only:
+    - main
+    - develop
+</code></pre>
+<h2>Security Monitoring and Response</h2>
+<h3>Logging and Monitoring</h3>
+<p>Implement comprehensive logging to detect and respond to security incidents:</p>
+<pre><code class="language-javascript">// Example security logging
+const winston = require('winston');
 
-                <blockquote>
-                    "Security is not a product, but a process." - Bruce Schneier
-                </blockquote>
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ 
+      filename: 'security.log',
+      level: 'warn'
+    })
+  ]
+});
 
-                <h2>Core Principles</h2>
-                <p>Successful DevSecOps implementation is built on several key principles:</p>
+// Log security events
+function logSecurityEvent(event, severity, details) {
+  logger.log({
+    level: severity,
+    message: event,
+    timestamp: new Date().toISOString(),
+    details: details
+  });
+}
+</code></pre>
+<h2>Best Practices</h2>
+<h3>1. Security as Code</h3>
+<p>Treat security policies and configurations as code:</p>
+<pre><code class="language-yaml"># security-policy.yaml
+policies:
+  - name: "No hardcoded secrets"
+    rule: "BLOCK"
+    patterns:
+      - "api_key=.*"
+      - "password=.*"
+      - "token=.*"
+</code></pre>
+<h3>2. Continuous Compliance</h3>
+<p>Automate compliance checks and reporting:</p>
+<ul>
+<li><strong>PCI DSS</strong> for payment card data</li>
+<li><strong>HIPAA</strong> for healthcare information</li>
+<li><strong>GDPR</strong> for data privacy</li>
+</ul>
+<h3>3. Security Training</h3>
+<p>Invest in security training for your development team:</p>
+<ul>
+<li>OWASP Top 10 awareness</li>
+<li>Secure coding practices</li>
+<li>Security champion programs</li>
+</ul>
+<h2>Common Challenges and Solutions</h2>
+<h3>Challenge: Alert Fatigue</h3>
+<p><strong>Solution</strong>: Implement intelligent filtering and prioritization:</p>
+<pre><code class="language-python">def prioritize_vulnerabilities(vulnerabilities):
+    """Prioritize based on severity and exploitability"""
+    return sorted(vulnerabilities, 
+                 key=lambda v: (v.severity, v.cvss_score),
+                 reverse=True)[:10]  # Focus on top 10
+</code></pre>
+<h3>Challenge: Slowing Down Development</h3>
+<p><strong>Solution</strong>: Automate security tests and run them in parallel:</p>
+<pre><code class="language-bash"># Run security tests in parallel
+parallel ::: \
+  'npm audit' \
+  'docker scan myimage:latest' \
+  'trivy fs .' \
+  'semgrep --config=auto .'
+</code></pre>
+<h2>Measuring Success</h2>
+<p>Key metrics to track your DevSecOps maturity:</p>
+<ol>
+<li><strong>Mean Time to Detect (MTTD)</strong> security issues</li>
+<li><strong>Mean Time to Resolve (MTTR)</strong> vulnerabilities</li>
+<li><strong>Security debt</strong> over time</li>
+<li><strong>Deployment frequency</strong> with security checks</li>
+<li><strong>False positive rate</strong> in security scans</li>
+</ol>
+<h2>Getting Started Today</h2>
+<p>Begin your DevSecOps journey with these steps:</p>
+<ol>
+<li><strong>Assess Current State</strong>: Evaluate your existing security practices</li>
+<li><strong>Start Small</strong>: Implement one security tool in your pipeline</li>
+<li><strong>Automate Gradually</strong>: Add automation incrementally</li>
+<li><strong>Measure and Iterate</strong>: Track metrics and improve continuously</li>
+<li><strong>Foster Culture</strong>: Build a security-minded culture</li>
+</ol>
+<h2>Conclusion</h2>
+<p>DevSecOps is not just about tools and processes—it's about creating a culture where security is everyone's responsibility. By integrating security throughout your development lifecycle, you can deliver secure software faster and more efficiently.</p>
+<p>Remember: Security is a journey, not a destination. Start where you are, use what you have, and continuously improve your security posture.</p>
 
-                <h3>1. Shift Left</h3>
-                <p>Move security testing and validation as early as possible in the development process. This includes:</p>
-                <ul>
-                    <li>Static Application Security Testing (SAST) during code development</li>
-                    <li>Dependency scanning for known vulnerabilities</li>
-                    <li>Infrastructure as Code security scanning</li>
-                    <li>Security-focused code reviews</li>
-                </ul>
-
-                <h3>2. Automation First</h3>
-                <p>Automate security checks to ensure consistency and reduce human error:</p>
-                <ul>
-                    <li>Automated vulnerability scanning in CI/CD pipelines</li>
-                    <li>Dynamic Application Security Testing (DAST) in staging environments</li>
-                    <li>Automated compliance checks</li>
-                    <li>Container image security scanning</li>
-                </ul>
-
-                <h3>3. Continuous Monitoring</h3>
-                <p>Implement comprehensive monitoring and alerting across your entire infrastructure:</p>
-                <ul>
-                    <li>Runtime application protection</li>
-                    <li>Infrastructure monitoring and anomaly detection</li>
-                    <li>Security information and event management (SIEM)</li>
-                    <li>Regular penetration testing</li>
-                </ul>
-
-                <h2>Essential Tools and Technologies</h2>
-                <p>Building a solid DevSecOps toolchain requires careful selection of tools that integrate well with your existing development workflow:</p>
-
-                <h3>SAST Tools</h3>
-                <ul>
-                    <li><strong>SonarQube:</strong> Comprehensive code quality and security analysis</li>
-                    <li><strong>Checkmarx:</strong> Enterprise-grade static analysis</li>
-                    <li><strong>Semgrep:</strong> Fast, lightweight static analysis</li>
-                </ul>
-
-                <h3>Dependency Scanning</h3>
-                <ul>
-                    <li><strong>Snyk:</strong> Vulnerability scanning for dependencies and containers</li>
-                    <li><strong>OWASP Dependency-Check:</strong> Open-source dependency vulnerability scanner</li>
-                    <li><strong>GitHub Security Advisories:</strong> Built-in GitHub dependency scanning</li>
-                </ul>
-
-                <h3>Container Security</h3>
-                <ul>
-                    <li><strong>Twistlock (Prisma Cloud):</strong> Comprehensive container security platform</li>
-                    <li><strong>Aqua Security:</strong> Full-stack container security</li>
-                    <li><strong>Docker Bench:</strong> Security configuration checks for Docker</li>
-                </ul>
-
-                <h2>Implementation Strategy</h2>
-                <p>Rolling out DevSecOps across your organization requires a thoughtful, phased approach:</p>
-
-                <h3>Phase 1: Foundation</h3>
-                <ol>
-                    <li>Establish security requirements and standards</li>
-                    <li>Implement basic SAST and dependency scanning</li>
-                    <li>Create security-focused coding guidelines</li>
-                    <li>Set up basic monitoring and logging</li>
-                </ol>
-
-                <h3>Phase 2: Integration</h3>
-                <ol>
-                    <li>Integrate security tools into CI/CD pipelines</li>
-                    <li>Implement infrastructure as code security scanning</li>
-                    <li>Add DAST to staging environments</li>
-                    <li>Establish incident response procedures</li>
-                </ol>
-
-                <h3>Phase 3: Optimization</h3>
-                <ol>
-                    <li>Fine-tune security tools to reduce false positives</li>
-                    <li>Implement advanced monitoring and threat detection</li>
-                    <li>Add security metrics to dashboards</li>
-                    <li>Conduct regular security training and awareness programs</li>
-                </ol>
-
-                <h2>Common Challenges and Solutions</h2>
-                <p>Every organization faces obstacles when implementing DevSecOps. Here are some common challenges and practical solutions:</p>
-
-                <h3>Challenge: Tool Proliferation</h3>
-                <p><strong>Solution:</strong> Start with a few well-integrated tools rather than trying to implement everything at once. Focus on tools that provide APIs and integrate well with your existing toolchain.</p>
-
-                <h3>Challenge: False Positive Fatigue</h3>
-                <p><strong>Solution:</strong> Invest time in tuning your security tools. Create custom rules and suppression lists for your specific environment. Regularly review and update these configurations.</p>
-
-                <h3>Challenge: Cultural Resistance</h3>
-                <p><strong>Solution:</strong> Start small with willing teams. Show quick wins and gradually expand. Provide training and make security tools as frictionless as possible for developers.</p>
-
-                <h2>Measuring Success</h2>
-                <p>To ensure your DevSecOps implementation is effective, track these key metrics:</p>
-
-                <ul>
-                    <li><strong>Mean Time to Detection (MTTD):</strong> How quickly you identify security issues</li>
-                    <li><strong>Mean Time to Resolution (MTTR):</strong> How quickly you fix security vulnerabilities</li>
-                    <li><strong>Security Debt:</strong> Number of known vulnerabilities in your systems</li>
-                    <li><strong>Security Test Coverage:</strong> Percentage of code covered by security testing</li>
-                    <li><strong>Compliance Score:</strong> Adherence to security standards and regulations</li>
-                </ul>
-
-                <h2>Conclusion</h2>
-                <p>DevSecOps is not just about tools—it's about creating a culture where security is everyone's responsibility. By starting small, focusing on automation, and gradually expanding your capabilities, you can build a robust security posture that scales with your organization.</p>
-
-                <p>Remember that DevSecOps is a journey, not a destination. Continuously evaluate your processes, update your tools, and adapt to new threats and technologies. The investment in time and resources will pay dividends in reduced security incidents, faster delivery, and greater confidence in your software systems.</p>
-            </div>
         </article>
     </main>
 
-    <script>
-        // Theme toggle functionality
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
-            const currentTheme = body.getAttribute('data-theme');
-            
-            if (currentTheme === 'dark') {
-                body.removeAttribute('data-theme');
-                themeIcon.textContent = '🌙';
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-        
-        // Load saved theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeIcon = document.getElementById('theme-icon');
-            
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-            } else {
-                themeIcon.textContent = '🌙';
-            }
-        });
-    </script>
+    <script src="../js/main.js"></script>
 </body>
-
 </html>
