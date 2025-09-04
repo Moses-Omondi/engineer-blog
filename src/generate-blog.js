@@ -105,10 +105,17 @@ class BlogGenerator {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     
     <style>
+        /* Mac system fonts throughout */
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
         .blog-content {
             max-width: 800px;
             margin: 0 auto;
-            padding: 120px 20px 60px;
+            padding: 120px 24px 60px;
             line-height: 1.8;
         }
         
@@ -125,6 +132,9 @@ class BlogGenerator {
             margin-bottom: 20px;
             color: var(--text-color);
             word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
         }
         
         .blog-meta {
@@ -139,6 +149,8 @@ class BlogGenerator {
         .blog-article {
             word-wrap: break-word;
             overflow-wrap: break-word;
+            hyphens: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
         }
         
         .blog-article h1,
@@ -148,23 +160,35 @@ class BlogGenerator {
             margin-bottom: 1em;
             color: var(--text-color);
             word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            font-weight: 600;
         }
         
         .blog-article p {
             margin-bottom: 1.5em;
             word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            text-align: justify;
+            text-justify: inter-word;
         }
         
         .blog-article ul,
         .blog-article ol {
             padding-left: 1.5em;
             margin-bottom: 1.5em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .blog-article li {
             margin-bottom: 0.5em;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
+        /* Prevent code snippets from being clickable */
         .blog-article pre {
             background: var(--code-bg);
             border: 1px solid var(--code-border);
@@ -174,6 +198,11 @@ class BlogGenerator {
             margin: 2em 0;
             max-width: 100%;
             font-size: 14px;
+            pointer-events: none;
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
         }
         
         .blog-article pre code {
@@ -183,14 +212,19 @@ class BlogGenerator {
             word-wrap: normal;
             background: transparent;
             padding: 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+            pointer-events: auto;
+            user-select: text;
         }
         
+        /* Inline code styling */
         .blog-article code {
             background: var(--code-bg);
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.9em;
             word-break: break-word;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
         }
         
         .blog-article blockquote {
@@ -199,6 +233,8 @@ class BlogGenerator {
             margin: 2em 0;
             font-style: italic;
             color: var(--text-secondary);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .back-link {
@@ -207,6 +243,7 @@ class BlogGenerator {
             color: var(--gradient-start);
             text-decoration: none;
             font-weight: 500;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
         }
         
         .back-link:hover {
@@ -215,13 +252,13 @@ class BlogGenerator {
         
         /* Enhanced Mobile Responsiveness */
         @media (max-width: 768px) {
+            .blog-content {
+                padding: 100px 20px 40px;
+            }
+            
             .blog-title {
                 font-size: 1.75rem;
                 line-height: 1.3;
-            }
-            
-            .blog-content {
-                padding: 100px 15px 40px;
             }
             
             .blog-header {
@@ -246,10 +283,16 @@ class BlogGenerator {
                 font-size: 1.15rem;
             }
             
+            .blog-article p {
+                text-align: left;
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+            
             .blog-article pre {
                 padding: 15px;
-                margin: 1.5em -15px;
-                border-radius: 0;
+                margin: 1.5em 0;
+                border-radius: 8px;
                 font-size: 12px;
             }
             
@@ -265,27 +308,46 @@ class BlogGenerator {
         }
         
         @media (max-width: 480px) {
-            .blog-title {
-                font-size: 1.5rem;
+            .blog-content {
+                padding: 90px 16px 30px;
             }
             
-            .blog-content {
-                padding: 90px 12px 30px;
+            .blog-title {
+                font-size: 1.5rem;
             }
             
             .blog-article {
                 font-size: 0.95rem;
             }
             
+            .blog-article p {
+                font-size: 0.95rem;
+                line-height: 1.65;
+            }
+            
             .blog-article pre {
                 font-size: 11px;
                 padding: 12px;
+                margin: 1.5em 0;
+                border-radius: 6px;
             }
             
             .blog-article ul,
             .blog-article ol {
                 padding-left: 1.2em;
             }
+            
+            .blog-article li {
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Prevent any links in code blocks */
+        .blog-article pre a,
+        .blog-article code a {
+            pointer-events: none;
+            text-decoration: none;
+            color: inherit;
         }
     </style>
 </head>
