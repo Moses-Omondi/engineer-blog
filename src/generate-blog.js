@@ -366,10 +366,11 @@ class BlogGenerator {
         return;
       }
 
-      // Replace posts section (this is a simple implementation)
+      // Replace posts section - find the blog-posts div and replace its content
+      // More specific regex to match the entire blog-posts container
       const updatedHtml = blogHtml.replace(
-        /<div class="blog-posts">.*?<\/div>/s,
-        `<div class="blog-posts">${postsHtml}</div>`
+        /<div class="blog-posts">[\s\S]*?<\/div>\s*<\/div>/,
+        `<div class="blog-posts">${postsHtml}</div>\n    </div>`
       );
 
       await fs.writeFile(blogIndexPath, updatedHtml, 'utf8');
