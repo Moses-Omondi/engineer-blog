@@ -1290,18 +1290,24 @@ h1 {
   }
 
   /* Countdown badge mobile adjustments */
+  .name-with-badge {
+    display: block;
+    width: 100%;
+    position: relative;
+  }
+
   .countdown-badge {
-    top: -30px;
-    right: -80px;
+    position: relative;
+    top: auto;
+    right: auto;
+    display: inline-block;
+    margin: 10px auto 15px;
     font-size: 0.75rem;
     padding: 6px 10px;
   }
 
   .badge-pointer {
-    left: 15px;
-    border-left-width: 6px;
-    border-right-width: 6px;
-    border-top-width: 6px;
+    display: none; /* Hide pointer on mobile */
   }
 
   /* Mobile Swipe Indicator Adjustments */
@@ -1321,6 +1327,11 @@ h1 {
 }
 
 @media (max-width: 320px) {
+  /* Countdown badge for very small screens */
+  .countdown-badge {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+  }
   .nav-container {
     padding: 10px 12px;
   }
