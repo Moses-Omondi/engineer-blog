@@ -243,30 +243,22 @@ class SwipeNavigation {
     const deltaX = this.endX - this.startX;
     const deltaY = Math.abs(this.endY - this.startY);
 
-    // More strict criteria for what counts as a tap vs swipe
-    const isDefinitelyTap =
-      touchDuration < 500 && Math.abs(deltaX) < 30 && deltaY < 30;
-    const isDefinitelySwipe =
+    // Check if this is a swipe gesture (significant horizontal movement)
+    const isSwipe =
       Math.abs(deltaX) > this.minSwipeDistance &&
-      deltaY < this.maxVerticalDistance &&
-      touchDuration < 1000; // Max swipe duration
+      deltaY < this.maxVerticalDistance;
 
-    // If interaction started on a blog card
-    if (this.isInteractingWithCard) {
-      // Only process as swipe if it's DEFINITELY a swipe (large horizontal movement)
-      if (Math.abs(deltaX) > 100 && deltaY < 50) {
-        // Clear swipe with significant horizontal movement
-        this.processSwipe();
-      }
-      // Otherwise, assume it's a tap/click and don't interfere
-      this.hideSwipeFeedback();
-      this.resetTouchState();
-      return;
-    }
+    // Check if this is a tap gesture (minimal movement, short duration)
+    const isTap = touchDuration < 300 && Math.abs(deltaX) < 10 && deltaY < 10;
 
-    // For non-card areas, process normally
-    if (isDefinitelySwipe && !isDefinitelyTap) {
+    // Process swipe regardless of where it started
+    if (isSwipe) {
       this.processSwipe();
+    }
+    // If it's a tap on a blog card, let the card's click handler deal with it
+    else if (isTap && this.isInteractingWithCard) {
+      // Do nothing - let the blog card's click handler navigate to the article
+      console.log('Tap on blog card detected, letting card handler process it');
     }
 
     this.hideSwipeFeedback();
