@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Production service - static site with Nginx
+  production:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moses-blog-prod
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks:
+      - blog-network
+    profiles:
+      - production
+
+  # Development service - with hot reloading
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: moses-blog-dev
+    ports:
+      - "3000:3000"
+      - "35729:35729"  # LiveReload port
+    volumes:
+      - .:/app
+      - /app/node_modules  # Prevent overwriting node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  # For file watching in Docker
+    restart: unless-stopped
+    networks:
+      - blog-network
+    profiles:
+      - development
+    command: npm run dev
+
+  # Blog builder service - for generating blog posts
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: moses-blog-builder
+    volumes:
+      - ./posts:/app/posts
+      - ./blog:/app/blog
+      - ./src:/app/src
+    environment:
+      - NODE_ENV=production
+    networks:
+      - blog-network
+    profiles:
+      - builder
+    command: npm run build:blog
+
+networks:
+  blog-network:
+    driver: bridge
+
+# Usage:
+# Development: docker-compose --profile development up
+# Production: docker-compose --profile production up
+# Build blog: docker-compose --profile builder run --rm builder

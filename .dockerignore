@@ -1,0 +1,94 @@
+# Version control
+.git
+.gitignore
+.github
+
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store
+
+# Testing
+coverage
+.nyc_output
+tests
+*.test.js
+*.spec.js
+jest.config.js
+playwright.config.js
+
+# Development files
+.env
+.env.local
+.env.*.local
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md
+docs
+LICENSE
+
+# Docker files (don't copy into image)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Build artifacts (will be generated in container)
+dist
+build
+*.log
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+azure-pipelines.yml
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.temp
+
+# Husky
+.husky
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettierignore
+
+# Package manager files
+.npmrc
+.yarnrc
+.pnpm-debug.log
+
+# Backup files
+*.bak
+*.backup
+*~

@@ -129,6 +129,8 @@ Visit the live blog at [mosesomondi.dev](https://mosesomondi.dev)
 
 ### Quick Start
 
+#### Traditional Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/Moses-Omondi/engineer-blog.git
@@ -142,6 +144,21 @@ npm run dev
 
 # Open your browser to http://localhost:3000
 ```
+
+#### 🐳 Docker Setup (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/Moses-Omondi/engineer-blog.git
+cd engineer-blog
+
+# Start with Docker Compose (no local Node.js required!)
+docker-compose --profile development up
+
+# Open your browser to http://localhost:3000
+```
+
+See [DOCKER.md](DOCKER.md) for complete Docker documentation.
 
 ### Development Commands
 

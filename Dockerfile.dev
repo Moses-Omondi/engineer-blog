@@ -1,0 +1,29 @@
+# Development Dockerfile with hot reloading support
+FROM node:20-alpine
+
+# Install additional tools for development
+RUN apk add --no-cache \
+    git \
+    curl \
+    bash
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies)
+RUN npm ci
+
+# Copy the rest of the application
+COPY . .
+
+# Expose development server port and LiveReload port
+EXPOSE 3000 35729
+
+# Set environment to development
+ENV NODE_ENV=development
+
+# Default command (can be overridden in docker-compose)
+CMD ["npm", "run", "dev"]
