@@ -101,7 +101,7 @@ class BlogGenerator {
     <meta name="twitter:title" content="{{TITLE}}">
     <meta name="twitter:description" content="{{EXCERPT}}">
     
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../public/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     
     <style>
@@ -121,9 +121,11 @@ class BlogGenerator {
         
         .blog-title {
             font-size: 2.5rem;
-            font-weight: 600;
+            font-weight: 400;
             margin-bottom: 20px;
             color: var(--text-color);
+            letter-spacing: -0.02em;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .blog-meta {
@@ -135,32 +137,65 @@ class BlogGenerator {
             font-size: 0.9rem;
         }
         
+        .blog-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .blog-article {
+            color: var(--text-secondary);
+        }
+        
         .blog-article h1,
         .blog-article h2,
         .blog-article h3 {
             margin-top: 2em;
             margin-bottom: 1em;
             color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .blog-article h1 {
+            font-size: 2rem;
+        }
+        
+        .blog-article h2 {
+            font-size: 1.6rem;
+        }
+        
+        .blog-article h3 {
+            font-size: 1.3rem;
         }
         
         .blog-article p {
             margin-bottom: 1.5em;
+            line-height: 1.8;
         }
         
         .blog-article pre {
             background: var(--code-bg);
             border: 1px solid var(--code-border);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 20px;
             overflow-x: auto;
             margin: 2em 0;
+            font-size: 0.9rem;
         }
         
         .blog-article code {
             background: var(--code-bg);
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
             font-size: 0.9em;
+            color: var(--gradient-start);
+            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+        }
+        
+        .blog-article pre code {
+            padding: 0;
+            background: none;
+            color: inherit;
         }
         
         .blog-article blockquote {
@@ -169,18 +204,57 @@ class BlogGenerator {
             margin: 2em 0;
             font-style: italic;
             color: var(--text-secondary);
+            background: var(--tag-bg);
+            padding: 20px 20px 20px 30px;
+            border-radius: 8px;
         }
         
-        .back-link {
-            display: inline-block;
-            margin-bottom: 30px;
+        .blog-article ul,
+        .blog-article ol {
+            margin-bottom: 1.5em;
+            padding-left: 30px;
+        }
+        
+        .blog-article li {
+            margin-bottom: 0.5em;
+        }
+        
+        .blog-article a {
             color: var(--gradient-start);
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .blog-article a:hover {
+            color: var(--gradient-end);
+            text-decoration: underline;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            color: var(--gradient-start);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
         
         .back-link:hover {
-            text-decoration: underline;
+            gap: 12px;
+            color: var(--gradient-end);
+        }
+        
+        .back-link::before {
+            content: "←";
+            transition: transform 0.3s ease;
+        }
+        
+        .back-link:hover::before {
+            transform: translateX(-3px);
         }
         
         @media (max-width: 768px) {
@@ -190,6 +264,28 @@ class BlogGenerator {
             
             .blog-content {
                 padding: 100px 15px 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .blog-title {
+                font-size: 1.7rem;
+            }
+            
+            .blog-content {
+                padding: 90px 15px 30px;
+            }
+            
+            .blog-article h1 {
+                font-size: 1.7rem;
+            }
+            
+            .blog-article h2 {
+                font-size: 1.4rem;
+            }
+            
+            .blog-article h3 {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -226,7 +322,7 @@ class BlogGenerator {
         </article>
     </main>
 
-    <script src="../js/main.js"></script>
+    <script src="../public/js/main.js"></script>
 </body>
 </html>`;
 
