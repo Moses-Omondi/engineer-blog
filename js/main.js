@@ -124,6 +124,8 @@ class SwipeNavigation {
     this.endY = 0;
     this.minSwipeDistance = 50;
     this.maxVerticalDistance = 100;
+    this.touchStartTime = 0;
+    this.touchStartTarget = null;
     this.isMobile = this.detectMobile();
 
     this.init();
@@ -285,20 +287,22 @@ class SwipeNavigation {
       return;
     }
 
-    // Don't handle swipes if user is interacting with a blog card
-    if (event.target.closest('.blog-post')) {
-      return;
-    }
-
+    // Record the starting position for all touches, including on blog cards
+    // We'll determine if it's a swipe vs tap in handleTouchEnd
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
+    this.touchStartTime = Date.now();
+    this.touchStartTarget = event.target;
   }
 
   handleTouchMove(event) {
     if (this.isTransitioning) return;
 
-    this.endX = event.touches[0].clientX;
-    this.endY = event.touches[0].clientY;
+    // Always update end positions
+    if (event.touches && event.touches[0]) {
+      this.endX = event.touches[0].clientX;
+      this.endY = event.touches[0].clientY;
+    }
 
     // Show visual feedback during swipe
     this.showSwipeFeedback();
@@ -309,21 +313,46 @@ class SwipeNavigation {
       return;
     }
 
-    // Don't process swipe if user didn't start a swipe or started on a blog card
     if (!this.startX) {
       this.hideSwipeFeedback();
       return;
     }
 
-    // If touch ended on a blog card but didn't start on one, still allow the swipe
-    // This prevents the card click from blocking swipes that pass over cards
+    const touchDuration = Date.now() - this.touchStartTime;
+    const deltaX = this.endX - this.startX;
+    const deltaY = Math.abs(this.endY - this.startY);
 
-    this.processSwipe();
+    // Determine if this was a swipe or a tap
+    const isSwipe =
+      Math.abs(deltaX) > this.minSwipeDistance &&
+      deltaY < this.maxVerticalDistance;
+    const isTap = touchDuration < 300 && Math.abs(deltaX) < 10 && deltaY < 10;
+
+    // If it's a tap on a blog card, let the blog card handle it
+    if (
+      isTap &&
+      this.touchStartTarget &&
+      this.touchStartTarget.closest('.blog-post')
+    ) {
+      // Don't process as swipe - let the card's click handler work
+      this.hideSwipeFeedback();
+      this.startX = 0;
+      this.startY = 0;
+      return;
+    }
+
+    // Process as a swipe regardless of where it started
+    if (isSwipe) {
+      this.processSwipe();
+    }
+
     this.hideSwipeFeedback();
 
     // Reset start positions
     this.startX = 0;
     this.startY = 0;
+    this.touchStartTime = 0;
+    this.touchStartTarget = null;
   }
 
   processSwipe() {
