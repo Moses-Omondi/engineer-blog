@@ -159,13 +159,8 @@ class SwipeNavigation {
       return; // Let blog-article.js handle the swipes
     }
 
-    // Don't add desktop navigation areas on blog page to prevent conflicts with blog cards
-    if (this.currentPage === 'blog') {
-      return; // Blog page has its own click handlers for cards
-    }
-
     if (this.isMobile) {
-      // Mobile: Touch events for swiping
+      // Mobile: Touch events for swiping work on both home and blog pages
       document.addEventListener(
         'touchstart',
         this.handleTouchStart.bind(this),
@@ -178,11 +173,14 @@ class SwipeNavigation {
         passive: true,
       });
 
-      // Add swipe indicators for mobile only
+      // Add swipe indicators for mobile
       this.addSwipeIndicators();
-    } else if (this.currentPage === 'home') {
-      // Desktop: Click events for navigation (only on home page)
-      this.addDesktopNavigation();
+    } else {
+      // Desktop: Only add edge navigation areas on home page
+      // Blog page doesn't get edge areas to avoid conflicts with blog cards
+      if (this.currentPage === 'home') {
+        this.addDesktopNavigation();
+      }
     }
   }
 
