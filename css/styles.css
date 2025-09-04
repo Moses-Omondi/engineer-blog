@@ -11,7 +11,9 @@
     --tag-bg: #f5f5f5;
     --tag-hover: #e8e8e8;
     --gradient-start: #667eea;
+    --gradient-start-rgb: 102, 126, 234;
     --gradient-end: #764ba2;
+    --gradient-end-rgb: 118, 75, 162;
     --shadow: rgba(0, 0, 0, 0.1);
     --code-bg: #f8f9fa;
     --code-border: #e9ecef;
@@ -28,7 +30,9 @@
     --tag-bg: #2a2a2a;
     --tag-hover: #404040;
     --gradient-start: #667eea;
+    --gradient-start-rgb: 102, 126, 234;
     --gradient-end: #764ba2;
+    --gradient-end-rgb: 118, 75, 162;
     --shadow: rgba(0, 0, 0, 0.3);
     --code-bg: #2d2d2d;
     --code-border: #404040;

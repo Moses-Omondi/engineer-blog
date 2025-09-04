@@ -107,25 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overscrollBehavior = 'none';
     }
     
-    // For iOS Safari - prevent swipe navigation
-    let xPos = null;
-    document.addEventListener('touchstart', function(e) {
-        xPos = e.touches[0].clientX;
-    }, { passive: true });
-    
-    document.addEventListener('touchmove', function(e) {
-        if (!xPos) return;
-        
-        const xDiff = xPos - e.touches[0].clientX;
-        
-        // If swiping horizontally near edges, prevent default
-        if (Math.abs(xDiff) > 5 && (xPos < 50 || xPos > window.innerWidth - 50)) {
-            if (e.cancelable) {
-                e.preventDefault();
-            }
-        }
-    }, { passive: false });
-    
     // Prevent any accidental link behavior in code blocks
     const codeBlocks = document.querySelectorAll('.blog-article pre, .blog-article code');
     
@@ -181,8 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add copy button to code blocks for better UX
-    const preBlocks = document.querySelectorAll('.blog-article pre');
-    preBlocks.forEach(pre => {
+    document.querySelectorAll('.blog-article pre').forEach(pre => {
         // Create copy button
         const copyButton = document.createElement('button');
         copyButton.className = 'code-copy-btn';
