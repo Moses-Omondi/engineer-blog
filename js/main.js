@@ -129,11 +129,6 @@ class SwipeNavigation {
     this.isInteractingWithCard = false;
     this.isMobile = this.detectMobile();
 
-    console.log('SwipeNavigation initialized:', {
-      currentPage: this.currentPage,
-      isMobile: this.isMobile,
-    });
-
     this.init();
   }
 
@@ -174,8 +169,6 @@ class SwipeNavigation {
     // Initialize touch events for any device that supports touch
     // This ensures navigation works on all mobile devices regardless of detection
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      console.log('Touch support detected, initializing swipe navigation');
-
       // Touch events for swiping work on both home and blog pages
       document.addEventListener(
         'touchstart',
@@ -258,7 +251,6 @@ class SwipeNavigation {
     // If it's a tap on a blog card, let the card's click handler deal with it
     else if (isTap && this.isInteractingWithCard) {
       // Do nothing - let the blog card's click handler navigate to the article
-      console.log('Tap on blog card detected, letting card handler process it');
     }
 
     this.hideSwipeFeedback();
@@ -279,14 +271,6 @@ class SwipeNavigation {
     const deltaX = this.endX - this.startX;
     const deltaY = Math.abs(this.endY - this.startY);
 
-    // Debug logging
-    console.log('Processing swipe:', {
-      currentPage: this.currentPage,
-      deltaX: deltaX,
-      deltaY: deltaY,
-      swipeDirection: deltaX > 0 ? 'RIGHT' : 'LEFT',
-    });
-
     // Check if it's a valid horizontal swipe
     if (
       Math.abs(deltaX) > this.minSwipeDistance &&
@@ -298,13 +282,11 @@ class SwipeNavigation {
       if (deltaX < 0) {
         // Swipe LEFT - push forward (like pushing a card away)
         if (this.currentPage === 'home') {
-          console.log('Navigating: Home → Blog');
           this.navigateToPage('blog'); // Home → Blog (push home left, reveal blog)
         }
       } else if (deltaX > 0) {
         // Swipe RIGHT - pull back (like pulling a card back)
         if (this.currentPage === 'blog') {
-          console.log('Navigating: Blog → Home');
           this.navigateToPage('home'); // Blog → Home (pull home back from left)
         }
       }
