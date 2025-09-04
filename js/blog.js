@@ -17,14 +17,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Enhanced click handling with instant navigation
         post.addEventListener('click', function(e) {
-            // Don't interfere with direct link clicks
-            if (e.target.tagName.toLowerCase() === 'a') {
+            // Prevent event propagation for all link clicks
+            if (e.target.tagName.toLowerCase() === 'a' || 
+                e.target.closest('a')) {
+                e.stopPropagation();
                 return;
             }
             
-            // Find the link in this post and navigate instantly
-            const link = this.querySelector('a');
-            if (link) {
+            // Don't navigate if clicking on interactive elements
+            if (e.target.tagName.toLowerCase() === 'button' ||
+                e.target.tagName.toLowerCase() === 'input') {
+                return;
+            }
+            
+            // Find the h2 link (the main article link) and navigate
+            const h2Link = this.querySelector('h2 a');
+            if (h2Link) {
                 // Create instant overlay for seamless transition
                 const overlay = document.createElement('div');
                 overlay.className = 'page-transition-overlay active';
@@ -32,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Navigate immediately
                 setTimeout(() => {
-                    window.location.href = link.href;
+                    window.location.href = h2Link.href;
                 }, 30);
             }
         });
@@ -61,6 +69,4 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'translateX(0)';
         });
     });
-    
-    console.log('✨ Blog functionality enhanced!');
 });

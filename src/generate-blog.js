@@ -497,7 +497,7 @@ class BlogGenerator {
       const postsHtml = posts
         .map(
           post => `
-            <article class="blog-post" onclick="location.href='blog/${post.metadata.slug}.html'">
+            <article class="blog-post">
                 <h2><a href="blog/${post.metadata.slug}.html">${post.metadata.title}</a></h2>
                 <div class="blog-meta">
                     <span class="blog-date">${post.metadata.date}</span>

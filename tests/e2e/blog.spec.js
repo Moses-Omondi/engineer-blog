@@ -13,17 +13,15 @@ test.describe('Engineer Blog', () => {
 
   test('should have working navigation', async ({ page }) => {
     // Check that navigation links exist
-    const homeLink = page.locator('nav a[href*="index.html"]');
-    const blogLink = page.locator('nav a[href*="blog.html"]');
+    const homeLink = page.locator('nav a[href*="index.html"]').first();
+    const blogLink = page.locator('nav a[href*="blog.html"]').first();
 
     await expect(homeLink).toBeVisible();
     await expect(blogLink).toBeVisible();
 
     // Test navigation to blog page
-    await Promise.all([
-      page.waitForNavigation({ timeout: 10000 }),
-      blogLink.click(),
-    ]);
+    await blogLink.click();
+    await page.waitForURL(/blog\.html/, { timeout: 10000 });
     await expect(page).toHaveURL(/blog\.html/);
   });
 
