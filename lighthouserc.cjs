@@ -1,6 +1,7 @@
 module.exports = {
   ci: {
     collect: {
+      staticDistDir: '.', // Serve from root directory
       url: [
         'http://localhost:3000',
         'http://localhost:3000/blog.html',

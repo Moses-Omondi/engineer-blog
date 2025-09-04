@@ -16,7 +16,7 @@
 
 ### Build & Deployment
 
-[![Deploy Status](https://github.com/Moses-Omondi/engineer-blog/workflows/pages%20build%20and%20deployment/badge.svg)](https://github.com/Moses-Omondi/engineer-blog/actions)
+[![Deploy Status](https://github.com/Moses-Omondi/engineer-blog/workflows/Deploy%20Engineer%20Blog/badge.svg)](https://github.com/Moses-Omondi/engineer-blog/actions)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-success)](https://mosesomondi.dev)
 [![Last Commit](https://img.shields.io/github/last-commit/Moses-Omondi/engineer-blog)](https://github.com/Moses-Omondi/engineer-blog/commits/main)
 
@@ -67,6 +67,7 @@ Visit the live blog at [mosesomondi.dev](https://mosesomondi.dev)
 ### 📱 Mobile-First Navigation
 
 - **Intuitive Swipe Gestures**: Natural push/pull navigation metaphor
+- **Seamless Transitions**: Smooth fade effects eliminating white flashes
 - **Touch-Optimized**: Designed for mobile devices from the ground up
 - **Smart Detection**: Distinguishes between swipes and taps for optimal UX
 - **Consistent Navigation**:
@@ -92,6 +93,7 @@ Visit the live blog at [mosesomondi.dev](https://mosesomondi.dev)
 ### 🛡️ Performance & Security
 
 - **Lightning Fast**: Optimized for speed with minimal dependencies
+- **Smooth Transitions**: Seamless page navigation with fade effects
 - **Secure**: Input sanitization and XSS protection
 - **Accessible**: WCAG compliant with keyboard navigation support
 - **PWA Ready**: Offline support and app-like experience
