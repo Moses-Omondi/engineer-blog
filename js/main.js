@@ -142,6 +142,7 @@ class SwipeNavigation {
   }
 
   detectMobile() {
+    // More accurate mobile detection
     const isMobileUA =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -150,7 +151,10 @@ class SwipeNavigation {
     const hasMaxTouchPoints = navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
 
-    return isMobileUA || hasTouchStart || hasMaxTouchPoints || isSmallScreen;
+    // Check if it's actually a touch device (not just small screen)
+    const isTouchDevice = hasTouchStart && hasMaxTouchPoints;
+
+    return isMobileUA || (isTouchDevice && isSmallScreen);
   }
 
   init() {
@@ -281,6 +285,11 @@ class SwipeNavigation {
       return;
     }
 
+    // Don't handle swipes if user is interacting with a blog card
+    if (event.target.closest('.blog-post')) {
+      return;
+    }
+
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
   }
@@ -295,13 +304,25 @@ class SwipeNavigation {
     this.showSwipeFeedback();
   }
 
-  handleTouchEnd() {
+  handleTouchEnd(event) {
     if (this.isTransitioning) {
+      return;
+    }
+
+    // Don't process swipe if user started on a blog card
+    if (!this.startX || event.target.closest('.blog-post')) {
+      this.startX = 0;
+      this.startY = 0;
+      this.hideSwipeFeedback();
       return;
     }
 
     this.processSwipe();
     this.hideSwipeFeedback();
+
+    // Reset start positions
+    this.startX = 0;
+    this.startY = 0;
   }
 
   processSwipe() {
