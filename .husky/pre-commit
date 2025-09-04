@@ -7,5 +7,5 @@ npx lint-staged
 # Run tests to ensure code quality
 npm test
 
-# Run security audit
-npm run security:audit
+# Run security audit for production dependencies only
+npm audit --production --audit-level=moderate

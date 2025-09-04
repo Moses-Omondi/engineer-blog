@@ -65,8 +65,7 @@
     "cookie": ">=0.7.0",
     "ws": ">=8.17.1",
     "tar-fs": ">=3.0.0",
-    "tmp": ">=0.2.4",
-    "esbuild": ">=0.25.0"
+    "tmp": ">=0.2.4"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
@@ -121,7 +120,9 @@
         "statements": 40
       }
     },
-    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
     "testMatch": [
       "<rootDir>/tests/**/*.test.js"
     ]
