@@ -49,12 +49,23 @@ document.addEventListener('DOMContentLoaded', function () {
         if (h2Link && h2Link.href) {
           // Prevent any other handlers from interfering
           e.preventDefault();
-          // Direct navigation without overlay to prevent issues
-          window.location.href = h2Link.href;
+          // Add a small delay to ensure touch events are fully processed
+          setTimeout(() => {
+            window.location.href = h2Link.href;
+          }, 10);
         }
       },
       true
     ); // Use capture phase to handle before any bubbling
+
+    // Also prevent touchend from bubbling up and triggering swipe navigation
+    post.addEventListener(
+      'touchend',
+      function (e) {
+        e.stopPropagation();
+      },
+      true
+    );
   });
 
   // Add loading animation for blog posts

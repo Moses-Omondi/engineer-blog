@@ -126,6 +126,7 @@ class SwipeNavigation {
     this.maxVerticalDistance = 100;
     this.touchStartTime = 0;
     this.touchStartTarget = null;
+    this.isInteractingWithCard = false;
     this.isMobile = this.detectMobile();
 
     this.init();
@@ -287,12 +288,16 @@ class SwipeNavigation {
       return;
     }
 
-    // Record the starting position for all touches, including on blog cards
-    // We'll determine if it's a swipe vs tap in handleTouchEnd
+    // If touch starts on a blog card, mark it so we can handle it specially
+    this.touchStartTarget = event.target;
+    this.isInteractingWithCard = !!(
+      this.touchStartTarget && this.touchStartTarget.closest('.blog-post')
+    );
+
+    // Record the starting position for all touches
     this.startX = event.touches[0].clientX;
     this.startY = event.touches[0].clientY;
     this.touchStartTime = Date.now();
-    this.touchStartTarget = event.target;
   }
 
   handleTouchMove(event) {
@@ -322,37 +327,44 @@ class SwipeNavigation {
     const deltaX = this.endX - this.startX;
     const deltaY = Math.abs(this.endY - this.startY);
 
-    // Determine if this was a swipe or a tap
-    const isSwipe =
+    // More strict criteria for what counts as a tap vs swipe
+    const isDefinitelyTap =
+      touchDuration < 500 && Math.abs(deltaX) < 30 && deltaY < 30;
+    const isDefinitelySwipe =
       Math.abs(deltaX) > this.minSwipeDistance &&
-      deltaY < this.maxVerticalDistance;
-    const isTap = touchDuration < 300 && Math.abs(deltaX) < 10 && deltaY < 10;
+      deltaY < this.maxVerticalDistance &&
+      touchDuration < 1000; // Max swipe duration
 
-    // If it's a tap on a blog card, let the blog card handle it
-    if (
-      isTap &&
-      this.touchStartTarget &&
-      this.touchStartTarget.closest('.blog-post')
-    ) {
-      // Don't process as swipe - let the card's click handler work
+    // If interaction started on a blog card
+    if (this.isInteractingWithCard) {
+      // Only process as swipe if it's DEFINITELY a swipe (large horizontal movement)
+      if (Math.abs(deltaX) > 100 && deltaY < 50) {
+        // Clear swipe with significant horizontal movement
+        this.processSwipe();
+      }
+      // Otherwise, assume it's a tap/click and don't interfere
       this.hideSwipeFeedback();
-      this.startX = 0;
-      this.startY = 0;
+      this.resetTouchState();
       return;
     }
 
-    // Process as a swipe regardless of where it started
-    if (isSwipe) {
+    // For non-card areas, process normally
+    if (isDefinitelySwipe && !isDefinitelyTap) {
       this.processSwipe();
     }
 
     this.hideSwipeFeedback();
+    this.resetTouchState();
+  }
 
-    // Reset start positions
+  resetTouchState() {
     this.startX = 0;
     this.startY = 0;
+    this.endX = 0;
+    this.endY = 0;
     this.touchStartTime = 0;
     this.touchStartTarget = null;
+    this.isInteractingWithCard = false;
   }
 
   processSwipe() {
@@ -364,15 +376,15 @@ class SwipeNavigation {
       Math.abs(deltaX) > this.minSwipeDistance &&
       deltaY < this.maxVerticalDistance
     ) {
-      if (deltaX < 0) {
-        // Swipe LEFT - go forward (Home → Blog)
+      if (deltaX > 0) {
+        // Swipe RIGHT - go forward/next
         if (this.currentPage === 'home') {
-          this.navigateToPage('blog');
+          this.navigateToPage('blog'); // Home → Blog (forward)
         }
       } else {
-        // Swipe RIGHT - go back (Blog → Home)
+        // Swipe LEFT - go back/previous
         if (this.currentPage === 'blog') {
-          this.navigateToPage('home');
+          this.navigateToPage('home'); // Blog → Home (back)
         }
       }
     }
