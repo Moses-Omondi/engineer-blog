@@ -198,6 +198,56 @@
   color: inherit;
 }
 
+/* Swipe navigation styles */
+.swipe-edge-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(to right, 
+    rgba(var(--gradient-start-rgb), 0.3), 
+    transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1001;
+}
+
+.swipe-edge-glow.active {
+  opacity: 1;
+  animation: pulseGlow 0.5s ease-out;
+}
+
+@keyframes pulseGlow {
+  0% {
+    width: 20px;
+    opacity: 0;
+  }
+  50% {
+    width: 40px;
+    opacity: 1;
+  }
+  100% {
+    width: 20px;
+    opacity: 0;
+  }
+}
+
+/* Touch feedback for swipe */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    /* Enable smooth momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Add padding to prevent accidental edge swipes */
+  .blog-content {
+    padding-left: env(safe-area-inset-left, 24px);
+    padding-right: env(safe-area-inset-right, 24px);
+  }
+}
+
 /* Tablet Responsiveness */
 @media (max-width: 768px) {
   .blog-content {
