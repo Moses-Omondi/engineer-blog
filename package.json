@@ -91,7 +91,7 @@
     "concurrently": "^8.2.2",
     "live-server": "^1.2.2",
     "rimraf": "^5.0.5",
-    "@lhci/cli": "^0.12.0",
+    "@lhci/cli": "^0.15.1",
     "webpack-bundle-analyzer": "^4.10.1",
     "snyk": "^1.1276.0",
     "typescript": "^5.3.3"
