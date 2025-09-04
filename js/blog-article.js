@@ -48,13 +48,13 @@ document.addEventListener('DOMContentLoaded', function () {
       const diffX = currentX - touchStartX; // Positive = swiping right
       const diffY = Math.abs(currentY - touchStartY);
 
-      // Show feedback when swiping right (to go back)
-      if (diffX > 30 && diffY < 100) {
-        swipeFeedback.style.opacity = Math.min(1, diffX / 100);
-        swipeFeedback.textContent = '← Back to Blog';
-      } else if (diffX < -30 && diffY < 100) {
-        // Swiping left - show "already at latest"
+      // Show feedback when swiping left (to go back)
+      if (diffX < -30 && diffY < 100) {
         swipeFeedback.style.opacity = Math.min(1, Math.abs(diffX) / 100);
+        swipeFeedback.textContent = '← Back to Blog';
+      } else if (diffX > 30 && diffY < 100) {
+        // Swiping right - show "already at latest"
+        swipeFeedback.style.opacity = Math.min(1, diffX / 100);
         swipeFeedback.textContent = 'Already at the latest';
       } else {
         swipeFeedback.style.opacity = '0';
@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check if this is a horizontal swipe (not vertical scrolling)
     if (verticalDiff < verticalThreshold) {
-      // SWIPE RIGHT (→) to go back to blog list
-      if (swipeRightDistance > swipeThreshold) {
-        // User swiped right - navigate back to blog list
+      // SWIPE LEFT (←) to go back to blog list
+      if (swipeLeftDistance > swipeThreshold) {
+        // User swiped left - navigate back to blog list
         swipeFeedback.style.opacity = '1';
         swipeFeedback.textContent = '← Back to Blog';
 
@@ -105,9 +105,9 @@ document.addEventListener('DOMContentLoaded', function () {
           window.location.href = '../blog.html';
         }, 200);
       }
-      // SWIPE LEFT (←) shows "Already at the latest"
-      else if (swipeLeftDistance > swipeThreshold) {
-        // User swiped left - trying to go to newer post (doesn't exist)
+      // SWIPE RIGHT (→) shows "Already at the latest"
+      else if (swipeRightDistance > swipeThreshold) {
+        // User swiped right - trying to go to newer post (doesn't exist)
         swipeFeedback.textContent = 'Already at the latest';
         swipeFeedback.style.opacity = '1';
         setTimeout(() => {
