@@ -1,6 +1,41 @@
 // blog-article.js - Handles interactions within blog articles
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Swipe left navigation to go back to blog list
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    // Add swipe detection
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipeGesture();
+    }, { passive: true });
+    
+    function handleSwipeGesture() {
+        const swipeThreshold = 50; // Minimum distance for a swipe
+        const verticalThreshold = 100; // Maximum vertical movement allowed
+        
+        const horizontalDiff = touchStartX - touchEndX; // Positive = swipe left
+        const verticalDiff = Math.abs(touchStartY - touchEndY);
+        
+        // Check if this is a horizontal swipe (not vertical scrolling)
+        if (verticalDiff < verticalThreshold) {
+            // Swipe left to go back to blog list
+            if (horizontalDiff > swipeThreshold) {
+                // Navigate back to blog list
+                window.location.href = '../blog.html';
+            }
+        }
+    }
+    
     // Prevent any accidental link behavior in code blocks
     const codeBlocks = document.querySelectorAll('.blog-article pre, .blog-article code');
     
