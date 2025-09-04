@@ -377,15 +377,22 @@ class SwipeNavigation {
       deltaY < this.maxVerticalDistance
     ) {
       if (deltaX > 0) {
-        // Swipe RIGHT - go forward/next
+        // Swipe RIGHT
         if (this.currentPage === 'home') {
-          this.navigateToPage('blog'); // Home → Blog (forward)
+          // On Home: Swipe RIGHT goes to Blog
+          this.navigateToPage('blog');
         }
+        // Add any other RIGHT swipe behaviors for other pages here
       } else {
-        // Swipe LEFT - go back/previous
-        if (this.currentPage === 'blog') {
-          this.navigateToPage('home'); // Blog → Home (back)
+        // Swipe LEFT
+        if (this.currentPage === 'home') {
+          // On Home: Swipe LEFT does nothing (already at start)
+          return;
+        } else if (this.currentPage === 'blog') {
+          // On Blog: Swipe LEFT goes back to Home
+          this.navigateToPage('home');
         }
+        // Add any other LEFT swipe behaviors for other pages here
       }
     }
   }
