@@ -16,29 +16,7 @@ function toggleTheme() {
   }
 }
 
-// Simplified typewriter function
-// eslint-disable-next-line no-unused-vars
-function typeText(text, element, speed, callback) {
-  if (!element) {
-    if (callback) callback();
-    return;
-  }
-
-  let index = 0;
-  element.textContent = '';
-
-  function addChar() {
-    if (index < text.length) {
-      element.textContent += text.charAt(index);
-      index++;
-      setTimeout(addChar, speed);
-    } else {
-      if (callback) callback();
-    }
-  }
-
-  addChar();
-}
+// Typewriter function removed - no longer used
 
 // Emergency fallback - add static terminal content
 function addStaticTerminalContent() {
@@ -103,13 +81,7 @@ function addStaticTerminalContent() {
       contactSection.classList.add('show');
     }
   } catch (error) {
-    // Final desperate attempt - just show the sections
-    if (hobbiesSection) {
-      hobbiesSection.classList.add('show');
-    }
-    if (contactSection) {
-      contactSection.classList.add('show');
-    }
+    // Error handling - sections already attempted to show above
   }
 }
 
@@ -441,10 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
     closeOverlay();
   });
 
-  // Clear any corrupted state and force fresh start
-  localStorage.removeItem('terminalState');
-  localStorage.removeItem('hobbiesShown');
-  localStorage.removeItem('contactShown');
+  // Removed localStorage cleanup - no longer needed
 
   // Only initialize typewriter on home page
   const currentPath = window.location.pathname;
