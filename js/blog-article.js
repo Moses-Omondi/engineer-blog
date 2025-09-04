@@ -1,7 +1,49 @@
 // blog-article.js - Handles interactions within blog articles
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Swipe navigation removed - only Home ↔ Blog navigation is supported
+  // Simple swipe navigation for articles - only swipe LEFT to go back to blog
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+
+  // Handle touch start
+  document.addEventListener(
+    'touchstart',
+    function (e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    },
+    { passive: true }
+  );
+
+  // Handle touch end
+  document.addEventListener(
+    'touchend',
+    function (e) {
+      touchEndX = e.changedTouches[0].clientX;
+      touchEndY = e.changedTouches[0].clientY;
+      handleSwipeGesture();
+    },
+    { passive: true }
+  );
+
+  function handleSwipeGesture() {
+    const swipeThreshold = 50; // Minimum distance for a swipe
+    const maxVerticalDistance = 100; // Maximum vertical movement allowed
+
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = Math.abs(touchEndY - touchStartY);
+
+    // Check if it's a valid horizontal swipe (not vertical scrolling)
+    if (Math.abs(deltaX) > swipeThreshold && deltaY < maxVerticalDistance) {
+      if (deltaX < 0) {
+        // Swipe LEFT - go back to blog listing
+        window.location.href = '../blog.html';
+      }
+      // Swipe RIGHT does nothing in articles
+    }
+  }
 
   // Disable browser's swipe navigation on this page
   if ('overscrollBehavior' in document.body.style) {
