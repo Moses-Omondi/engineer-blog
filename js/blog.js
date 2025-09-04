@@ -22,10 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
       this.style.transform = 'translateY(0)';
     });
 
+    // Removed touch tracking - swipe detection is handled by main.js
+
     // Enhanced click handling with instant navigation
     post.addEventListener(
       'click',
       function (e) {
+        // If this was a swipe gesture, don't navigate to article
+        if (
+          window.lastSwipeDetected &&
+          Date.now() - window.lastSwipeDetected < 100
+        ) {
+          return;
+        }
+
         // Stop all event propagation to prevent any parent handlers
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -58,14 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
       true
     ); // Use capture phase to handle before any bubbling
 
-    // Also prevent touchend from bubbling up and triggering swipe navigation
-    post.addEventListener(
-      'touchend',
-      function (e) {
-        e.stopPropagation();
-      },
-      true
-    );
+    // Removed touchend stopPropagation to allow swipe navigation to work on cards
   });
 
   // Add loading animation for blog posts

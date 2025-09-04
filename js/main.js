@@ -292,6 +292,9 @@ class SwipeNavigation {
       Math.abs(deltaX) > this.minSwipeDistance &&
       deltaY < this.maxVerticalDistance
     ) {
+      // Mark that a swipe was detected to prevent blog card click
+      window.lastSwipeDetected = Date.now();
+
       if (deltaX < 0) {
         // Swipe LEFT - push forward (like pushing a card away)
         if (this.currentPage === 'home') {
