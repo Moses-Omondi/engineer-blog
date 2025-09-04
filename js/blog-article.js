@@ -1,7 +1,7 @@
 // blog-article.js - Handles interactions within blog articles
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Swipe left navigation to go back to blog list
+    // Swipe LEFT (←) to go back to blog list - matching the arrow direction
     let touchStartX = 0;
     let touchEndX = 0;
     let touchStartY = 0;
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         transition: opacity 0.2s;
         z-index: 10000;
     `;
-    swipeFeedback.textContent = '← Going back to blog';
+    swipeFeedback.textContent = '← Back to Blog';
     document.body.appendChild(swipeFeedback);
     
     // Add swipe detection
@@ -75,27 +75,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const verticalThreshold = 100; // Maximum vertical movement allowed
         
         // Calculate swipe direction
-        // touchStartX - touchEndX > 0 means finger moved from right to left (swipe left)
-        // touchEndX - touchStartX > 0 means finger moved from left to right (swipe right)
-        const swipeLeftDistance = touchStartX - touchEndX;
-        const swipeRightDistance = touchEndX - touchStartX;
+        // Swipe LEFT (←): Finger moves right-to-left, matching the back arrow direction
+        // Swipe RIGHT (→): Finger moves left-to-right
+        const swipeLeftDistance = touchStartX - touchEndX;  // Positive when swiping left ←
+        const swipeRightDistance = touchEndX - touchStartX; // Positive when swiping right →
         const verticalDiff = Math.abs(touchStartY - touchEndY);
         
         // Check if this is a horizontal swipe (not vertical scrolling)
         if (verticalDiff < verticalThreshold) {
-            // SWIPE LEFT to go back to blog list
+            // SWIPE LEFT (←) to go back - matches the "← Back to Blog" arrow
             if (swipeLeftDistance > swipeThreshold) {
-                // User swiped left - navigate back to blog
+                // User swiped left - navigate back to blog list
                 swipeFeedback.style.opacity = '1';
-                swipeFeedback.textContent = '← Returning to blog';
+                swipeFeedback.textContent = '← Back to Blog';
                 
                 setTimeout(() => {
                     window.location.href = '../blog.html';
                 }, 200);
             }
-            // SWIPE RIGHT is blocked (nothing to go forward to)
+            // SWIPE RIGHT (→) is blocked - already at current article
             else if (swipeRightDistance > swipeThreshold) {
-                // User swiped right - show message
+                // User swiped right - no forward navigation available
                 swipeFeedback.textContent = 'Already at the latest';
                 swipeFeedback.style.opacity = '1';
                 setTimeout(() => {

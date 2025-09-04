@@ -126,6 +126,10 @@ class SwipeNavigation {
     
     getCurrentPage() {
         const path = window.location.pathname;
+        // Check if we're in a blog article (not the blog listing)
+        if (path.includes('/blog/') && path.includes('.html')) {
+            return 'article'; // In a blog article - don't handle swipes here
+        }
         if (path.includes('blog.html')) {
             return 'blog';
         }
@@ -142,6 +146,11 @@ class SwipeNavigation {
     }
     
     init() {
+        // Don't initialize swipe navigation if we're in a blog article
+        if (this.currentPage === 'article') {
+            return; // Let blog-article.js handle the swipes
+        }
+        
         if (this.isMobile) {
             // Mobile: Touch events for swiping
             document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
