@@ -1,7 +1,7 @@
 // blog-article.js - Handles interactions within blog articles
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Simple swipe navigation for articles - only swipe LEFT to go back to blog
+  // Simple swipe navigation for articles - only swipe RIGHT to go back to blog
   let touchStartX = 0;
   let touchStartY = 0;
   let touchEndX = 0;
@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check if it's a valid horizontal swipe (not vertical scrolling)
     if (Math.abs(deltaX) > swipeThreshold && deltaY < maxVerticalDistance) {
-      if (deltaX < 0) {
-        // Swipe LEFT - go back to blog listing
+      if (deltaX > 0) {
+        // Swipe RIGHT - pull back to blog listing
         window.location.href = '../blog.html';
       }
-      // Swipe RIGHT does nothing in articles
+      // Swipe LEFT does nothing in articles
     }
   }
 
