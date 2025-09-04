@@ -180,16 +180,34 @@ jobs:
           echo "🔍 Starting Lighthouse Performance Audit..."
           npx @lhci/cli@0.12.x autorun --config=./lighthouserc.cjs || echo "⚠️ Lighthouse audit completed with warnings"
           echo "✅ Performance audit completed"
+          echo "📁 Checking for Lighthouse output directory..."
+          ls -la .lighthouseci/ 2>/dev/null || echo "No .lighthouseci directory found"
+          ls -la .lighthouseci/ 2>/dev/null || echo "No .lighthouseci directory found"
         continue-on-error: true
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Check Lighthouse output
+        run: |
+          if [ -d ".lighthouseci" ]; then
+            echo "📊 Lighthouse reports found:"
+            ls -la .lighthouseci/
+          else
+            echo "⚠️ No Lighthouse output directory found"
+            echo "Creating placeholder for artifact upload"
+            mkdir -p lighthouse-results
+            echo "No Lighthouse reports generated in this run" > lighthouse-results/README.txt
+          fi
 
       - name: Upload Lighthouse results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lighthouse-report
-          path: .lighthouseci/
+          path: |
+            .lighthouseci/
+            lighthouse-results/
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Comment PR with results
