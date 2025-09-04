@@ -171,8 +171,12 @@ class SwipeNavigation {
       return; // Let blog-article.js handle the swipes
     }
 
-    if (this.isMobile) {
-      // Mobile: Touch events for swiping work on both home and blog pages
+    // Initialize touch events for any device that supports touch
+    // This ensures navigation works on all mobile devices regardless of detection
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      console.log('Touch support detected, initializing swipe navigation');
+
+      // Touch events for swiping work on both home and blog pages
       document.addEventListener(
         'touchstart',
         this.handleTouchStart.bind(this),
@@ -185,8 +189,10 @@ class SwipeNavigation {
         passive: true,
       });
 
-      // Add swipe indicators for mobile
-      this.addSwipeIndicators();
+      // Add swipe indicators for touch devices
+      if (this.isMobile) {
+        this.addSwipeIndicators();
+      }
     }
     // Desktop navigation removed - only mobile swipe navigation is active
   }
