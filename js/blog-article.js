@@ -74,15 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const swipeThreshold = 50; // Minimum distance for a swipe
         const verticalThreshold = 100; // Maximum vertical movement allowed
         
-        const horizontalDiff = touchStartX - touchEndX; // Positive = swipe left
-        const horizontalDiffReverse = touchEndX - touchStartX; // Positive = swipe right
+        // Calculate swipe direction
+        // touchStartX - touchEndX > 0 means finger moved from right to left (swipe left)
+        // touchEndX - touchStartX > 0 means finger moved from left to right (swipe right)
+        const swipeLeftDistance = touchStartX - touchEndX;
+        const swipeRightDistance = touchEndX - touchStartX;
         const verticalDiff = Math.abs(touchStartY - touchEndY);
         
         // Check if this is a horizontal swipe (not vertical scrolling)
         if (verticalDiff < verticalThreshold) {
-            // Swipe left to go back to blog list
-            if (horizontalDiff > swipeThreshold) {
-                // Show feedback and navigate
+            // SWIPE LEFT to go back to blog list
+            if (swipeLeftDistance > swipeThreshold) {
+                // User swiped left - navigate back to blog
                 swipeFeedback.style.opacity = '1';
                 swipeFeedback.textContent = '← Returning to blog';
                 
@@ -90,9 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = '../blog.html';
                 }, 200);
             }
-            // Block right swipe - do nothing, just prevent default browser behavior
-            else if (horizontalDiffReverse > swipeThreshold) {
-                // Show a message that there's nothing to go forward to
+            // SWIPE RIGHT is blocked (nothing to go forward to)
+            else if (swipeRightDistance > swipeThreshold) {
+                // User swiped right - show message
                 swipeFeedback.textContent = 'Already at the latest';
                 swipeFeedback.style.opacity = '1';
                 setTimeout(() => {

@@ -39,16 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Find the h2 link (the main article link) and navigate
             const h2Link = this.querySelector('h2 a');
-            if (h2Link) {
-                // Create instant overlay for seamless transition
-                const overlay = document.createElement('div');
-                overlay.className = 'page-transition-overlay active';
-                document.body.appendChild(overlay);
-                
-                // Navigate immediately
-                setTimeout(() => {
-                    window.location.href = h2Link.href;
-                }, 30);
+            if (h2Link && h2Link.href) {
+                // Direct navigation without overlay to prevent issues
+                window.location.href = h2Link.href;
             }
         });
     });
