@@ -2,6 +2,13 @@
 
 // Enhanced blog functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Only run on blog listing page, not on individual article pages
+    // Check if we're on an article page by looking for .blog-article
+    if (document.querySelector('.blog-article')) {
+        // We're on an article page, don't add card click handlers
+        return;
+    }
+    
     // Add enhanced hover effects to blog posts
     const blogPosts = document.querySelectorAll('.blog-post');
     

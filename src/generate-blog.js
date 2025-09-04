@@ -141,6 +141,7 @@ class BlogGenerator {
     </main>
 
     <script src="../js/main.js"></script>
+    <script src="../js/blog-article.js"></script>
 </body>
 </html>`;
 
