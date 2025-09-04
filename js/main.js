@@ -270,19 +270,47 @@ class SwipeNavigation {
 
     this.isTransitioning = true;
 
-    // Create instant overlay for seamless transition
+    // Add transitioning class to body
+    document.body.classList.add('page-transitioning');
+
+    // Get all main content elements to fade out
+    const contentElements = document.querySelectorAll(
+      '.container, nav, .blog-grid'
+    );
+
+    // Create overlay that matches current background
     const overlay = document.createElement('div');
-    overlay.className = 'page-transition-overlay active';
+    overlay.className = 'page-transition-overlay';
     document.body.appendChild(overlay);
 
-    // Navigate immediately with minimal delay for smooth visual transition
+    // Start fade out animation on content
+    contentElements.forEach(el => {
+      if (el) {
+        el.classList.add('page-content');
+        el.classList.add('fade-out');
+      }
+    });
+
+    // Trigger overlay fade in after a brief delay
+    requestAnimationFrame(() => {
+      overlay.classList.add('fade-in');
+    });
+
+    // Navigate after animations complete
     setTimeout(() => {
+      // Store navigation direction for the incoming page
+      sessionStorage.setItem(
+        'navigationDirection',
+        page === 'blog' ? 'forward' : 'back'
+      );
+      sessionStorage.setItem('pageTransition', 'true');
+
       if (page === 'home') {
         window.location.href = 'index.html';
       } else if (page === 'blog') {
         window.location.href = 'blog.html';
       }
-    }, 50);
+    }, 250); // Match the CSS transition duration
   }
 
   addSwipeIndicators() {
@@ -320,8 +348,39 @@ class SwipeNavigation {
   }
 }
 
+// Handle page transition animations on load
+function handlePageTransitionOnLoad() {
+  // Check if this is a navigation transition
+  const isTransition = sessionStorage.getItem('pageTransition');
+
+  if (isTransition === 'true') {
+    // Clear the flag
+    sessionStorage.removeItem('pageTransition');
+
+    // Add entering animation to main content
+    const contentElements = document.querySelectorAll(
+      '.container, nav, .blog-grid'
+    );
+    contentElements.forEach(el => {
+      if (el) {
+        el.classList.add('page-entering');
+      }
+    });
+
+    // Optional: Add directional context if needed
+    const direction = sessionStorage.getItem('navigationDirection');
+    if (direction) {
+      document.body.dataset.transitionDirection = direction;
+      sessionStorage.removeItem('navigationDirection');
+    }
+  }
+}
+
 // Load saved theme on page load
 document.addEventListener('DOMContentLoaded', function () {
+  // Handle page transitions first
+  handlePageTransitionOnLoad();
+
   const savedTheme = localStorage.getItem('theme');
   const themeIcon = document.getElementById('theme-icon');
 

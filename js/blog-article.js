@@ -38,11 +38,47 @@ document.addEventListener('DOMContentLoaded', function () {
     // Check if it's a valid horizontal swipe (not vertical scrolling)
     if (Math.abs(deltaX) > swipeThreshold && deltaY < maxVerticalDistance) {
       if (deltaX > 0) {
-        // Swipe RIGHT - pull back to blog listing
-        window.location.href = '../blog.html';
+        // Swipe RIGHT - pull back to blog listing with smooth transition
+        navigateWithTransition('../blog.html');
       }
       // Swipe LEFT does nothing in articles
     }
+  }
+
+  // Smooth page navigation with fade transition
+  function navigateWithTransition(url) {
+    // Add transitioning class to body
+    document.body.classList.add('page-transitioning');
+
+    // Get all main content elements to fade out
+    const contentElements = document.querySelectorAll('.blog-article, nav');
+
+    // Create overlay that matches current background
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    document.body.appendChild(overlay);
+
+    // Start fade out animation on content
+    contentElements.forEach(el => {
+      if (el) {
+        el.classList.add('page-content');
+        el.classList.add('fade-out');
+      }
+    });
+
+    // Trigger overlay fade in after a brief delay
+    requestAnimationFrame(() => {
+      overlay.classList.add('fade-in');
+    });
+
+    // Navigate after animations complete
+    setTimeout(() => {
+      // Store navigation info for the incoming page
+      sessionStorage.setItem('navigationDirection', 'back');
+      sessionStorage.setItem('pageTransition', 'true');
+
+      window.location.href = url;
+    }, 250); // Match the CSS transition duration
   }
 
   // Disable browser's swipe navigation on this page
@@ -103,12 +139,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Ensure back link works correctly
+  // Ensure back link works correctly with smooth transition
   const backLink = document.querySelector('.back-link');
   if (backLink) {
     backLink.addEventListener('click', function (e) {
+      e.preventDefault();
       e.stopPropagation();
-      // Let the default link behavior work
+      // Navigate with smooth transition
+      navigateWithTransition(backLink.getAttribute('href'));
     });
   }
 

@@ -1,5 +1,43 @@
 // blog.js - Enhanced functionality for Moses's Engineer Blog
 
+// Smooth page navigation with fade transition
+function navigateWithTransition(url) {
+  // Add transitioning class to body
+  document.body.classList.add('page-transitioning');
+
+  // Get all main content elements to fade out
+  const contentElements = document.querySelectorAll(
+    '.blog-grid, nav, .container'
+  );
+
+  // Create overlay that matches current background
+  const overlay = document.createElement('div');
+  overlay.className = 'page-transition-overlay';
+  document.body.appendChild(overlay);
+
+  // Start fade out animation on content
+  contentElements.forEach(el => {
+    if (el) {
+      el.classList.add('page-content');
+      el.classList.add('fade-out');
+    }
+  });
+
+  // Trigger overlay fade in after a brief delay
+  requestAnimationFrame(() => {
+    overlay.classList.add('fade-in');
+  });
+
+  // Navigate after animations complete
+  setTimeout(() => {
+    // Store navigation info for the incoming page
+    sessionStorage.setItem('navigationDirection', 'forward');
+    sessionStorage.setItem('pageTransition', 'true');
+
+    window.location.href = url;
+  }, 250); // Match the CSS transition duration
+}
+
 // Enhanced blog functionality
 document.addEventListener('DOMContentLoaded', function () {
   // Only run on blog listing page, not on individual article pages
@@ -54,14 +92,14 @@ document.addEventListener('DOMContentLoaded', function () {
           return;
         }
 
-        // Find the h2 link (the main article link) and navigate
+        // Find the h2 link (the main article link) and navigate with smooth transition
         const h2Link = this.querySelector('h2 a');
         if (h2Link && h2Link.href) {
           // Prevent any other handlers from interfering
           e.preventDefault();
           // Add a small delay to ensure touch events are fully processed
           setTimeout(() => {
-            window.location.href = h2Link.href;
+            navigateWithTransition(h2Link.href);
           }, 10);
         }
       },
