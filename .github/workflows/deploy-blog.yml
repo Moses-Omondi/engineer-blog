@@ -175,38 +175,96 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Run Lighthouse CI
+      - name: Start server for Lighthouse
+        run: |
+          npm run serve &
+          sleep 5
+          echo "🌐 Server started on http://localhost:3000"
+
+      - name: Run Lighthouse Audits
         run: |
           echo "🔍 Starting Lighthouse Performance Audit..."
-          npx @lhci/cli@0.12.x autorun --config=./lighthouserc.cjs || echo "⚠️ Lighthouse audit completed with warnings"
-          echo "✅ Performance audit completed"
-          echo "📁 Checking for Lighthouse output directory..."
-          ls -la .lighthouseci/ 2>/dev/null || echo "No .lighthouseci directory found"
-          ls -la .lighthouseci/ 2>/dev/null || echo "No .lighthouseci directory found"
+          # Create output directory
+          mkdir -p lighthouse-results
+          
+          # Run Lighthouse directly without CI wrapper for better control
+          echo "Running audit on homepage..."
+          npx lighthouse http://localhost:3000 \
+            --output=html,json \
+            --output-path=./lighthouse-results/homepage \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --skip-audits=uses-http2 \
+            || echo "⚠️ Homepage audit completed with warnings"
+          
+          echo "Running audit on blog page..."
+          npx lighthouse http://localhost:3000/blog.html \
+            --output=html,json \
+            --output-path=./lighthouse-results/blog \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --skip-audits=uses-http2 \
+            || echo "⚠️ Blog page audit completed with warnings"
+          
+          echo "✅ Performance audits completed"
+          echo "📁 Generated reports:"
+          ls -la lighthouse-results/
+          
+          # Kill the server
+          pkill -f "npm run serve" || true
         continue-on-error: true
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      - name: Check Lighthouse output
+      - name: Extract performance metrics
+        if: always()
         run: |
-          if [ -d ".lighthouseci" ]; then
-            echo "📊 Lighthouse reports found:"
-            ls -la .lighthouseci/
-          else
-            echo "⚠️ No Lighthouse output directory found"
-            echo "Creating placeholder for artifact upload"
-            mkdir -p lighthouse-results
-            echo "No Lighthouse reports generated in this run" > lighthouse-results/README.txt
+          # Ensure we have something to upload
+          mkdir -p lighthouse-results
+          
+          # Create a summary report
+          echo "# Lighthouse Performance Audit Report" > lighthouse-results/summary.md
+          echo "" >> lighthouse-results/summary.md
+          echo "**Date:** $(date)" >> lighthouse-results/summary.md
+          echo "**Commit:** ${{ github.sha }}" >> lighthouse-results/summary.md
+          echo "**Branch:** ${{ github.ref_name }}" >> lighthouse-results/summary.md
+          echo "" >> lighthouse-results/summary.md
+          
+          # Extract scores from JSON if available
+          if [ -f "lighthouse-results/homepage.report.json" ]; then
+            echo "## Homepage Scores" >> lighthouse-results/summary.md
+            echo "🏠 **Homepage Performance Metrics:**" >> lighthouse-results/summary.md
+            cat lighthouse-results/homepage.report.json | \
+              jq -r '.categories | to_entries[] | "- \(.key): \(.value.score * 100)%"' >> lighthouse-results/summary.md 2>/dev/null || \
+              echo "Unable to extract detailed scores" >> lighthouse-results/summary.md
+            echo "" >> lighthouse-results/summary.md
           fi
+          
+          if [ -f "lighthouse-results/blog.report.json" ]; then
+            echo "## Blog Page Scores" >> lighthouse-results/summary.md
+            echo "📝 **Blog Page Performance Metrics:**" >> lighthouse-results/summary.md
+            cat lighthouse-results/blog.report.json | \
+              jq -r '.categories | to_entries[] | "- \(.key): \(.value.score * 100)%"' >> lighthouse-results/summary.md 2>/dev/null || \
+              echo "Unable to extract detailed scores" >> lighthouse-results/summary.md
+            echo "" >> lighthouse-results/summary.md
+          fi
+          
+          # Check if reports exist
+          if ls lighthouse-results/*.html 1> /dev/null 2>&1; then
+            echo "✅ Lighthouse reports generated successfully!" >> lighthouse-results/summary.md
+            echo "" >> lighthouse-results/summary.md
+            echo "HTML reports are available as artifacts." >> lighthouse-results/summary.md
+          else
+            echo "⚠️ No detailed Lighthouse reports were generated." >> lighthouse-results/summary.md
+          fi
+          
+          echo "📊 Contents of lighthouse-results:"
+          ls -la lighthouse-results/
 
       - name: Upload Lighthouse results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lighthouse-report
-          path: |
-            .lighthouseci/
-            lighthouse-results/
+          path: lighthouse-results/
           if-no-files-found: warn
           retention-days: 30
 
