@@ -182,106 +182,11 @@ class SwipeNavigation {
 
       // Add swipe indicators for mobile
       this.addSwipeIndicators();
-    } else {
-      // Desktop: Only add edge navigation areas on home page
-      // Blog page doesn't get edge areas to avoid conflicts with blog cards
-      if (this.currentPage === 'home') {
-        this.addDesktopNavigation();
-      }
     }
+    // Desktop navigation removed - only mobile swipe navigation is active
   }
 
-  addDesktopNavigation() {
-    // Add subtle click areas on left/right edges for desktop navigation
-    const leftClickArea = document.createElement('div');
-    leftClickArea.className = 'desktop-nav-area left';
-    leftClickArea.addEventListener('click', e => {
-      // Don't navigate if clicking on or near a blog post card
-      if (e.target.closest('.blog-post') || e.target.closest('.blog-posts')) {
-        return;
-      }
-      if (this.currentPage === 'blog') {
-        this.navigateToPage('home');
-      }
-    });
-
-    const rightClickArea = document.createElement('div');
-    rightClickArea.className = 'desktop-nav-area right';
-    rightClickArea.addEventListener('click', e => {
-      // Don't navigate if clicking on or near a blog post card
-      if (e.target.closest('.blog-post') || e.target.closest('.blog-posts')) {
-        return;
-      }
-      if (this.currentPage === 'home') {
-        this.navigateToPage('blog');
-      }
-    });
-
-    document.body.appendChild(leftClickArea);
-    document.body.appendChild(rightClickArea);
-
-    // Add CSS for desktop navigation areas
-    const style = document.createElement('style');
-    style.textContent = `
-            .desktop-nav-area {
-                position: fixed;
-                top: 0;
-                width: 40px;
-                height: 100vh;
-                z-index: 10;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                opacity: 0;
-                pointer-events: none;
-            }
-            
-            .desktop-nav-area:hover {
-                pointer-events: auto;
-            }
-            
-            .desktop-nav-area:hover {
-                background-color: rgba(var(--gradient-start), 0.1);
-                opacity: 1;
-            }
-            
-            .desktop-nav-area.left {
-                left: 0;
-            }
-            
-            .desktop-nav-area.right {
-                right: 0;
-            }
-            
-            .desktop-nav-area::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 0;
-                height: 0;
-                border-style: solid;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-            
-            .desktop-nav-area.left::before {
-                left: 20px;
-                border-width: 8px 12px 8px 0;
-                border-color: transparent var(--text-color) transparent transparent;
-            }
-            
-            .desktop-nav-area.right::before {
-                right: 20px;
-                border-width: 8px 0 8px 12px;
-                border-color: transparent transparent transparent var(--text-color);
-            }
-            
-            .desktop-nav-area:hover::before {
-                opacity: 0.7;
-            }
-        `;
-    document.head.appendChild(style);
-  }
+  // Desktop navigation method removed - only mobile swipe navigation is supported
 
   handleTouchStart(event) {
     if (this.isTransitioning) {
