@@ -6,17 +6,68 @@ document.addEventListener('DOMContentLoaded', function() {
     let touchEndX = 0;
     let touchStartY = 0;
     let touchEndY = 0;
+    let isSwipingLeft = false;
+    
+    // Create a visual feedback element
+    const swipeFeedback = document.createElement('div');
+    swipeFeedback.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 10000;
+    `;
+    swipeFeedback.textContent = '← Going back to blog';
+    document.body.appendChild(swipeFeedback);
     
     // Add swipe detection
     document.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
+        isSwipingLeft = false;
     }, { passive: true });
+    
+    document.addEventListener('touchmove', function(e) {
+        if (!touchStartX) return;
+        
+        const currentX = e.changedTouches[0].screenX;
+        const currentY = e.changedTouches[0].screenY;
+        const diffX = touchStartX - currentX; // Positive = swiping left
+        const diffY = Math.abs(currentY - touchStartY);
+        
+        // Show feedback when swiping left
+        if (diffX > 30 && diffY < 100) {
+            isSwipingLeft = true;
+            swipeFeedback.style.opacity = Math.min(1, diffX / 100);
+        } else {
+            swipeFeedback.style.opacity = '0';
+            isSwipingLeft = false;
+        }
+        
+        // Prevent default behavior for horizontal swipes to disable browser navigation
+        if (Math.abs(diffX) > 10 && diffY < 100) {
+            // This prevents the browser's swipe navigation
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false }); // Note: passive is false to allow preventDefault
     
     document.addEventListener('touchend', function(e) {
         touchEndX = e.changedTouches[0].screenX;
         touchEndY = e.changedTouches[0].screenY;
+        swipeFeedback.style.opacity = '0';
         handleSwipeGesture();
+        isSwipingLeft = false;
     }, { passive: true });
     
     function handleSwipeGesture() {
@@ -24,17 +75,56 @@ document.addEventListener('DOMContentLoaded', function() {
         const verticalThreshold = 100; // Maximum vertical movement allowed
         
         const horizontalDiff = touchStartX - touchEndX; // Positive = swipe left
+        const horizontalDiffReverse = touchEndX - touchStartX; // Positive = swipe right
         const verticalDiff = Math.abs(touchStartY - touchEndY);
         
         // Check if this is a horizontal swipe (not vertical scrolling)
         if (verticalDiff < verticalThreshold) {
             // Swipe left to go back to blog list
             if (horizontalDiff > swipeThreshold) {
-                // Navigate back to blog list
-                window.location.href = '../blog.html';
+                // Show feedback and navigate
+                swipeFeedback.style.opacity = '1';
+                swipeFeedback.textContent = '← Returning to blog';
+                
+                setTimeout(() => {
+                    window.location.href = '../blog.html';
+                }, 200);
+            }
+            // Block right swipe - do nothing, just prevent default browser behavior
+            else if (horizontalDiffReverse > swipeThreshold) {
+                // Show a message that there's nothing to go forward to
+                swipeFeedback.textContent = 'Already at the latest';
+                swipeFeedback.style.opacity = '1';
+                setTimeout(() => {
+                    swipeFeedback.style.opacity = '0';
+                }, 1000);
             }
         }
     }
+    
+    // Disable browser's swipe navigation on this page
+    if ('overscrollBehavior' in document.body.style) {
+        document.body.style.overscrollBehavior = 'none';
+    }
+    
+    // For iOS Safari - prevent swipe navigation
+    let xPos = null;
+    document.addEventListener('touchstart', function(e) {
+        xPos = e.touches[0].clientX;
+    }, { passive: true });
+    
+    document.addEventListener('touchmove', function(e) {
+        if (!xPos) return;
+        
+        const xDiff = xPos - e.touches[0].clientX;
+        
+        // If swiping horizontally near edges, prevent default
+        if (Math.abs(xDiff) > 5 && (xPos < 50 || xPos > window.innerWidth - 50)) {
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
     
     // Prevent any accidental link behavior in code blocks
     const codeBlocks = document.querySelectorAll('.blog-article pre, .blog-article code');

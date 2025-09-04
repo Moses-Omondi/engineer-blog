@@ -295,3 +295,29 @@
     font-size: 0.95rem;
   }
 }
+
+/* Prevent browser swipe navigation */
+body {
+  /* Prevent horizontal overscroll that triggers browser navigation */
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: auto;
+}
+
+html {
+  /* Additional prevention for browser navigation */
+  overscroll-behavior: none;
+}
+
+/* Touch-specific overscroll prevention */
+@media (hover: none) and (pointer: coarse) {
+  body, html {
+    /* Disable browser swipe gestures */
+    overscroll-behavior: none;
+    touch-action: pan-y;
+  }
+  
+  .blog-article {
+    /* Allow vertical scrolling only in article content */
+    touch-action: pan-y;
+  }
+}
