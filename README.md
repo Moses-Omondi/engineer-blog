@@ -15,22 +15,26 @@
 ## 📊 Project Status
 
 ### Build & Deployment
+
 [![Deploy Status](https://github.com/Moses-Omondi/engineer-blog/workflows/pages%20build%20and%20deployment/badge.svg)](https://github.com/Moses-Omondi/engineer-blog/actions)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Active-success)](https://mosesomondi.dev)
 [![Last Commit](https://img.shields.io/github/last-commit/Moses-Omondi/engineer-blog)](https://github.com/Moses-Omondi/engineer-blog/commits/main)
 
 ### Code Quality & Coverage
+
 [![Code Size](https://img.shields.io/github/languages/code-size/Moses-Omondi/engineer-blog)](https://github.com/Moses-Omondi/engineer-blog)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://www.ecma-international.org/ecma-262/)
 [![CSS3](https://img.shields.io/badge/CSS-3-blue.svg)](https://www.w3.org/Style/CSS/)
 [![HTML5](https://img.shields.io/badge/HTML-5-red.svg)](https://html.spec.whatwg.org/)
 
 ### Security & Performance
+
 [![Security Headers](https://img.shields.io/badge/Security%20Headers-A+-brightgreen)](https://securityheaders.com)
 [![Mozilla Observatory](https://img.shields.io/badge/Mozilla%20Observatory-A+-brightgreen)](https://observatory.mozilla.org)
 [![Performance Score](https://img.shields.io/badge/Lighthouse-98%25-brightgreen)](https://pagespeed.web.dev)
 
 ### Test Coverage Report
+
 ```
 ------------------------|---------|----------|---------|---------|-------------------
 File                    | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
@@ -44,6 +48,7 @@ main.js                 |   95.24 |    88.89 |   93.75 |   95.24 | 345,458
 ```
 
 ### Security Analysis
+
 ```
 🔒 Security Audit Results (December 2024):
 ├── Critical: 0
@@ -59,39 +64,49 @@ Visit the live blog at [mosesomondi.dev](https://mosesomondi.dev)
 
 ## ✨ Features
 
-### Enterprise-Grade Architecture
-- **TypeScript Support**: Full type safety and modern JavaScript features
-- **Module System**: ES6 modules with proper imports/exports
-- **Error Handling**: Comprehensive error handling and logging
-- **Security**: Input sanitization, dependency scanning, and security policies
+### 📱 Mobile-First Navigation
 
-### Developer Experience
-- **Hot Reloading**: Live development server with automatic reloads
-- **Code Quality**: ESLint, Prettier, and pre-commit hooks
-- **Testing**: Unit tests (Jest), E2E tests (Playwright), and coverage reporting
-- **Performance Monitoring**: Lighthouse CI integration for performance tracking
+- **Intuitive Swipe Gestures**: Natural push/pull navigation metaphor
+- **Touch-Optimized**: Designed for mobile devices from the ground up
+- **Smart Detection**: Distinguishes between swipes and taps for optimal UX
+- **Consistent Navigation**:
+  - Home Page: Swipe LEFT to push to Blog
+  - Blog Page: Swipe RIGHT to pull back to Home
+  - Articles: Swipe RIGHT to return to Blog listing
 
-### Modern Tooling
-- **Build System**: Optimized build pipeline with minification and bundling
-- **CI/CD**: Comprehensive GitHub Actions workflow
-- **Dependency Management**: Automated security updates with Dependabot
-- **Documentation**: Comprehensive guides and API documentation
+### 🎨 User Experience
 
-### Content Management
+- **Dark/Light Theme**: Toggle between themes with persistent preference
+- **Terminal-Style Home**: Unique terminal interface showcasing personality
+- **Smooth Animations**: Polished transitions and hover effects
+- **Mobile Tooltips**: Touch-friendly certification tooltips
+- **Copy Code Buttons**: One-click code copying in articles
+
+### 📝 Content Management
+
 - **Markdown Support**: Write posts in Markdown with front matter
-- **Syntax Highlighting**: Code blocks with highlight.js
-- **SEO Optimization**: Meta tags, OpenGraph, and Twitter Cards
-- **Responsive Design**: Mobile-first, accessible design
+- **Syntax Highlighting**: Beautiful code blocks with syntax highlighting
+- **SEO Optimization**: Meta tags, OpenGraph, and structured data
+- **Responsive Design**: Perfect on all devices from phones to desktops
+
+### 🛡️ Performance & Security
+
+- **Lightning Fast**: Optimized for speed with minimal dependencies
+- **Secure**: Input sanitization and XSS protection
+- **Accessible**: WCAG compliant with keyboard navigation support
+- **PWA Ready**: Offline support and app-like experience
 
 ## 🛠 Tech Stack
 
 ### Core Technologies
+
 - **Runtime**: Node.js 20+
 - **Languages**: TypeScript/JavaScript, HTML5, CSS3
 - **Markdown Processing**: Marked with syntax highlighting
 - **Security**: Sanitize-HTML for XSS protection
 
 ### Development Tools
+
 - **Testing**: Jest (unit), Playwright (E2E)
 - **Linting**: ESLint with security plugins
 - **Formatting**: Prettier
@@ -99,6 +114,7 @@ Visit the live blog at [mosesomondi.dev](https://mosesomondi.dev)
 - **Performance**: Lighthouse CI
 
 ### Infrastructure
+
 - **CI/CD**: GitHub Actions
 - **Security**: Snyk, npm audit, Dependabot
 - **Monitoring**: Performance metrics and error tracking
@@ -107,6 +123,7 @@ Visit the live blog at [mosesomondi.dev](https://mosesomondi.dev)
 ## 📦 Installation
 
 ### Prerequisites
+
 - Node.js 18.0.0 or higher
 - npm 9.0.0 or higher
 
@@ -169,11 +186,11 @@ npm run validate        # Run all validation checks
 
 ```markdown
 ---
-title: "Your Amazing Post Title"
-date: "December 1, 2024"
-category: "Technology"
-excerpt: "A brief description that appears on the blog listing page"
-slug: "your-amazing-post-title"  # Optional: auto-generated from title
+title: 'Your Amazing Post Title'
+date: 'December 1, 2024'
+category: 'Technology'
+excerpt: 'A brief description that appears on the blog listing page'
+slug: 'your-amazing-post-title' # Optional: auto-generated from title
 ---
 
 # Your Amazing Post Title
@@ -184,7 +201,7 @@ Write your content here using standard Markdown syntax...
 
 \`\`\`javascript
 const example = () => {
-  console.log('Hello, World!');
+console.log('Hello, World!');
 };
 \`\`\`
 
@@ -206,22 +223,22 @@ npm run build:blog
 
 3. Your post is now live with:
    - ✅ Perfect styling that matches your site
-   - ✅ Dark/light mode support  
+   - ✅ Dark/light mode support
    - ✅ Mobile responsive design
-   - ✅ Automatic navigation
+   - ✅ Mobile swipe navigation support
    - ✅ SEO-friendly HTML structure
-   - ✅ Syntax highlighting
+   - ✅ Syntax highlighting with copy buttons
    - ✅ Reading time estimates
 
 ### Front Matter Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `title` | ✅ Yes | The post title |
-| `date` | No | Publication date (defaults to today) |
-| `category` | No | Post category (defaults to "General") |
-| `excerpt` | No | Short description (auto-generated from content) |
-| `slug` | No | URL-friendly filename (auto-generated from title) |
+| Field      | Required | Description                                       |
+| ---------- | -------- | ------------------------------------------------- |
+| `title`    | ✅ Yes   | The post title                                    |
+| `date`     | No       | Publication date (defaults to today)              |
+| `category` | No       | Post category (defaults to "General")             |
+| `excerpt`  | No       | Short description (auto-generated from content)   |
+| `slug`     | No       | URL-friendly filename (auto-generated from title) |
 
 ## 🏗 Architecture
 
@@ -249,13 +266,22 @@ engineer-blog/
 
 ### Key Components
 
+#### Navigation System (`js/main.js`)
+
+- **Mobile-First**: Touch gesture detection and swipe navigation
+- **Smart Detection**: Differentiates swipes from taps
+- **Blog Card Protection**: Prevents accidental navigation when interacting with cards
+- **Visual Feedback**: Smooth transitions during navigation
+
 #### Blog Generator (`src/generate-blog.js`)
-- **Enterprise-grade**: Proper error handling, logging, and validation
+
+- **Automated**: Converts Markdown to beautiful HTML
 - **Security**: HTML sanitization and input validation
 - **Performance**: Template caching and optimized processing
-- **Standards**: TypeScript support and comprehensive testing
+- **Consistent**: Maintains design system across all posts
 
 #### CI/CD Pipeline
+
 - **Security Scanning**: Snyk, npm audit
 - **Code Quality**: ESLint, TypeScript checking
 - **Testing**: Unit tests, E2E tests, coverage reporting
@@ -263,6 +289,7 @@ engineer-blog/
 - **Deployment**: Automated GitHub Pages deployment
 
 #### Development Workflow
+
 - **Pre-commit Hooks**: Automated linting and formatting
 - **Hot Reloading**: Live development server
 - **Type Safety**: Full TypeScript support
@@ -271,6 +298,7 @@ engineer-blog/
 ## 🔒 Security
 
 ### Security Measures
+
 - All user input is sanitized using `sanitize-html`
 - Dependencies are automatically scanned for vulnerabilities
 - Security-focused ESLint rules are enforced
@@ -278,11 +306,13 @@ engineer-blog/
 - No secrets stored in repository or CI variables
 
 ### Reporting Security Issues
+
 Please see our [Security Policy](SECURITY.md) for information on reporting vulnerabilities.
 
 ## 🚀 Performance
 
 ### Optimization Features
+
 - **Minification**: CSS and JavaScript are minified in production
 - **Code Splitting**: Optimized bundling with esbuild
 - **Image Optimization**: Responsive images with proper loading
@@ -290,6 +320,7 @@ Please see our [Security Policy](SECURITY.md) for information on reporting vulne
 - **Performance Monitoring**: Continuous Lighthouse audits
 
 ### Performance Targets
+
 - First Contentful Paint: < 2.5s
 - Largest Contentful Paint: < 4.0s
 - Cumulative Layout Shift: < 0.1
@@ -298,6 +329,7 @@ Please see our [Security Policy](SECURITY.md) for information on reporting vulne
 ## 🧪 Testing
 
 ### Testing Strategy
+
 - **Unit Tests**: Jest with 80%+ coverage requirement
 - **Integration Tests**: API and component integration
 - **End-to-End Tests**: Playwright across multiple browsers
@@ -322,12 +354,14 @@ npm run test -- --coverage
 ## 📊 Monitoring & Analytics
 
 ### Performance Monitoring
+
 - Lighthouse CI integration
 - Core Web Vitals tracking
 - Bundle size analysis
 - Build performance metrics
 
 ### Error Tracking
+
 - Comprehensive error logging
 - CI/CD failure notifications
 - Security vulnerability alerts
@@ -359,6 +393,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Moses Omondi**
+
 - Website: [mosesomondi.dev](https://mosesomondi.dev)
 - GitHub: [@Moses-Omondi](https://github.com/Moses-Omondi)
 - Email: mosesomondi.dev@gmail.com
