@@ -304,18 +304,19 @@ class SwipeNavigation {
     this.showSwipeFeedback();
   }
 
-  handleTouchEnd(event) {
+  handleTouchEnd() {
     if (this.isTransitioning) {
       return;
     }
 
-    // Don't process swipe if user started on a blog card
-    if (!this.startX || event.target.closest('.blog-post')) {
-      this.startX = 0;
-      this.startY = 0;
+    // Don't process swipe if user didn't start a swipe or started on a blog card
+    if (!this.startX) {
       this.hideSwipeFeedback();
       return;
     }
+
+    // If touch ended on a blog card but didn't start on one, still allow the swipe
+    // This prevents the card click from blocking swipes that pass over cards
 
     this.processSwipe();
     this.hideSwipeFeedback();
@@ -334,15 +335,15 @@ class SwipeNavigation {
       Math.abs(deltaX) > this.minSwipeDistance &&
       deltaY < this.maxVerticalDistance
     ) {
-      if (deltaX > 0) {
-        // Swipe right - go to previous page (Home if on Blog)
-        if (this.currentPage === 'blog') {
-          this.navigateToPage('home');
-        }
-      } else {
-        // Swipe left - go to next page (Blog if on Home)
+      if (deltaX < 0) {
+        // Swipe LEFT - go forward (Home → Blog)
         if (this.currentPage === 'home') {
           this.navigateToPage('blog');
+        }
+      } else {
+        // Swipe RIGHT - go back (Blog → Home)
+        if (this.currentPage === 'blog') {
+          this.navigateToPage('home');
         }
       }
     }
