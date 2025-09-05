@@ -8,7 +8,10 @@ test.describe('Engineer Blog', () => {
 
   test('should load home page successfully', async ({ page }) => {
     await expect(page).toHaveTitle(/Moses Omondi/);
-    await expect(page.locator('h1')).toContainText('Moses Omondi');
+    // Check that h1 contains the text parts (accounting for the split due to countdown badge)
+    const h1Text = await page.locator('h1').textContent();
+    expect(h1Text).toContain('Moses Omon');
+    expect(h1Text).toContain('di');
   });
 
   test('should have working navigation', async ({ page }) => {
