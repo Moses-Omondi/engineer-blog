@@ -1294,20 +1294,54 @@ h1 {
     display: block;
     width: 100%;
     position: relative;
+    margin-top: 40px; /* Space for the badge above */
   }
 
   .countdown-badge {
-    position: relative;
-    top: auto;
-    right: auto;
-    display: inline-block;
-    margin: 10px auto 15px;
-    font-size: 0.75rem;
-    padding: 6px 10px;
+    position: absolute !important;
+    top: -40px !important; /* Position above the name */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0;
+    font-size: 0.8rem;
+    padding: 8px 14px;
+    z-index: 1000 !important;
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+    animation: mobilePulse 2s ease-in-out infinite !important;
+    white-space: nowrap;
   }
 
+  @keyframes mobilePulse {
+    0%,
+    100% {
+      transform: translateX(-50%) scale(1);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.02);
+    }
+  }
+
+  .countdown-badge:hover {
+    transform: translateX(-50%) scale(1.05) !important;
+    animation: none !important;
+  }
+
+  /* Show pointer on mobile pointing down to the name */
   .badge-pointer {
-    display: none; /* Hide pointer on mobile */
+    display: block !important;
+    position: absolute;
+    top: 100%; /* Position at bottom of badge */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #7c3aed;
   }
 
   /* Mobile Swipe Indicator Adjustments */
@@ -1329,8 +1363,19 @@ h1 {
 @media (max-width: 320px) {
   /* Countdown badge for very small screens */
   .countdown-badge {
-    font-size: 0.7rem;
-    padding: 5px 8px;
+    font-size: 0.75rem !important;
+    padding: 6px 10px !important;
+    top: -38px !important; /* Slightly closer on very small screens */
+  }
+
+  .badge-pointer {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #7c3aed;
+  }
+
+  h1 {
+    font-size: 1.8rem !important;
   }
   .nav-container {
     padding: 10px 12px;
@@ -1349,10 +1394,6 @@ h1 {
     width: 100px;
     height: 100px;
     font-size: 2rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
   }
 
   .subtitle {
