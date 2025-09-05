@@ -171,7 +171,7 @@ body {
 .countdown-badge {
   position: absolute;
   top: -34px;
-  left: 0;
+  left: -10px;
   background: linear-gradient(135deg, #8b5cf6, #7c3aed);
   color: white;
   padding: 8px 12px;
@@ -189,7 +189,7 @@ body {
 .badge-pointer {
   position: absolute;
   bottom: -6px;
-  left: 6px;
+  left: 16px;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
@@ -1307,7 +1307,7 @@ h1 {
   .countdown-badge {
     position: absolute !important;
     top: -24px !important; /* Slightly closer on mobile */
-    left: 0 !important; /* Start exactly at the 'n' */
+    left: -10px !important; /* Shift 10px further left from the 'n' */
     right: auto !important;
     transform: none !important;
     display: block !important;
@@ -1345,7 +1345,7 @@ h1 {
     display: block !important;
     position: absolute;
     bottom: -6px; /* Position at bottom of badge */
-    left: 6px; /* Aim at the 'n' */
+    left: 16px; /* Maintain logical aim after left shift */
     transform: none;
     width: 0;
     height: 0;
@@ -1375,7 +1375,7 @@ h1 {
   .countdown-badge {
     font-size: 0.7rem !important;
     padding: 5px 8px !important;
-    left: 0 !important; /* Start exactly at the 'n' */
+    left: -10px !important; /* Shift 10px further left from the 'n' */
     right: auto !important;
     top: -18px !important;
     max-width: 100px; /* Very compact for small screens */
@@ -1385,7 +1385,7 @@ h1 {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 5px solid #7c3aed;
-    left: 5px; /* Aim at the 'n' */
+    left: 15px; /* Maintain logical aim after left shift */
   }
 
   h1 {
