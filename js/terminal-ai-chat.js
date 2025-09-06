@@ -76,6 +76,8 @@ class TerminalAIChat {
     if (hobbyTags.length === 0) {
       // eslint-disable-next-line no-console
       console.log('TerminalAIChat: No hobby tags found');
+      // Fallback: Add a visible chat button to the terminal window itself
+      this.addFallbackChatButton();
       return false;
     }
 
@@ -174,7 +176,68 @@ class TerminalAIChat {
 
     // eslint-disable-next-line no-console
     console.log('TerminalAIChat: "Artificial Intelligence" tag not found');
+    // Fallback: Add a visible chat button to the terminal window itself
+    this.addFallbackChatButton();
     return false; // Failed to find the tag
+  }
+
+  addFallbackChatButton() {
+    // Add a visible chat button as fallback when hobby tags aren't found
+    const terminal = document.querySelector('.terminal-window');
+    if (!terminal) return;
+
+    // Check if fallback button already exists
+    if (terminal.querySelector('.fallback-chat-button')) return;
+
+    const fallbackButton = document.createElement('div');
+    fallbackButton.className = 'fallback-chat-button';
+    fallbackButton.innerHTML = `
+      <button class="chat-test-btn" title="Chat with Moses AI">
+        💬 Chat with Moses AI
+      </button>
+    `;
+
+    // Position the button prominently
+    fallbackButton.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: #00ff00;
+      color: #000;
+      padding: 12px 16px;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: bold;
+      border: 2px solid #00ff00;
+      animation: pulse-glow 2s infinite;
+    `;
+
+    // Add to body instead of terminal for better visibility
+    document.body.appendChild(fallbackButton);
+
+    // Add click handler
+    const button = fallbackButton.querySelector('.chat-test-btn');
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      // eslint-disable-next-line no-console
+      console.log('TerminalAIChat: Fallback button clicked, opening chat...');
+      this.showChat();
+    });
+
+    // Add touch handler for mobile
+    button.addEventListener('touchend', e => {
+      e.preventDefault();
+      // eslint-disable-next-line no-console
+      console.log('TerminalAIChat: Fallback button touched, opening chat...');
+      this.showChat();
+    });
+
+    // eslint-disable-next-line no-console
+    console.log('TerminalAIChat: Added fallback chat button');
   }
 
   setupMobileSupport() {
@@ -198,6 +261,11 @@ class TerminalAIChat {
 
   // Manual method to show chat interface
   showChat() {
+    // Remove fallback button when chat is opened
+    const fallbackButton = document.querySelector('.fallback-chat-button');
+    if (fallbackButton) {
+      fallbackButton.remove();
+    }
     this.transformToChat();
   }
 
@@ -557,6 +625,12 @@ class TerminalAIChat {
     // Unlock body scroll on mobile
     document.body.classList.remove('chat-open');
 
+    // Remove fallback button when chat is opened (it's no longer needed)
+    const fallbackButton = document.querySelector('.fallback-chat-button');
+    if (fallbackButton) {
+      fallbackButton.remove();
+    }
+
     // Add closing animation
     this.terminalElement.style.transition = 'all 0.4s ease-in-out';
     this.terminalElement.style.transform = 'scale(0.95)';
@@ -568,7 +642,8 @@ class TerminalAIChat {
       this.terminalElement.style.opacity = '1';
       this.isChatMode = false;
 
-      // AI word triggers disabled - no re-setup needed
+      // Re-add fallback button after closing
+      this.addFallbackChatButton();
     }, 200);
   }
 }

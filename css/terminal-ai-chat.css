@@ -15,24 +15,32 @@
 .chat-icon-button {
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, var(--gradient-start, #667eea), var(--gradient-end, #764ba2));
+  background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 50%;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  pointer-events: auto;
+  pointer-events: auto !important;
   position: relative;
   border: 2px solid white;
   animation: floatIcon 2s ease-in-out infinite;
+  /* Ensure visibility */
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10000 !important;
 }
 
 .chat-icon-button:hover {
   transform: scale(1.1) translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, var(--gradient-end, #764ba2), var(--gradient-start, #667eea));
+  background: linear-gradient(
+    135deg,
+    var(--gradient-end, #764ba2),
+    var(--gradient-start, #667eea)
+  );
 }
 
 .chat-icon-button svg {
@@ -58,7 +66,8 @@
   justify-content: center;
   border: 2px solid white;
   animation: pulse 2s infinite;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .chat-tooltip {
@@ -76,7 +85,8 @@
   visibility: hidden;
   transition: all 0.3s ease;
   margin-bottom: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 500;
   z-index: 1000;
 }
@@ -99,7 +109,8 @@
 }
 
 @keyframes floatIcon {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
   25% {
@@ -111,7 +122,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -137,18 +149,18 @@
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   .chat-icon-button svg {
     width: 20px;
     height: 20px;
   }
-  
+
   .chat-counter {
     width: 18px;
     height: 18px;
     font-size: 11px;
   }
-  
+
   .chat-tooltip {
     font-size: 13px;
     padding: 10px 14px;
@@ -156,7 +168,7 @@
     bottom: 120%;
     margin-bottom: 12px;
   }
-  
+
   /* Show tooltip on touch/active state for mobile */
   .chat-icon-button:active + .chat-tooltip,
   .floating-chat-icon:active .chat-tooltip {
@@ -164,7 +176,7 @@
     visibility: visible;
     transform: translateX(-50%) translateY(-4px);
   }
-  
+
   /* Floating icon positioning adjustments for mobile */
   .floating-chat-icon {
     top: -12px !important;
@@ -178,7 +190,7 @@
     top: -8px !important;
     right: -8px !important;
   }
-  
+
   .chat-tooltip {
     font-size: 12px;
     padding: 8px 10px;
@@ -203,7 +215,8 @@
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Terminal shadow */
   border: 1px solid #3c3c3c; /* Terminal border */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -239,7 +252,8 @@
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 [data-theme='dark'] .terminal-ai-chat .terminal-title {
@@ -262,7 +276,8 @@
   background: url('/images/chatbot-icon.svg') no-repeat center;
   background-size: contain;
   display: block;
-  filter: brightness(0) saturate(100%) invert(69%) sepia(86%) saturate(423%) hue-rotate(168deg) brightness(99%) contrast(92%); /* Makes it blue */
+  filter: brightness(0) saturate(100%) invert(69%) sepia(86%) saturate(423%)
+    hue-rotate(168deg) brightness(99%) contrast(92%); /* Makes it blue */
 }
 
 /* Hide the emoji when using custom icon */
@@ -275,7 +290,8 @@
 }
 
 [data-theme='dark'] .ai-icon::before {
-  filter: brightness(0) saturate(100%) invert(69%) sepia(73%) saturate(1929%) hue-rotate(204deg) brightness(105%) contrast(101%); /* Makes it dark theme blue */
+  filter: brightness(0) saturate(100%) invert(69%) sepia(73%) saturate(1929%)
+    hue-rotate(204deg) brightness(105%) contrast(101%); /* Makes it dark theme blue */
 }
 
 .chat-status {
@@ -304,9 +320,15 @@
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4); }
-  70% { box-shadow: 0 0 0 4px rgba(248, 81, 73, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(248, 81, 73, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(248, 81, 73, 0);
+  }
 }
 
 /* Terminal Chat Body */
@@ -354,14 +376,17 @@
 }
 
 /* Terminal Message Styles */
-.ai-message, .user-message, .error-message {
+.ai-message,
+.user-message,
+.error-message {
   display: flex;
   margin-bottom: 16px;
   opacity: 1;
   transform: translateY(0);
   transition: all 0.3s ease;
   align-items: flex-start;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .user-message {
@@ -399,7 +424,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: brightness(0) saturate(100%) invert(69%) sepia(86%) saturate(423%) hue-rotate(168deg) brightness(99%) contrast(92%); /* Makes it blue */
+  filter: brightness(0) saturate(100%) invert(69%) sepia(86%) saturate(423%)
+    hue-rotate(168deg) brightness(99%) contrast(92%); /* Makes it blue */
 }
 
 /* Hide emoji in AI messages when using custom icon */
@@ -454,7 +480,8 @@
   word-wrap: break-word;
   font-size: 14px;
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: transparent;
 }
 
@@ -526,7 +553,8 @@
   padding: 2px 4px;
   border-radius: 3px;
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Mono', monospace; /* Website font with monospace fallback */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Mono', monospace; /* Website font with monospace fallback */
 }
 
 [data-theme='dark'] .message-text code {
@@ -545,7 +573,8 @@
   color: #a0a0a0; /* Terminal title color */
   margin-top: 4px;
   text-align: right;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
 }
 
 [data-theme='dark'] .message-time {
@@ -581,7 +610,11 @@
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  background: linear-gradient(
+    135deg,
+    var(--gradient-start),
+    var(--gradient-end)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -629,7 +662,9 @@
 }
 
 @keyframes typing {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.5;
   }
@@ -671,7 +706,8 @@
   border-radius: 8px;
   padding: 10px 14px;
   color: #e6e6e6; /* Terminal text color */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
   font-size: 14px;
   resize: none;
   min-height: 20px;
@@ -719,7 +755,8 @@
   transition: all 0.2s ease;
   font-size: 16px;
   flex-shrink: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
 }
 
 .input-wrapper button:hover:not(:disabled) {
@@ -772,7 +809,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+  font-family:
+    'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
 }
 
 [data-theme='dark'] .quick-btn {
@@ -793,7 +831,8 @@
   color: #a0a0a0;
   font-size: 10px;
   margin-left: auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
 }
 
 [data-theme='dark'] .char-count {
@@ -801,11 +840,11 @@
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .ai-trigger {
+[data-theme='dark'] .ai-trigger {
   color: #e0e0e0;
 }
 
-[data-theme="dark"] .ai-trigger:hover {
+[data-theme='dark'] .ai-trigger:hover {
   color: white;
 }
 
@@ -822,9 +861,82 @@
 
 /* Mobile body lock when chat is open */
 body.chat-open {
-  overflow: hidden !important;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Fallback Chat Button */
+.fallback-chat-button {
   position: fixed !important;
-  width: 100% !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 10000 !important;
+}
+
+.fallback-chat-button .chat-test-btn {
+  background: #00ff00 !important;
+  color: #000 !important;
+  border: 2px solid #00ff00 !important;
+  padding: 12px 20px !important;
+  border-radius: 25px !important;
+  font-family: 'Courier New', monospace !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3) !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-height: 44px !important; /* Touch-friendly */
+  min-width: 44px !important;
+}
+
+.fallback-chat-button .chat-test-btn:hover {
+  background: #00cc00 !important;
+  border-color: #00cc00 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 255, 0, 0.4) !important;
+}
+
+.fallback-chat-button .chat-test-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(0, 255, 0, 0.3) !important;
+}
+
+/* Pulse animation for attention */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.6);
+    transform: scale(1.05);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);
+    transform: scale(1);
+  }
+}
+
+.fallback-chat-button .chat-test-btn {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Mobile adjustments for fallback button */
+@media (max-width: 768px) {
+  .fallback-chat-button {
+    bottom: 90px !important; /* Above mobile browser UI */
+  }
+
+  .fallback-chat-button .chat-test-btn {
+    padding: 16px 24px !important;
+    font-size: 16px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
+  }
 }
 
 /* Tablet portrait */
@@ -845,58 +957,58 @@ body.chat-open {
     transform: none !important;
     opacity: 1 !important;
   }
-  
+
   .terminal-ai-chat .terminal-header {
     height: 56px; /* Bigger touch targets */
     padding: 0 24px;
   }
-  
+
   .terminal-ai-chat .terminal-title {
     font-size: 16px;
   }
-  
+
   .chat-messages {
     padding: 20px;
   }
-  
+
   .message-avatar {
     width: 32px;
     height: 32px;
     font-size: 16px;
   }
-  
+
   .message-text {
     padding: 12px 0;
     font-size: 16px;
     line-height: 1.5;
   }
-  
+
   .chat-input-container {
     padding: 20px 24px 24px;
   }
-  
+
   .input-wrapper {
     gap: 16px;
   }
-  
+
   .input-wrapper textarea {
     font-size: 16px; /* Prevent zoom on iOS */
     padding: 14px 18px;
     border-radius: 12px;
     min-height: 24px;
   }
-  
+
   .input-wrapper button {
     width: 48px;
     height: 48px;
     font-size: 18px;
     border-radius: 12px;
   }
-  
+
   .message-time {
     font-size: 11px;
   }
-  
+
   /* Mobile AI trigger improvements */
   .ai-trigger {
     padding: 6px 8px;
@@ -906,7 +1018,7 @@ body.chat-open {
     border-radius: 8px;
     font-size: 16px;
   }
-  
+
   .ai-trigger:hover::before {
     display: none;
   }
@@ -922,46 +1034,46 @@ body.chat-open {
     bottom: 5vh;
     border-radius: 16px;
   }
-  
+
   .terminal-ai-chat .terminal-header {
     height: 52px;
     padding: 0 20px;
   }
-  
+
   .terminal-ai-chat .terminal-title {
     font-size: 15px;
   }
-  
+
   .ai-icon {
     font-size: 16px;
   }
-  
+
   .chat-messages {
     padding: 16px 18px;
   }
-  
+
   .message-content {
     max-width: calc(100% - 40px);
   }
-  
+
   .message-text {
     font-size: 15px;
   }
-  
+
   .input-wrapper {
     gap: 12px;
   }
-  
+
   .input-wrapper textarea {
     font-size: 16px; /* Prevent zoom */
     padding: 12px 16px;
   }
-  
+
   .input-wrapper button {
     width: 44px;
     height: 44px;
   }
-  
+
   .char-count {
     font-size: 11px;
   }
@@ -976,11 +1088,11 @@ body.chat-open {
     bottom: 2vh;
     border-radius: 12px;
   }
-  
+
   .chat-messages {
     padding: 14px 16px;
   }
-  
+
   .input-wrapper textarea {
     padding: 10px 14px;
   }
@@ -1017,11 +1129,11 @@ body.chat-open {
   .ai-trigger {
     border: 2px solid currentColor;
   }
-  
+
   .message-text {
     border-width: 2px;
   }
-  
+
   .input-wrapper textarea,
   .input-wrapper button,
   .quick-btn {
