@@ -244,19 +244,19 @@ class TerminalAIChat {
 
     // Terminal styles will be reset when closing
 
-    // On mobile, make the terminal window properly sized
+    // On mobile, make the terminal window fullscreen
     if (window.innerWidth <= 768) {
       this.terminalElement.style.position = 'fixed';
-      this.terminalElement.style.top = '10vh';
-      this.terminalElement.style.left = '5vw';
-      this.terminalElement.style.right = '5vw';
-      this.terminalElement.style.bottom = '10vh';
-      this.terminalElement.style.width = '90vw';
-      this.terminalElement.style.height = '80vh';
+      this.terminalElement.style.top = '0';
+      this.terminalElement.style.left = '0';
+      this.terminalElement.style.right = '0';
+      this.terminalElement.style.bottom = '0';
+      this.terminalElement.style.width = '100vw';
+      this.terminalElement.style.height = '100vh';
       this.terminalElement.style.zIndex = '99999';
       this.terminalElement.style.margin = '0';
-      this.terminalElement.style.borderRadius = '12px';
-      this.terminalElement.style.boxShadow = '0 10px 40px rgba(0,0,0,0.5)';
+      this.terminalElement.style.borderRadius = '0';
+      this.terminalElement.style.boxShadow = 'none';
 
       // Skip animation on mobile for stability
       this.renderChatInterface();
