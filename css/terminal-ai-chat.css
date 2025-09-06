@@ -222,6 +222,20 @@
   flex-direction: column;
 }
 
+/* Mobile chat interface */
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    .terminal-ai-chat {
+      max-width: none;
+      height: 95vh;
+      margin: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 10px)
+        env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 10px);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
 [data-theme='dark'] .terminal-ai-chat {
   background: #0d1117; /* Dark terminal background */
   border-color: #21262d; /* Dark terminal border */

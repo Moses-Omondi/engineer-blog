@@ -244,19 +244,25 @@ class TerminalAIChat {
 
     // Terminal styles will be reset when closing
 
-    // On mobile, make the terminal window fullscreen
+    // On mobile, use proper chat UI dimensions with safe areas
     if (window.innerWidth <= 768) {
+      // Modal-style chat that respects safe areas (like WhatsApp/Telegram)
       this.terminalElement.style.position = 'fixed';
-      this.terminalElement.style.top = '0';
+      this.terminalElement.style.top = 'env(safe-area-inset-top, 20px)';
       this.terminalElement.style.left = '0';
       this.terminalElement.style.right = '0';
-      this.terminalElement.style.bottom = '0';
+      this.terminalElement.style.bottom = 'env(safe-area-inset-bottom, 0)';
       this.terminalElement.style.width = '100vw';
-      this.terminalElement.style.height = '100vh';
+      this.terminalElement.style.height =
+        'calc(100vh - env(safe-area-inset-top, 20px) - env(safe-area-inset-bottom, 0))';
+      this.terminalElement.style.maxHeight =
+        'calc(100vh - env(safe-area-inset-top, 20px) - env(safe-area-inset-bottom, 0))';
       this.terminalElement.style.zIndex = '99999';
       this.terminalElement.style.margin = '0';
       this.terminalElement.style.borderRadius = '0';
-      this.terminalElement.style.boxShadow = 'none';
+      this.terminalElement.style.boxShadow = '0 -2px 10px rgba(0,0,0,0.1)';
+      this.terminalElement.style.backgroundColor = 'var(--bg-color, #1a1a1a)';
+      this.terminalElement.style.overflow = 'hidden';
 
       // Skip animation on mobile for stability
       this.renderChatInterface();
