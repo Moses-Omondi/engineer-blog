@@ -20,6 +20,7 @@ class TerminalAIChat {
       this.setupAIWordTriggers();
       this.setupMobileSupport();
     } else {
+      // eslint-disable-next-line no-console
       console.warn('TerminalAIChat: Terminal element not found');
     }
   }
@@ -35,17 +36,21 @@ class TerminalAIChat {
     const baseDelay = 200;
     
     setTimeout(() => {
+      // eslint-disable-next-line no-console
       console.log(`TerminalAIChat: Attempt ${attemptCount + 1} to add floating icon`);
       
       const success = this.addFloatingChatIcon();
       
       if (!success && attemptCount < maxAttempts - 1) {
         // If failed and we have more attempts, retry with longer delay
+        // eslint-disable-next-line no-console
         console.log(`TerminalAIChat: Attempt ${attemptCount + 1} failed, retrying...`);
         this.retryAddFloatingIcon(attemptCount + 1);
       } else if (success) {
+        // eslint-disable-next-line no-console
         console.log(`TerminalAIChat: Successfully added floating icon on attempt ${attemptCount + 1}`);
       } else {
+        // eslint-disable-next-line no-console
         console.warn('TerminalAIChat: Failed to add floating icon after all attempts');
       }
     }, baseDelay * (attemptCount + 1));
@@ -54,21 +59,26 @@ class TerminalAIChat {
   addFloatingChatIcon() {
     // Find "Artificial Intelligence" text in hobbies
     const hobbyTags = document.querySelectorAll('.hobby-tag');
+    // eslint-disable-next-line no-console
     console.log('TerminalAIChat: Found', hobbyTags.length, 'hobby tags');
     
     if (hobbyTags.length === 0) {
+      // eslint-disable-next-line no-console
       console.log('TerminalAIChat: No hobby tags found');
       return false;
     }
     
     for (let index = 0; index < hobbyTags.length; index++) {
       const tag = hobbyTags[index];
+      // eslint-disable-next-line no-console
       console.log(`TerminalAIChat: Tag ${index}:`, tag.textContent.trim());
       if (tag.textContent.trim() === 'Artificial Intelligence') {
+        // eslint-disable-next-line no-console
         console.log('TerminalAIChat: Found Artificial Intelligence tag, creating floating icon');
         
         // Check if icon already exists
         if (tag.querySelector('.floating-chat-icon')) {
+          // eslint-disable-next-line no-console
           console.log('TerminalAIChat: Floating icon already exists');
           return true;
         }
@@ -101,6 +111,7 @@ class TerminalAIChat {
         // Position relative to the hobby tag
         tag.style.position = 'relative';
         tag.appendChild(chatIcon);
+        // eslint-disable-next-line no-console
         console.log('TerminalAIChat: Floating icon appended to tag');
         
         // Add click and touch handlers
@@ -110,12 +121,14 @@ class TerminalAIChat {
         chatButton.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
+          // eslint-disable-next-line no-console
           console.log('TerminalAIChat: Floating icon clicked');
           this.showChat();
         });
         
         // Touch handlers for mobile
-        chatButton.addEventListener('touchstart', (e) => {
+        chatButton.addEventListener('touchstart', () => {
+          // eslint-disable-next-line no-console
           console.log('TerminalAIChat: Floating icon touch start');
           chatButton.style.transform = 'scale(0.95)';
         });
@@ -123,6 +136,7 @@ class TerminalAIChat {
         chatButton.addEventListener('touchend', (e) => {
           e.preventDefault();
           e.stopPropagation();
+          // eslint-disable-next-line no-console
           console.log('TerminalAIChat: Floating icon touched');
           chatButton.style.transform = '';
           this.showChat();
@@ -132,6 +146,7 @@ class TerminalAIChat {
       }
     }
     
+    // eslint-disable-next-line no-console
     console.log('TerminalAIChat: "Artificial Intelligence" tag not found');
     return false; // Failed to find the tag
   }
@@ -160,10 +175,15 @@ class TerminalAIChat {
     this.transformToChat();
   }
 
-  async transformToChat(triggerKeyword = null) {
+  async transformToChat() {
     if (this.isChatMode || !this.terminalElement) return;
 
     this.isChatMode = true;
+    
+    // Lock body scroll on mobile
+    if (window.innerWidth <= 768) {
+      document.body.classList.add('chat-open');
+    }
     
     // Add transformation animation
     this.terminalElement.style.transition = 'all 0.5s ease-in-out';
@@ -299,6 +319,7 @@ class TerminalAIChat {
     if (window.mosesAI) {
       this.mosesAI = window.mosesAI;
     } else {
+      // eslint-disable-next-line no-console
       console.error('Moses AI client not found. Make sure moses-ai-client.js is loaded.');
       this.showError('Failed to connect to Moses AI. Please refresh the page.');
       return;
@@ -483,6 +504,9 @@ class TerminalAIChat {
   closeChat() {
     if (!this.isChatMode || !this.terminalElement) return;
 
+    // Unlock body scroll on mobile
+    document.body.classList.remove('chat-open');
+
     // Add closing animation
     this.terminalElement.style.transition = 'all 0.4s ease-in-out';
     this.terminalElement.style.transform = 'scale(0.95)';
@@ -508,6 +532,7 @@ if (document.readyState === 'loading') {
 
 function initializeTerminalAI() {
   window.terminalAI = new TerminalAIChat();
+  // eslint-disable-next-line no-console
   console.log('Moses AI Terminal Chat initialized:', window.terminalAI);
 }
 
