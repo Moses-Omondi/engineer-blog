@@ -308,13 +308,13 @@ class TerminalAIChat {
                   <br><br>
                   I can help you with:
                   <br><br>
-                  <strong>DevSecOps</strong> - CI/CD security, SAST/DAST implementation
+                  <strong>DevSecOps</strong> - CI/CD pipeline security, SAST/DAST implementation, automated security testing
                   <br>
-                  <strong>Cloud Architecture</strong> - AWS security, compliance, best practices
+                  <strong>Cloud Architecture</strong> - AWS security best practices, compliance frameworks, infrastructure design
                   <br>
-                  <strong>Container Security</strong> - Kubernetes RBAC, policies, scanning
+                  <strong>Container Security</strong> - Kubernetes RBAC, security policies, container scanning and hardening
                   <br>
-                  <strong>MLOps Security</strong> - Model security, secure ML pipelines
+                  <strong>MLOps Security</strong> - Model security, secure ML pipelines, AI/ML infrastructure protection
                   <br><br>
                   What would you like to discuss?
                 </div>
