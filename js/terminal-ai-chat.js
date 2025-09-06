@@ -237,26 +237,34 @@ class TerminalAIChat {
 
     this.isChatMode = true;
 
-    // Lock body scroll on mobile
-    if (window.innerWidth <= 768) {
-      document.body.classList.add('chat-open');
-    }
+    // Don't lock body scroll - let terminal stay in natural position
 
     // Terminal styles will be reset when closing
 
-    // On mobile, use exact terminal dimensions - don't change position or size
+    // On mobile, preserve terminal dimensions and position exactly
     if (window.innerWidth <= 768) {
-      // Preserve the existing terminal container's position and dimensions
-      // Only apply minimal styling needed for chat functionality
-      this.terminalElement.style.zIndex = '99999';
-      this.terminalElement.style.overflow = 'hidden';
-
-      // Store original styles to ensure we can fully restore them later
+      // Store current terminal styles before any changes
+      const computedStyle = window.getComputedStyle(this.terminalElement);
       this._originalStyles = {
+        position: this.terminalElement.style.position,
         width: this.terminalElement.style.width,
         height: this.terminalElement.style.height,
         borderRadius: this.terminalElement.style.borderRadius,
+        margin: this.terminalElement.style.margin,
+        zIndex: this.terminalElement.style.zIndex,
       };
+
+      // Get actual computed dimensions to preserve them
+      this._terminalDimensions = {
+        width: computedStyle.width,
+        height: computedStyle.height,
+        borderRadius: computedStyle.borderRadius,
+        margin: computedStyle.margin,
+      };
+
+      // Don't change positioning - keep terminal exactly where it is
+      // Just ensure content overflow is hidden
+      this.terminalElement.style.overflow = 'hidden';
 
       // Skip animation on mobile for stability
       this.renderChatInterface();
@@ -658,8 +666,7 @@ class TerminalAIChat {
     // eslint-disable-next-line no-console
     console.log('TerminalAIChat: Closing chat...');
 
-    // Unlock body scroll on mobile
-    document.body.classList.remove('chat-open');
+    // No body manipulation needed
 
     // Add closing animation
     this.terminalElement.style.transition = 'all 0.4s ease-in-out';

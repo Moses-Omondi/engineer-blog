@@ -873,11 +873,9 @@
   }
 }
 
-/* Mobile body lock when chat is open */
+/* Mobile body - no locking needed for proper terminal replacement */
 body.chat-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
+  /* No body manipulation - let terminal stay in natural flow */
 }
 
 /* Fallback Chat Button */
@@ -956,13 +954,15 @@ body.chat-open {
 /* Tablet portrait */
 @media (max-width: 768px) {
   .terminal-ai-chat {
-    position: relative !important;
+    position: static !important;
     width: 100% !important;
     height: 100% !important;
-    max-width: none !important;
-    max-height: none !important;
-    margin: 0 !important;
-    border-radius: inherit;
+    max-width: inherit !important;
+    max-height: inherit !important;
+    margin: inherit !important;
+    border-radius: inherit !important;
+    border: inherit !important;
+    box-shadow: inherit !important;
     z-index: 1 !important;
     transform: none !important;
     opacity: 1 !important;
