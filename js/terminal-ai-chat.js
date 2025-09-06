@@ -68,26 +68,10 @@ class TerminalAIChat {
   }
 
   addFloatingChatIcon() {
-    // ALWAYS add the fallback button on mobile - it's more reliable
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      // eslint-disable-next-line no-console
-      console.log(
-        'TerminalAIChat: Mobile detected, using fallback button for reliability'
-      );
-      this.addFallbackChatButton();
-      return true;
-    }
-
-    // Desktop only: Try to add floating icon
+    // Find "Artificial Intelligence" text in hobbies
     const hobbyTags = document.querySelectorAll('.hobby-tag');
-    // eslint-disable-next-line no-console
-    console.log('TerminalAIChat: Found', hobbyTags.length, 'hobby tags');
 
     if (hobbyTags.length === 0) {
-      // eslint-disable-next-line no-console
-      console.log('TerminalAIChat: No hobby tags found');
-      // Fallback: Add a visible chat button to the terminal window itself
-      this.addFallbackChatButton();
       return false;
     }
 
@@ -221,144 +205,7 @@ class TerminalAIChat {
       }
     }
 
-    // eslint-disable-next-line no-console
-    console.log('TerminalAIChat: "Artificial Intelligence" tag not found');
-    // Fallback: Add a visible chat button to the terminal window itself
-    this.addFallbackChatButton();
     return false; // Failed to find the tag
-  }
-
-  addFallbackChatButton() {
-    // Add a visible chat button as fallback when hobby tags aren't found
-    const terminal = document.querySelector('.terminal-window');
-    if (!terminal) return;
-
-    // Check if fallback button already exists
-    if (document.querySelector('.fallback-chat-button')) return;
-
-    const fallbackButton = document.createElement('div');
-    fallbackButton.className = 'fallback-chat-button';
-    fallbackButton.innerHTML = `
-      <button class="chat-test-btn" type="button" title="Chat with Moses AI">
-        💬 Chat with Moses AI
-      </button>
-    `;
-
-    // Position the button prominently with inline styles to override any conflicts
-    fallbackButton.style.cssText = `
-      position: fixed !important;
-      bottom: 20px !important;
-      right: 20px !important;
-      z-index: 999999 !important;
-      background: #00ff00 !important;
-      color: #000 !important;
-      padding: 12px 16px !important;
-      border-radius: 25px !important;
-      box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3) !important;
-      cursor: pointer !important;
-      font-family: 'Courier New', monospace !important;
-      font-size: 14px !important;
-      font-weight: bold !important;
-      border: 2px solid #00ff00 !important;
-      animation: pulse-glow 2s infinite !important;
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    `;
-
-    // Add to body instead of terminal for better visibility
-    document.body.appendChild(fallbackButton);
-
-    // Ensure button styles override any CSS conflicts
-    const button = fallbackButton.querySelector('.chat-test-btn');
-    button.style.cssText = `
-      background: #00ff00 !important;
-      color: #000 !important;
-      border: none !important;
-      padding: 12px 20px !important;
-      cursor: pointer !important;
-      font-family: 'Courier New', monospace !important;
-      font-size: 14px !important;
-      font-weight: bold !important;
-      display: block !important;
-      width: 100% !important;
-      pointer-events: auto !important;
-    `;
-
-    // Add click handler with mobile-specific fixes
-    let isProcessing = false;
-
-    const handleChatOpen = (e, source) => {
-      if (isProcessing) {
-        // eslint-disable-next-line no-console
-        console.log(`TerminalAIChat: Button ${source} - already processing`);
-        return;
-      }
-      isProcessing = true;
-
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }
-
-      // eslint-disable-next-line no-console
-      console.log(`TerminalAIChat: Fallback button ${source}, opening chat...`);
-
-      // Use requestAnimationFrame for smoother transition
-      requestAnimationFrame(() => {
-        this.showChat();
-        setTimeout(() => {
-          isProcessing = false;
-        }, 1500); // Longer delay to prevent issues
-      });
-    };
-
-    // Mobile: Use both touchend and click for maximum compatibility
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      // Primary mobile handler
-      button.addEventListener(
-        'touchend',
-        e => {
-          e.preventDefault(); // Prevent ghost click
-          handleChatOpen(e, 'touched');
-        },
-        { passive: false }
-      );
-
-      // Backup click handler for mobile
-      button.addEventListener(
-        'click',
-        e => {
-          // Check if this is a ghost click from touch
-          const now = Date.now();
-          if (window.lastTouchEnd && now - window.lastTouchEnd < 500) {
-            e.preventDefault();
-            return; // Ignore ghost click
-          }
-          handleChatOpen(e, 'clicked-mobile');
-        },
-        { passive: false }
-      );
-
-      // Track touch events to prevent ghost clicks
-      button.addEventListener(
-        'touchstart',
-        () => {
-          window.lastTouchEnd = Date.now();
-        },
-        { passive: true }
-      );
-    } else {
-      // Desktop only
-      button.addEventListener('click', e => {
-        handleChatOpen(e, 'clicked-desktop');
-      });
-    }
-
-    // eslint-disable-next-line no-console
-    console.log('TerminalAIChat: Added fallback chat button');
   }
 
   setupMobileSupport() {
@@ -382,11 +229,6 @@ class TerminalAIChat {
 
   // Manual method to show chat interface
   showChat() {
-    // Remove fallback button when chat is opened
-    const fallbackButton = document.querySelector('.fallback-chat-button');
-    if (fallbackButton) {
-      fallbackButton.remove();
-    }
     this.transformToChat();
   }
 
@@ -402,21 +244,19 @@ class TerminalAIChat {
 
     // Terminal styles will be reset when closing
 
-    // On mobile, make the terminal window fullscreen
+    // On mobile, make the terminal window properly sized
     if (window.innerWidth <= 768) {
-      // eslint-disable-next-line no-console
-      console.log('TerminalAIChat: Setting mobile fullscreen mode');
       this.terminalElement.style.position = 'fixed';
-      this.terminalElement.style.top = '0';
-      this.terminalElement.style.left = '0';
-      this.terminalElement.style.right = '0';
-      this.terminalElement.style.bottom = '0';
-      this.terminalElement.style.width = '100vw';
-      this.terminalElement.style.height = '100vh';
-      this.terminalElement.style.minHeight = '100vh';
+      this.terminalElement.style.top = '10vh';
+      this.terminalElement.style.left = '5vw';
+      this.terminalElement.style.right = '5vw';
+      this.terminalElement.style.bottom = '10vh';
+      this.terminalElement.style.width = '90vw';
+      this.terminalElement.style.height = '80vh';
       this.terminalElement.style.zIndex = '99999';
       this.terminalElement.style.margin = '0';
-      this.terminalElement.style.borderRadius = '0';
+      this.terminalElement.style.borderRadius = '12px';
+      this.terminalElement.style.boxShadow = '0 10px 40px rgba(0,0,0,0.5)';
 
       // Skip animation on mobile for stability
       this.renderChatInterface();
@@ -821,12 +661,6 @@ class TerminalAIChat {
     // Unlock body scroll on mobile
     document.body.classList.remove('chat-open');
 
-    // Remove fallback button when chat is opened (it's no longer needed)
-    const fallbackButton = document.querySelector('.fallback-chat-button');
-    if (fallbackButton) {
-      fallbackButton.remove();
-    }
-
     // Add closing animation
     this.terminalElement.style.transition = 'all 0.4s ease-in-out';
     this.terminalElement.style.transform = 'scale(0.95)';
@@ -851,11 +685,6 @@ class TerminalAIChat {
       this.terminalElement.style.transform = 'scale(1)';
       this.terminalElement.style.opacity = '1';
       this.isChatMode = false;
-
-      // Re-add fallback button after closing - with delay for mobile
-      setTimeout(() => {
-        this.addFallbackChatButton();
-      }, 500);
     }, 200);
   }
 }
@@ -869,31 +698,6 @@ if (document.readyState === 'loading') {
 
 function initializeTerminalAI() {
   window.terminalAI = new TerminalAIChat();
-  // eslint-disable-next-line no-console
-  console.log('Moses AI Terminal Chat initialized:', window.terminalAI);
-
-  // Add global debug function
-  window.testChat = function () {
-    // eslint-disable-next-line no-console
-    console.log('Testing chat manually...');
-    if (window.terminalAI) {
-      window.terminalAI.showChat();
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('TerminalAI not available');
-    }
-  };
-
-  // Add icon visibility check
-  window.checkFloatingIcon = function () {
-    const icons = document.querySelectorAll('.floating-chat-icon');
-    // eslint-disable-next-line no-console
-    console.log('Floating icons found:', icons.length);
-    icons.forEach((icon, index) => {
-      // eslint-disable-next-line no-console
-      console.log(`Icon ${index}:`, icon, 'Visible:', icon.offsetHeight > 0);
-    });
-  };
 }
 
 // Also make the class available globally
