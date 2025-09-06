@@ -244,25 +244,19 @@ class TerminalAIChat {
 
     // Terminal styles will be reset when closing
 
-    // On mobile, use proper chat UI dimensions with safe areas
+    // On mobile, use exact terminal dimensions - don't change position or size
     if (window.innerWidth <= 768) {
-      // Modal-style chat that respects safe areas (like WhatsApp/Telegram)
-      this.terminalElement.style.position = 'fixed';
-      this.terminalElement.style.top = 'env(safe-area-inset-top, 20px)';
-      this.terminalElement.style.left = '0';
-      this.terminalElement.style.right = '0';
-      this.terminalElement.style.bottom = 'env(safe-area-inset-bottom, 0)';
-      this.terminalElement.style.width = '100vw';
-      this.terminalElement.style.height =
-        'calc(100vh - env(safe-area-inset-top, 20px) - env(safe-area-inset-bottom, 0))';
-      this.terminalElement.style.maxHeight =
-        'calc(100vh - env(safe-area-inset-top, 20px) - env(safe-area-inset-bottom, 0))';
+      // Preserve the existing terminal container's position and dimensions
+      // Only apply minimal styling needed for chat functionality
       this.terminalElement.style.zIndex = '99999';
-      this.terminalElement.style.margin = '0';
-      this.terminalElement.style.borderRadius = '0';
-      this.terminalElement.style.boxShadow = '0 -2px 10px rgba(0,0,0,0.1)';
-      this.terminalElement.style.backgroundColor = 'var(--bg-color, #1a1a1a)';
       this.terminalElement.style.overflow = 'hidden';
+
+      // Store original styles to ensure we can fully restore them later
+      this._originalStyles = {
+        width: this.terminalElement.style.width,
+        height: this.terminalElement.style.height,
+        borderRadius: this.terminalElement.style.borderRadius,
+      };
 
       // Skip animation on mobile for stability
       this.renderChatInterface();
@@ -679,12 +673,13 @@ class TerminalAIChat {
       this.terminalElement.style.left = '';
       this.terminalElement.style.right = '';
       this.terminalElement.style.bottom = '';
-      this.terminalElement.style.width = '';
-      this.terminalElement.style.height = '';
+      this.terminalElement.style.width = this._originalStyles?.width || '';
+      this.terminalElement.style.height = this._originalStyles?.height || '';
       this.terminalElement.style.minHeight = '';
       this.terminalElement.style.zIndex = '';
       this.terminalElement.style.margin = '';
-      this.terminalElement.style.borderRadius = '';
+      this.terminalElement.style.borderRadius =
+        this._originalStyles?.borderRadius || '';
 
       // Restore original content
       this.terminalElement.innerHTML = this.originalContent;

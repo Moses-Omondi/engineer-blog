@@ -227,11 +227,11 @@
   @media (max-width: 768px) {
     .terminal-ai-chat {
       max-width: none;
-      height: 95vh;
-      margin: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 10px)
-        env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 10px);
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      border-radius: inherit;
+      box-shadow: none;
     }
   }
 }
@@ -956,18 +956,14 @@ body.chat-open {
 /* Tablet portrait */
 @media (max-width: 768px) {
   .terminal-ai-chat {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
     max-width: none !important;
     max-height: none !important;
     margin: 0 !important;
-    border-radius: 0;
-    z-index: 99999 !important;
+    border-radius: inherit;
+    z-index: 1 !important;
     transform: none !important;
     opacity: 1 !important;
   }
@@ -1041,12 +1037,8 @@ body.chat-open {
 /* Mobile phones */
 @media (max-width: 480px) {
   .terminal-ai-chat {
-    position: fixed;
-    top: 5vh;
-    left: 4vw;
-    right: 4vw;
-    bottom: 5vh;
-    border-radius: 16px;
+    position: relative;
+    border-radius: inherit;
   }
 
   .terminal-ai-chat .terminal-header {
@@ -1096,11 +1088,7 @@ body.chat-open {
 /* Very small phones */
 @media (max-width: 360px) {
   .terminal-ai-chat {
-    top: 2vh;
-    left: 2vw;
-    right: 2vw;
-    bottom: 2vh;
-    border-radius: 12px;
+    border-radius: inherit;
   }
 
   .chat-messages {
