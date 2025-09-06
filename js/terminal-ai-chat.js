@@ -132,43 +132,80 @@ class TerminalAIChat {
         // Add click and touch handlers
         const chatButton = chatIcon.querySelector('.chat-icon-button');
 
-        // Mobile-first approach - add both touch and click
-        const showChatHandler = (e, eventType) => {
+        // iOS Safari compatible touch handling
+        let touchProcessing = false;
+
+        const safeMobileHandler = (e, eventType) => {
+          if (touchProcessing) return;
+          touchProcessing = true;
+
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
+
           // eslint-disable-next-line no-console
           console.log(
             `TerminalAIChat: Floating icon ${eventType}, opening chat...`
           );
-          this.showChat();
+
+          setTimeout(() => {
+            this.showChat();
+            setTimeout(() => {
+              touchProcessing = false;
+            }, 1000);
+          }, 50);
         };
 
-        // Touch handlers for mobile (primary)
-        chatButton.addEventListener('touchend', e =>
-          showChatHandler(e, 'touched')
+        // Primary handler for mobile - use touchstart for iOS Safari
+        chatButton.addEventListener(
+          'touchstart',
+          e => {
+            safeMobileHandler(e, 'touched');
+          },
+          { passive: false }
         );
 
-        // Click handler for desktop (fallback)
-        chatButton.addEventListener('click', e =>
-          showChatHandler(e, 'clicked')
-        );
+        // Desktop fallback - only if no touch
+        chatButton.addEventListener('click', e => {
+          if ('ontouchstart' in window) return;
+          safeMobileHandler(e, 'clicked');
+        });
 
         // Visual feedback for touch
-        chatButton.addEventListener('touchstart', e => {
-          // eslint-disable-next-line no-unused-vars
-          const _ = e; // Acknowledge parameter
-          // eslint-disable-next-line no-console
-          console.log('TerminalAIChat: Touch start - visual feedback');
-          chatButton.style.transform = 'scale(0.95)';
-          chatButton.style.opacity = '0.8';
-        });
+        chatButton.addEventListener(
+          'touchstart',
+          e => {
+            // eslint-disable-next-line no-unused-vars
+            const _ = e; // Acknowledge parameter
+            // eslint-disable-next-line no-console
+            console.log('TerminalAIChat: Touch start - visual feedback');
+            chatButton.style.transform = 'scale(0.95)';
+            chatButton.style.opacity = '0.8';
+          },
+          { passive: true }
+        ); // Passive for visual feedback only
 
-        chatButton.addEventListener('touchcancel', e => {
-          // eslint-disable-next-line no-unused-vars
-          const _ = e; // Acknowledge parameter
-          chatButton.style.transform = '';
-          chatButton.style.opacity = '';
-        });
+        chatButton.addEventListener(
+          'touchend',
+          e => {
+            // eslint-disable-next-line no-unused-vars
+            const _ = e; // Acknowledge parameter
+            chatButton.style.transform = '';
+            chatButton.style.opacity = '';
+          },
+          { passive: true }
+        );
+
+        chatButton.addEventListener(
+          'touchcancel',
+          e => {
+            // eslint-disable-next-line no-unused-vars
+            const _ = e; // Acknowledge parameter
+            chatButton.style.transform = '';
+            chatButton.style.opacity = '';
+          },
+          { passive: true }
+        );
 
         return true; // Successfully added icon
       }
@@ -219,21 +256,46 @@ class TerminalAIChat {
     // Add to body instead of terminal for better visibility
     document.body.appendChild(fallbackButton);
 
-    // Add click handler
+    // Add click handler with mobile-specific fixes
     const button = fallbackButton.querySelector('.chat-test-btn');
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      // eslint-disable-next-line no-console
-      console.log('TerminalAIChat: Fallback button clicked, opening chat...');
-      this.showChat();
-    });
 
-    // Add touch handler for mobile
-    button.addEventListener('touchend', e => {
+    // Flag to prevent double-firing on mobile
+    let isProcessing = false;
+
+    const handleChatOpen = (e, source) => {
+      if (isProcessing) return;
+      isProcessing = true;
+
       e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
       // eslint-disable-next-line no-console
-      console.log('TerminalAIChat: Fallback button touched, opening chat...');
-      this.showChat();
+      console.log(`TerminalAIChat: Fallback button ${source}, opening chat...`);
+
+      // Small delay to prevent iOS Safari issues
+      setTimeout(() => {
+        this.showChat();
+        setTimeout(() => {
+          isProcessing = false;
+        }, 1000); // Prevent rapid taps
+      }, 50);
+    };
+
+    // iOS Safari fix: Use touchstart instead of touchend
+    button.addEventListener(
+      'touchstart',
+      e => {
+        handleChatOpen(e, 'touched');
+      },
+      { passive: false }
+    );
+
+    // Desktop fallback
+    button.addEventListener('click', e => {
+      // Only fire on desktop (no touch capability)
+      if ('ontouchstart' in window) return;
+      handleChatOpen(e, 'clicked');
     });
 
     // eslint-disable-next-line no-console
@@ -294,7 +356,7 @@ class TerminalAIChat {
       <div class="terminal-ai-chat">
         <div class="terminal-header">
           <div class="terminal-buttons">
-            <span class="btn-close" onclick="terminalAI.closeChat()"></span>
+            <span class="btn-close" id="chat-close-btn"></span>
             <span class="btn-minimize"></span>
             <span class="btn-maximize"></span>
           </div>
@@ -369,9 +431,58 @@ class TerminalAIChat {
       this.terminalElement.style.transform = 'scale(1)';
       this.terminalElement.style.opacity = '1';
       this.setupChatInteractions();
+      this.setupCloseButtonHandler();
       this.initializeMosesAI();
       document.getElementById('terminal-chat-input').focus();
     }, 100);
+  }
+
+  setupCloseButtonHandler() {
+    const closeBtn = document.getElementById('chat-close-btn');
+    if (!closeBtn) return;
+
+    // Add delay to prevent immediate close on mobile
+    let isReady = false;
+    setTimeout(() => {
+      isReady = true;
+    }, 800); // Wait 800ms after chat opens
+
+    // Mobile-safe close handler
+    const handleClose = (e, source) => {
+      if (!isReady) {
+        // eslint-disable-next-line no-console
+        console.log(
+          `TerminalAIChat: Close button ${source} too early, ignoring`
+        );
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      // eslint-disable-next-line no-console
+      console.log(`TerminalAIChat: Close button ${source}, closing chat`);
+      this.closeChat();
+    };
+
+    // Touch handler for mobile
+    closeBtn.addEventListener(
+      'touchstart',
+      e => {
+        handleClose(e, 'touched');
+      },
+      { passive: false }
+    );
+
+    // Click handler for desktop
+    closeBtn.addEventListener('click', e => {
+      if ('ontouchstart' in window) return; // Skip on touch devices
+      handleClose(e, 'clicked');
+    });
+
+    // eslint-disable-next-line no-console
+    console.log('TerminalAIChat: Close button handler setup complete');
   }
 
   setupChatInteractions() {
@@ -622,6 +733,9 @@ class TerminalAIChat {
   closeChat() {
     if (!this.isChatMode || !this.terminalElement) return;
 
+    // eslint-disable-next-line no-console
+    console.log('TerminalAIChat: Closing chat...');
+
     // Unlock body scroll on mobile
     document.body.classList.remove('chat-open');
 
@@ -642,8 +756,10 @@ class TerminalAIChat {
       this.terminalElement.style.opacity = '1';
       this.isChatMode = false;
 
-      // Re-add fallback button after closing
-      this.addFallbackChatButton();
+      // Re-add fallback button after closing - with delay for mobile
+      setTimeout(() => {
+        this.addFallbackChatButton();
+      }, 500);
     }, 200);
   }
 }
