@@ -225,19 +225,19 @@
   flex-shrink: 0;
 }
 
-/* Mobile chat interface - match desktop behavior */
+/* Mobile chat interface - match original terminal dimensions */
 @media (max-width: 768px) {
   .terminal-ai-chat {
-    max-width: 600px;
-    height: 500px;
+    max-width: 100%;
+    height: auto;
     width: 100%;
-    margin: 0 auto;
+    margin: 20px 0;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border: 1px solid #3c3c3c;
-    /* Ensure consistent sizing */
-    min-height: 500px;
-    max-height: 500px;
+    /* Auto height to fit content naturally */
+    min-height: 300px;
+    max-height: none;
     flex-shrink: 0;
   }
 }
@@ -957,75 +957,75 @@ body.chat-open {
   }
 }
 
-/* Tablet portrait - maintain desktop-like behavior */
+/* Tablet portrait - match original terminal behavior */
 @media (max-width: 768px) {
   .terminal-ai-chat {
     position: static !important;
     width: 100% !important;
-    height: 500px !important;
-    max-width: 600px !important;
-    max-height: 500px !important;
-    margin: 0 auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    margin: 20px 0 !important;
     border-radius: 12px !important;
     border: 1px solid #3c3c3c !important;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
     z-index: 1 !important;
     transform: none !important;
     opacity: 1 !important;
-    /* Prevent expansion */
+    /* Natural height like original terminal */
     flex-shrink: 0 !important;
-    min-height: 500px !important;
+    min-height: 300px !important;
   }
 
   .terminal-ai-chat .terminal-header {
-    height: 44px; /* Match desktop */
-    padding: 0 16px; /* Match desktop */
+    height: 44px; /* Keep reasonable mobile size */
+    padding: 0 16px;
   }
 
   .terminal-ai-chat .terminal-title {
-    font-size: 13px; /* Match desktop */
+    font-size: 13px;
   }
 
   .chat-messages {
-    padding: 16px 20px; /* Match desktop */
+    padding: 16px 20px;
   }
 
   .message-avatar {
-    width: 24px; /* Match desktop */
-    height: 24px; /* Match desktop */
-    font-size: 12px; /* Match desktop */
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
   }
 
   .message-text {
-    padding: 8px 0; /* Match desktop */
-    font-size: 14px; /* Match desktop */
+    padding: 8px 0;
+    font-size: 14px;
     line-height: 1.5;
   }
 
   .chat-input-container {
-    padding: 16px 20px; /* Match desktop */
+    padding: 16px 20px;
   }
 
   .input-wrapper {
-    gap: 12px; /* Match desktop */
+    gap: 12px;
   }
 
   .input-wrapper textarea {
     font-size: 16px; /* Prevent zoom on iOS */
-    padding: 10px 14px; /* Match desktop */
-    border-radius: 8px; /* Match desktop */
-    min-height: 20px; /* Match desktop */
+    padding: 10px 14px;
+    border-radius: 8px;
+    min-height: 20px;
   }
 
   .input-wrapper button {
-    width: 36px; /* Match desktop */
-    height: 36px; /* Match desktop */
-    font-size: 16px; /* Match desktop */
-    border-radius: 6px; /* Match desktop */
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    border-radius: 6px;
   }
 
   .message-time {
-    font-size: 10px; /* Match desktop */
+    font-size: 10px;
   }
 
   /* Mobile AI trigger improvements */
@@ -1043,33 +1043,40 @@ body.chat-open {
   }
 }
 
-/* Mobile phones - keep desktop consistency */
+/* Mobile phones - match original terminal mobile size */
 @media (max-width: 480px) {
   .terminal-ai-chat {
     position: static;
-    border-radius: 12px;
-    max-width: 600px;
-    height: 500px;
-    margin: 0 auto;
-    min-height: 500px;
-    max-height: 500px;
+    border-radius: 8px; /* Match original terminal */
+    max-width: 100%;
+    height: auto;
+    margin: 15px 0; /* Match original terminal */
+    min-height: 280px; /* Reasonable minimum for mobile */
+    max-height: none;
+    overflow-x: auto; /* Match original terminal */
   }
 
   .terminal-ai-chat .terminal-header {
-    height: 52px;
-    padding: 0 20px;
+    height: 36px; /* Match original terminal mobile */
+    padding: 0 10px; /* Match original terminal mobile */
+    position: relative;
   }
 
   .terminal-ai-chat .terminal-title {
-    font-size: 15px;
+    font-size: 10px; /* Match original terminal mobile */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    margin-top: -5px;
   }
 
   .ai-icon {
-    font-size: 16px;
+    font-size: 10px; /* Scale with title */
   }
 
   .chat-messages {
-    padding: 16px 18px;
+    padding: 10px 12px; /* Match original terminal mobile */
   }
 
   .message-content {
@@ -1077,7 +1084,10 @@ body.chat-open {
   }
 
   .message-text {
-    font-size: 15px;
+    font-size: 11px; /* Match original terminal mobile */
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .input-wrapper {
@@ -1085,32 +1095,41 @@ body.chat-open {
   }
 
   .input-wrapper textarea {
-    font-size: 16px; /* Prevent zoom */
-    padding: 12px 16px;
+    font-size: 16px; /* Prevent zoom - keep this large for usability */
+    padding: 8px 10px; /* More compact */
   }
 
   .input-wrapper button {
-    width: 44px;
-    height: 44px;
+    width: 32px; /* More compact */
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .chat-input-container {
+    padding: 10px 12px; /* Match messages padding */
   }
 
   .char-count {
-    font-size: 11px;
+    font-size: 9px; /* Smaller for mobile */
   }
 }
 
 /* Very small phones */
 @media (max-width: 360px) {
   .terminal-ai-chat {
-    border-radius: inherit;
+    border-radius: 8px; /* Keep consistent */
   }
 
   .chat-messages {
-    padding: 14px 16px;
+    padding: 8px 10px; /* More compact for very small screens */
   }
 
   .input-wrapper textarea {
-    padding: 10px 14px;
+    padding: 6px 8px; /* More compact */
+  }
+
+  .chat-input-container {
+    padding: 8px 10px; /* Match messages padding */
   }
 }
 
