@@ -7,6 +7,7 @@
     <meta name="description" content="Moses Omondi - DevSecOps Engineer, Software Development, and AI enthusiast. Explore my blog on engineering practices, cloud security, and technology insights.">
     <title>Moses Omondi</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/terminal-ai-chat.css">
 </head>
 
 <body>
@@ -40,14 +41,17 @@
 
         <div class="description">
             <div class="terminal-window">
-                <div class="terminal-header">
-                    <div class="terminal-buttons">
-                        <span class="btn-close"></span>
-                        <span class="btn-minimize"></span>
-                        <span class="btn-maximize"></span>
-                    </div>
-                    <div class="terminal-title">mosesomondi@Desktop</div>
-                </div>
+        <div class="terminal-header">
+          <div class="terminal-buttons">
+            <span class="btn-close"></span>
+            <span class="btn-minimize"></span>
+            <span class="btn-maximize"></span>
+          </div>
+          <div class="terminal-title">moses@engineer:~$ </div>
+          <button class="ai-chat-trigger" onclick="terminalAI.showChat()" title="Chat with Moses AI Assistant">
+            🤖 AI
+          </button>
+        </div>
                 <div class="terminal-body">
                     <div class="terminal-line">
                         <span class="terminal-prompt">mosesomondi@Desktop ~ % </span>
@@ -159,6 +163,8 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/moses-ai-client.js"></script>
+    <script src="js/terminal-ai-chat.js"></script>
 </body>
 
 </html>

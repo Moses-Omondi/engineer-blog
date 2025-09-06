@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+  <!-- Robot head -->
+  <rect x="20" y="25" width="60" height="50" rx="10" fill="currentColor"/>
+  
+  <!-- Eyes -->
+  <circle cx="35" cy="40" r="6" fill="white"/>
+  <circle cx="65" cy="40" r="6" fill="white"/>
+  <circle cx="35" cy="40" r="3" fill="currentColor"/>
+  <circle cx="65" cy="40" r="3" fill="currentColor"/>
+  
+  <!-- Smile -->
+  <path d="M 35 55 Q 50 65 65 55" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Antennae -->
+  <circle cx="35" cy="15" r="3" fill="currentColor"/>
+  <circle cx="65" cy="15" r="3" fill="currentColor"/>
+  <line x1="35" y1="25" x2="35" y2="18" stroke="currentColor" stroke-width="2"/>
+  <line x1="65" y1="25" x2="65" y2="18" stroke="currentColor" stroke-width="2"/>
+  
+  <!-- Body -->
+  <rect x="30" y="75" width="40" height="20" rx="5" fill="currentColor"/>
+  
+  <!-- Arms -->
+  <rect x="15" y="80" width="15" height="8" rx="4" fill="currentColor"/>
+  <rect x="70" y="80" width="15" height="8" rx="4" fill="currentColor"/>
+</svg>

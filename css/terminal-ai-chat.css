@@ -1,0 +1,1021 @@
+/* Terminal AI Chat Transformation Styles */
+
+/* Floating Chat Icon */
+.floating-chat-icon {
+  position: absolute !important;
+  top: -8px !important;
+  right: -8px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.chat-icon-button {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--gradient-start, #667eea), var(--gradient-end, #764ba2));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  pointer-events: auto;
+  position: relative;
+  border: 2px solid white;
+  animation: floatIcon 2s ease-in-out infinite;
+}
+
+.chat-icon-button:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, var(--gradient-end, #764ba2), var(--gradient-start, #667eea));
+}
+
+.chat-icon-button svg {
+  width: 18px;
+  height: 18px;
+  color: white;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.chat-counter {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ff4444;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  animation: pulse 2s infinite;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.chat-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  z-index: 1000;
+}
+
+.chat-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.chat-icon-button:hover + .chat-tooltip,
+.floating-chat-icon:hover .chat-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(-1px) rotate(-1deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .chat-icon-button {
+  border-color: var(--bg-color, #1a1a1a);
+}
+
+[data-theme='dark'] .chat-counter {
+  border-color: var(--bg-color, #1a1a1a);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .chat-icon-button {
+    width: 36px;
+    height: 36px;
+    /* Better touch target for mobile */
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .chat-icon-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .chat-counter {
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+  }
+  
+  .chat-tooltip {
+    font-size: 13px;
+    padding: 10px 14px;
+    /* Mobile-specific tooltip positioning */
+    bottom: 120%;
+    margin-bottom: 12px;
+  }
+  
+  /* Show tooltip on touch/active state for mobile */
+  .chat-icon-button:active + .chat-tooltip,
+  .floating-chat-icon:active .chat-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  
+  /* Floating icon positioning adjustments for mobile */
+  .floating-chat-icon {
+    top: -12px !important;
+    right: -12px !important;
+  }
+}
+
+/* Very small mobile phones */
+@media (max-width: 480px) {
+  .floating-chat-icon {
+    top: -8px !important;
+    right: -8px !important;
+  }
+  
+  .chat-tooltip {
+    font-size: 12px;
+    padding: 8px 10px;
+    white-space: normal;
+    max-width: 120px;
+    text-align: center;
+  }
+}
+
+/* Remove old AI trigger styles */
+.ai-trigger {
+  display: none;
+}
+
+/* Terminal Chat Interface with Website Fonts */
+.terminal-ai-chat {
+  width: 100%;
+  max-width: 600px;
+  height: 500px;
+  background: #1e1e1e; /* Terminal background */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Terminal shadow */
+  border: 1px solid #3c3c3c; /* Terminal border */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme='dark'] .terminal-ai-chat {
+  background: #0d1117; /* Dark terminal background */
+  border-color: #21262d; /* Dark terminal border */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); /* Terminal shadow */
+}
+
+.terminal-ai-chat .terminal-header {
+  background: #2d2d2d; /* Terminal header background */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid #3c3c3c; /* Terminal border */
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .terminal-ai-chat .terminal-header {
+  background: #161b22;
+  border-bottom-color: #21262d;
+}
+
+.terminal-ai-chat .terminal-title {
+  color: #a0a0a0; /* Terminal title color */
+  font-size: 13px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+[data-theme='dark'] .terminal-ai-chat .terminal-title {
+  color: #8b949e; /* Dark theme terminal title */
+}
+
+.ai-icon {
+  font-size: 14px;
+  color: #4fc3f7; /* Terminal prompt blue */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom chatbot icon - Replace 'chatbot-icon.svg' with your downloaded icon */
+.ai-icon::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background: url('/images/chatbot-icon.svg') no-repeat center;
+  background-size: contain;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(69%) sepia(86%) saturate(423%) hue-rotate(168deg) brightness(99%) contrast(92%); /* Makes it blue */
+}
+
+/* Hide the emoji when using custom icon */
+.ai-icon:not(.use-emoji) {
+  font-size: 0; /* Hide emoji text */
+}
+
+[data-theme='dark'] .ai-icon {
+  color: #58a6ff; /* Dark theme terminal prompt blue */
+}
+
+[data-theme='dark'] .ai-icon::before {
+  filter: brightness(0) saturate(100%) invert(69%) sepia(73%) saturate(1929%) hue-rotate(204deg) brightness(105%) contrast(101%); /* Makes it dark theme blue */
+}
+
+.chat-status {
+  display: none; /* Remove status for cleaner terminal look */
+}
+
+[data-theme='dark'] .chat-status {
+  color: #8b949e;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-indicator.online {
+  background: #48bb78;
+  box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.3);
+}
+
+.status-indicator.offline {
+  background: #f85149; /* GitHub red */
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.4); }
+  70% { box-shadow: 0 0 0 4px rgba(248, 81, 73, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0); }
+}
+
+/* Terminal Chat Body */
+.terminal-chat-body {
+  background: #1e1e1e; /* Terminal body background */
+  color: #e6e6e6; /* Terminal text color */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden; /* Prevent overflow */
+}
+
+[data-theme='dark'] .terminal-chat-body {
+  background: #0d1117; /* Dark theme terminal body */
+  color: #c9d1d9; /* Dark theme terminal text */
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px; /* Terminal padding */
+  background: inherit;
+  height: 100%; /* Take available height */
+  max-height: 100%; /* Don't exceed container */
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #555; /* Terminal scrollbar color */
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Terminal scrollbar hover */
+}
+
+/* Terminal Message Styles */
+.ai-message, .user-message, .error-message {
+  display: flex;
+  margin-bottom: 16px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+  align-items: flex-start;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.user-message {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.message-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin: 0 8px 0 0;
+  background: transparent;
+  color: #4fc3f7; /* Terminal prompt color */
+}
+
+/* Custom robot icon for AI messages */
+.ai-message .message-avatar {
+  position: relative;
+}
+
+.ai-message .message-avatar::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: url('/images/chatbot-icon.svg') no-repeat center;
+  background-size: contain;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: brightness(0) saturate(100%) invert(69%) sepia(86%) saturate(423%) hue-rotate(168deg) brightness(99%) contrast(92%); /* Makes it blue */
+}
+
+/* Hide emoji in AI messages when using custom icon */
+.ai-message .message-avatar {
+  font-size: 0;
+}
+
+[data-theme='dark'] .message-avatar {
+  color: #58a6ff;
+}
+
+.ai-message .message-avatar {
+  background: transparent;
+  color: #4fc3f7;
+}
+
+[data-theme='dark'] .ai-message .message-avatar {
+  color: #58a6ff;
+}
+
+.user-message .message-avatar {
+  background: transparent;
+  color: #81c784; /* Terminal command color */
+  margin: 0 0 0 8px;
+}
+
+[data-theme='dark'] .user-message .message-avatar {
+  color: #7ee787;
+}
+
+[data-theme='dark'] .user-message .message-avatar {
+  background: #238636;
+  border-color: #238636;
+}
+
+.error-message .message-avatar {
+  background: #da3633; /* GitHub red */
+  border-color: #da3633;
+  color: white;
+}
+
+.message-content {
+  flex: 1;
+  max-width: 85%;
+  position: relative;
+}
+
+.message-text {
+  padding: 8px 0;
+  border-radius: 0;
+  line-height: 1.5;
+  word-wrap: break-word;
+  font-size: 14px;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: transparent;
+}
+
+.ai-message .message-text {
+  background: transparent; /* No background */
+  color: #e6e6e6; /* Terminal output color */
+}
+
+[data-theme='dark'] .ai-message .message-text {
+  background: transparent; /* No background */
+  color: #c9d1d9;
+}
+
+.user-message .message-text {
+  background: transparent; /* No background */
+  color: #81c784; /* Terminal command color */
+}
+
+[data-theme='dark'] .user-message .message-text {
+  background: transparent; /* No background */
+  color: #7ee787;
+}
+
+.error-message .message-text {
+  background: #2c1618; /* GitHub red background */
+  color: #ffdcd7;
+  border-color: #da3633;
+  border-left: 3px solid #da3633; /* Red accent */
+}
+
+.message-text strong {
+  font-weight: 600;
+  color: #4fc3f7; /* Terminal prompt color */
+}
+
+[data-theme='dark'] .message-text strong {
+  color: #58a6ff; /* Dark theme prompt color */
+}
+
+.user-message .message-text strong {
+  color: #81c784; /* Terminal command color */
+}
+
+[data-theme='dark'] .user-message .message-text strong {
+  color: #7ee787;
+}
+
+.ai-message .message-text strong {
+  color: #4fc3f7;
+}
+
+[data-theme='dark'] .ai-message .message-text strong {
+  color: #58a6ff;
+}
+
+.message-text ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.message-text li {
+  margin: 4px 0;
+  color: inherit;
+}
+
+.message-text code {
+  background: rgba(0, 0, 0, 0.1); /* Very subtle background */
+  color: #4fc3f7;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Mono', monospace; /* Website font with monospace fallback */
+}
+
+[data-theme='dark'] .message-text code {
+  color: #58a6ff;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.message-time {
+  font-size: 10px;
+  color: #a0a0a0; /* Terminal title color */
+  margin-top: 4px;
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+}
+
+[data-theme='dark'] .message-time {
+  color: #8b949e;
+}
+
+.user-message .message-time {
+  text-align: left;
+}
+
+.processing-time {
+  font-size: 0.7rem;
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.welcome-msg .message-text {
+  background: transparent; /* No gradient background */
+  color: #e6e6e6; /* Same as other AI messages */
+  border: none; /* No border */
+  border-radius: 0; /* No border radius */
+}
+
+/* Terminal-style Typing Indicator */
+.typing-indicator {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 20px 12px 20px;
+  opacity: 0.8;
+}
+
+.typing-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 8px;
+  margin-top: 4px;
+  color: white;
+  border: 1px solid var(--gradient-start);
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background: #2d2d2d;
+  border: 1px solid #4a4a4a;
+  border-radius: 8px;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+
+[data-theme='dark'] .typing-dots {
+  background: #161b22;
+  border-color: #21262d;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4fc3f7; /* Terminal prompt blue */
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+[data-theme='dark'] .typing-dots span {
+  background: #58a6ff;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Terminal Chat Input Container */
+.chat-input-container {
+  border-top: 1px solid #3c3c3c; /* Terminal border */
+  background: #2d2d2d; /* Terminal header background */
+  padding: 16px 20px;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .chat-input-container {
+  background: #161b22;
+  border-top-color: #21262d;
+}
+
+.chat-input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.input-wrapper textarea {
+  flex: 1;
+  background: #1e1e1e; /* Terminal body background */
+  border: 1px solid #3c3c3c; /* Terminal border */
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #e6e6e6; /* Terminal text color */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+  font-size: 14px;
+  resize: none;
+  min-height: 20px;
+  max-height: 60px; /* Reduced max height to prevent UI expansion */
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+[data-theme='dark'] .input-wrapper textarea {
+  background: #0d1117;
+  color: #c9d1d9;
+  border-color: #21262d;
+}
+
+.input-wrapper textarea:focus {
+  outline: none;
+  border-color: #4fc3f7; /* Terminal prompt blue */
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
+}
+
+[data-theme='dark'] .input-wrapper textarea:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+}
+
+.input-wrapper textarea::placeholder {
+  color: #a0a0a0; /* Terminal title color */
+}
+
+[data-theme='dark'] .input-wrapper textarea::placeholder {
+  color: #8b949e;
+}
+
+.input-wrapper button {
+  background: #4fc3f7; /* Terminal prompt blue */
+  color: white;
+  border: 1px solid #4fc3f7;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  flex-shrink: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+}
+
+.input-wrapper button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(79, 195, 247, 0.3);
+  background: #29b6f6; /* Lighter blue on hover */
+}
+
+[data-theme='dark'] .input-wrapper button {
+  background: #58a6ff; /* Dark theme terminal prompt blue */
+  border-color: #58a6ff;
+}
+
+[data-theme='dark'] .input-wrapper button:hover:not(:disabled) {
+  background: #388bfd; /* Darker blue on hover */
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+}
+
+.input-wrapper button:disabled {
+  background: #555;
+  border-color: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+.input-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-questions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-btn {
+  background: #3c3c3c;
+  border: 1px solid #555;
+  color: #4fc3f7; /* Terminal prompt blue */
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+}
+
+[data-theme='dark'] .quick-btn {
+  background: #21262d;
+  border-color: #30363d;
+  color: #58a6ff;
+}
+
+.quick-btn:hover {
+  background: var(--gradient-start);
+  color: white;
+  border-color: var(--gradient-start);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(var(--gradient-start-rgb), 0.3);
+}
+
+.char-count {
+  color: #a0a0a0;
+  font-size: 10px;
+  margin-left: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Website font */
+}
+
+[data-theme='dark'] .char-count {
+  color: #8b949e;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .ai-trigger {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .ai-trigger:hover {
+  color: white;
+}
+
+/* Modern Responsive Design */
+
+/* Tablet and small desktop */
+@media (max-width: 1024px) {
+  .terminal-ai-chat {
+    max-width: 90vw;
+    height: 480px;
+    margin: 20px auto;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+  .terminal-ai-chat {
+    position: fixed;
+    top: 10vh;
+    left: 5vw;
+    right: 5vw;
+    bottom: 10vh;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border-radius: 20px;
+    z-index: 9999;
+  }
+  
+  .terminal-ai-chat .terminal-header {
+    height: 56px; /* Bigger touch targets */
+    padding: 0 24px;
+  }
+  
+  .terminal-ai-chat .terminal-title {
+    font-size: 16px;
+  }
+  
+  .chat-messages {
+    padding: 20px;
+  }
+  
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  
+  .message-text {
+    padding: 12px 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .chat-input-container {
+    padding: 20px 24px 24px;
+  }
+  
+  .input-wrapper {
+    gap: 16px;
+  }
+  
+  .input-wrapper textarea {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 14px 18px;
+    border-radius: 12px;
+    min-height: 24px;
+  }
+  
+  .input-wrapper button {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+  
+  .message-time {
+    font-size: 11px;
+  }
+  
+  /* Mobile AI trigger improvements */
+  .ai-trigger {
+    padding: 6px 8px;
+    min-height: 44px; /* Better touch target */
+    display: inline-flex;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .ai-trigger:hover::before {
+    display: none;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .terminal-ai-chat {
+    position: fixed;
+    top: 5vh;
+    left: 4vw;
+    right: 4vw;
+    bottom: 5vh;
+    border-radius: 16px;
+  }
+  
+  .terminal-ai-chat .terminal-header {
+    height: 52px;
+    padding: 0 20px;
+  }
+  
+  .terminal-ai-chat .terminal-title {
+    font-size: 15px;
+  }
+  
+  .ai-icon {
+    font-size: 16px;
+  }
+  
+  .chat-messages {
+    padding: 16px 18px;
+  }
+  
+  .message-content {
+    max-width: calc(100% - 40px);
+  }
+  
+  .message-text {
+    font-size: 15px;
+  }
+  
+  .input-wrapper {
+    gap: 12px;
+  }
+  
+  .input-wrapper textarea {
+    font-size: 16px; /* Prevent zoom */
+    padding: 12px 16px;
+  }
+  
+  .input-wrapper button {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .char-count {
+    font-size: 11px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .terminal-ai-chat {
+    top: 2vh;
+    left: 2vw;
+    right: 2vw;
+    bottom: 2vh;
+    border-radius: 12px;
+  }
+  
+  .chat-messages {
+    padding: 14px 16px;
+  }
+  
+  .input-wrapper textarea {
+    padding: 10px 14px;
+  }
+}
+
+/* Animation for terminal transformation */
+.terminal-window {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-transforming {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+/* Accessibility improvements */
+.ai-trigger:focus {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+.input-wrapper button:focus {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+.quick-btn:focus {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .ai-trigger {
+    border: 2px solid currentColor;
+  }
+  
+  .message-text {
+    border-width: 2px;
+  }
+  
+  .input-wrapper textarea,
+  .input-wrapper button,
+  .quick-btn {
+    border-width: 2px;
+  }
+}
