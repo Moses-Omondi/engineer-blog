@@ -400,14 +400,37 @@ class TerminalAIChat {
       document.body.classList.add('chat-open');
     }
 
-    // Add transformation animation
-    this.terminalElement.style.transition = 'all 0.5s ease-in-out';
-    this.terminalElement.style.transform = 'scale(0.95)';
-    this.terminalElement.style.opacity = '0.7';
+    // Terminal styles will be reset when closing
 
-    setTimeout(() => {
+    // On mobile, make the terminal window fullscreen
+    if (window.innerWidth <= 768) {
+      // eslint-disable-next-line no-console
+      console.log('TerminalAIChat: Setting mobile fullscreen mode');
+      this.terminalElement.style.position = 'fixed';
+      this.terminalElement.style.top = '0';
+      this.terminalElement.style.left = '0';
+      this.terminalElement.style.right = '0';
+      this.terminalElement.style.bottom = '0';
+      this.terminalElement.style.width = '100vw';
+      this.terminalElement.style.height = '100vh';
+      this.terminalElement.style.minHeight = '100vh';
+      this.terminalElement.style.zIndex = '99999';
+      this.terminalElement.style.margin = '0';
+      this.terminalElement.style.borderRadius = '0';
+
+      // Skip animation on mobile for stability
       this.renderChatInterface();
-    }, 250);
+    } else {
+      // Desktop: keep animation
+      this.terminalElement.style.minHeight = '500px';
+      this.terminalElement.style.transition = 'all 0.5s ease-in-out';
+      this.terminalElement.style.transform = 'scale(0.95)';
+      this.terminalElement.style.opacity = '0.7';
+
+      setTimeout(() => {
+        this.renderChatInterface();
+      }, 250);
+    }
   }
 
   renderChatInterface() {
@@ -810,6 +833,20 @@ class TerminalAIChat {
     this.terminalElement.style.opacity = '0.7';
 
     setTimeout(() => {
+      // Reset all styles to original
+      this.terminalElement.style.position = '';
+      this.terminalElement.style.top = '';
+      this.terminalElement.style.left = '';
+      this.terminalElement.style.right = '';
+      this.terminalElement.style.bottom = '';
+      this.terminalElement.style.width = '';
+      this.terminalElement.style.height = '';
+      this.terminalElement.style.minHeight = '';
+      this.terminalElement.style.zIndex = '';
+      this.terminalElement.style.margin = '';
+      this.terminalElement.style.borderRadius = '';
+
+      // Restore original content
       this.terminalElement.innerHTML = this.originalContent;
       this.terminalElement.style.transform = 'scale(1)';
       this.terminalElement.style.opacity = '1';
