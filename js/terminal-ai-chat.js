@@ -34,26 +34,37 @@ class TerminalAIChat {
   retryAddFloatingIcon(attemptCount) {
     const maxAttempts = 5;
     const baseDelay = 200;
-    
-    setTimeout(() => {
-      // eslint-disable-next-line no-console
-      console.log(`TerminalAIChat: Attempt ${attemptCount + 1} to add floating icon`);
-      
-      const success = this.addFloatingChatIcon();
-      
-      if (!success && attemptCount < maxAttempts - 1) {
-        // If failed and we have more attempts, retry with longer delay
+
+    setTimeout(
+      () => {
         // eslint-disable-next-line no-console
-        console.log(`TerminalAIChat: Attempt ${attemptCount + 1} failed, retrying...`);
-        this.retryAddFloatingIcon(attemptCount + 1);
-      } else if (success) {
-        // eslint-disable-next-line no-console
-        console.log(`TerminalAIChat: Successfully added floating icon on attempt ${attemptCount + 1}`);
-      } else {
-        // eslint-disable-next-line no-console
-        console.warn('TerminalAIChat: Failed to add floating icon after all attempts');
-      }
-    }, baseDelay * (attemptCount + 1));
+        console.log(
+          `TerminalAIChat: Attempt ${attemptCount + 1} to add floating icon`
+        );
+
+        const success = this.addFloatingChatIcon();
+
+        if (!success && attemptCount < maxAttempts - 1) {
+          // If failed and we have more attempts, retry with longer delay
+          // eslint-disable-next-line no-console
+          console.log(
+            `TerminalAIChat: Attempt ${attemptCount + 1} failed, retrying...`
+          );
+          this.retryAddFloatingIcon(attemptCount + 1);
+        } else if (success) {
+          // eslint-disable-next-line no-console
+          console.log(
+            `TerminalAIChat: Successfully added floating icon on attempt ${attemptCount + 1}`
+          );
+        } else {
+          // eslint-disable-next-line no-console
+          console.warn(
+            'TerminalAIChat: Failed to add floating icon after all attempts'
+          );
+        }
+      },
+      baseDelay * (attemptCount + 1)
+    );
   }
 
   addFloatingChatIcon() {
@@ -61,28 +72,30 @@ class TerminalAIChat {
     const hobbyTags = document.querySelectorAll('.hobby-tag');
     // eslint-disable-next-line no-console
     console.log('TerminalAIChat: Found', hobbyTags.length, 'hobby tags');
-    
+
     if (hobbyTags.length === 0) {
       // eslint-disable-next-line no-console
       console.log('TerminalAIChat: No hobby tags found');
       return false;
     }
-    
+
     for (let index = 0; index < hobbyTags.length; index++) {
       const tag = hobbyTags[index];
       // eslint-disable-next-line no-console
       console.log(`TerminalAIChat: Tag ${index}:`, tag.textContent.trim());
       if (tag.textContent.trim() === 'Artificial Intelligence') {
         // eslint-disable-next-line no-console
-        console.log('TerminalAIChat: Found Artificial Intelligence tag, creating floating icon');
-        
+        console.log(
+          'TerminalAIChat: Found Artificial Intelligence tag, creating floating icon'
+        );
+
         // Check if icon already exists
         if (tag.querySelector('.floating-chat-icon')) {
           // eslint-disable-next-line no-console
           console.log('TerminalAIChat: Floating icon already exists');
           return true;
         }
-        
+
         // Create floating chat icon
         const chatIcon = document.createElement('div');
         chatIcon.className = 'floating-chat-icon';
@@ -107,45 +120,58 @@ class TerminalAIChat {
           </div>
           <div class="chat-tooltip">Chat with Moses AI</div>
         `;
-        
+
         // Position relative to the hobby tag
         tag.style.position = 'relative';
         tag.appendChild(chatIcon);
         // eslint-disable-next-line no-console
         console.log('TerminalAIChat: Floating icon appended to tag');
-        
+
         // Add click and touch handlers
         const chatButton = chatIcon.querySelector('.chat-icon-button');
-        
-        // Click handler for desktop
-        chatButton.addEventListener('click', (e) => {
+
+        // Mobile-first approach - add both touch and click
+        const showChatHandler = (e, eventType) => {
           e.preventDefault();
           e.stopPropagation();
           // eslint-disable-next-line no-console
-          console.log('TerminalAIChat: Floating icon clicked');
+          console.log(
+            `TerminalAIChat: Floating icon ${eventType}, opening chat...`
+          );
           this.showChat();
-        });
-        
-        // Touch handlers for mobile
-        chatButton.addEventListener('touchstart', () => {
+        };
+
+        // Touch handlers for mobile (primary)
+        chatButton.addEventListener('touchend', e =>
+          showChatHandler(e, 'touched')
+        );
+
+        // Click handler for desktop (fallback)
+        chatButton.addEventListener('click', e =>
+          showChatHandler(e, 'clicked')
+        );
+
+        // Visual feedback for touch
+        chatButton.addEventListener('touchstart', e => {
+          // eslint-disable-next-line no-unused-vars
+          const _ = e; // Acknowledge parameter
           // eslint-disable-next-line no-console
-          console.log('TerminalAIChat: Floating icon touch start');
+          console.log('TerminalAIChat: Touch start - visual feedback');
           chatButton.style.transform = 'scale(0.95)';
+          chatButton.style.opacity = '0.8';
         });
-        
-        chatButton.addEventListener('touchend', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // eslint-disable-next-line no-console
-          console.log('TerminalAIChat: Floating icon touched');
+
+        chatButton.addEventListener('touchcancel', e => {
+          // eslint-disable-next-line no-unused-vars
+          const _ = e; // Acknowledge parameter
           chatButton.style.transform = '';
-          this.showChat();
+          chatButton.style.opacity = '';
         });
-        
+
         return true; // Successfully added icon
       }
     }
-    
+
     // eslint-disable-next-line no-console
     console.log('TerminalAIChat: "Artificial Intelligence" tag not found');
     return false; // Failed to find the tag
@@ -154,13 +180,13 @@ class TerminalAIChat {
   setupMobileSupport() {
     // Add touch support for mobile devices
     if ('ontouchstart' in window) {
-      document.addEventListener('touchstart', (e) => {
+      document.addEventListener('touchstart', e => {
         if (e.target.classList.contains('ai-trigger')) {
           e.target.style.backgroundColor = '#e3f2fd';
         }
       });
 
-      document.addEventListener('touchend', (e) => {
+      document.addEventListener('touchend', e => {
         if (e.target.classList.contains('ai-trigger')) {
           setTimeout(() => {
             e.target.style.backgroundColor = '';
@@ -179,12 +205,12 @@ class TerminalAIChat {
     if (this.isChatMode || !this.terminalElement) return;
 
     this.isChatMode = true;
-    
+
     // Lock body scroll on mobile
     if (window.innerWidth <= 768) {
       document.body.classList.add('chat-open');
     }
-    
+
     // Add transformation animation
     this.terminalElement.style.transition = 'all 0.5s ease-in-out';
     this.terminalElement.style.transform = 'scale(0.95)';
@@ -269,7 +295,7 @@ class TerminalAIChat {
     `;
 
     this.terminalElement.innerHTML = chatHTML;
-    
+
     // Reset transform and apply final styles
     setTimeout(() => {
       this.terminalElement.style.transform = 'scale(1)';
@@ -290,15 +316,17 @@ class TerminalAIChat {
     // Auto-resize textarea with controlled height
     input.addEventListener('input', () => {
       input.style.height = 'auto';
-      input.style.height = Math.min(input.scrollHeight, 60) + 'px'; /* Reduced to prevent UI expansion */
-      
+      input.style.height =
+        Math.min(input.scrollHeight, 60) +
+        'px'; /* Reduced to prevent UI expansion */
+
       const length = input.value.length;
       charCount.textContent = `${length}/500`;
       sendBtn.disabled = !input.value.trim();
     });
 
     // Send on Enter (Shift+Enter for new line)
-    input.addEventListener('keydown', (e) => {
+    input.addEventListener('keydown', e => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         if (!sendBtn.disabled) {
@@ -320,7 +348,9 @@ class TerminalAIChat {
       this.mosesAI = window.mosesAI;
     } else {
       // eslint-disable-next-line no-console
-      console.error('Moses AI client not found. Make sure moses-ai-client.js is loaded.');
+      console.error(
+        'Moses AI client not found. Make sure moses-ai-client.js is loaded.'
+      );
       this.showError('Failed to connect to Moses AI. Please refresh the page.');
       return;
     }
@@ -330,7 +360,9 @@ class TerminalAIChat {
       const health = await this.mosesAI.getHealth();
       const statusIndicator = document.querySelector('.status-indicator');
       if (statusIndicator) {
-        statusIndicator.className = health.error ? 'status-indicator offline' : 'status-indicator online';
+        statusIndicator.className = health.error
+          ? 'status-indicator offline'
+          : 'status-indicator online';
       }
     } catch (error) {
       const statusIndicator = document.querySelector('.status-indicator');
@@ -344,7 +376,7 @@ class TerminalAIChat {
     const input = document.getElementById('terminal-chat-input');
     const sendBtn = document.getElementById('terminal-send-btn');
     const sendIcon = document.getElementById('terminal-send-icon');
-    
+
     if (!input || !this.mosesAI) return;
 
     const question = input.value.trim();
@@ -366,21 +398,34 @@ class TerminalAIChat {
     try {
       const response = await this.mosesAI.query(question);
       this.hideTypingIndicator();
-      
+
       if (response.error) {
         if (response.fallback_response) {
           this.addMessage(response.fallback_response, 'assistant', response);
         } else {
-          this.addMessage(response.message || 'I\'m currently offline. Please try again later.', 'error');
+          this.addMessage(
+            response.message ||
+              "I'm currently offline. Please try again later.",
+            'error'
+          );
         }
       } else {
-        this.addMessage(response.response || response.answer || 'Thank you for your question!', 'assistant', response);
+        this.addMessage(
+          response.response ||
+            response.answer ||
+            'Thank you for your question!',
+          'assistant',
+          response
+        );
       }
-      
+
       this.conversations.push({ question, response });
     } catch (error) {
       this.hideTypingIndicator();
-      this.addMessage(`Sorry, I encountered an error: ${error.message}`, 'error');
+      this.addMessage(
+        `Sorry, I encountered an error: ${error.message}`,
+        'error'
+      );
     } finally {
       // Re-enable input
       input.disabled = false;
@@ -392,16 +437,19 @@ class TerminalAIChat {
 
   askQuickQuestion(button) {
     const questions = {
-      'CI/CD Security': 'What are the best practices for CI/CD pipeline security?',
-      'Kubernetes Security': 'How do I secure a Kubernetes cluster?', 
+      'CI/CD Security':
+        'What are the best practices for CI/CD pipeline security?',
+      'Kubernetes Security': 'How do I secure a Kubernetes cluster?',
       'AWS Architecture': 'How do I design secure AWS infrastructure?',
-      'MLSecOps': 'What is MLSecOps and how do I implement it?'
+      MLSecOps: 'What is MLSecOps and how do I implement it?',
     };
 
     const question = questions[button.textContent.trim()];
     if (question) {
       document.getElementById('terminal-chat-input').value = question;
-      document.getElementById('terminal-chat-input').dispatchEvent(new Event('input'));
+      document
+        .getElementById('terminal-chat-input')
+        .dispatchEvent(new Event('input'));
     }
   }
 
@@ -413,7 +461,7 @@ class TerminalAIChat {
     messageDiv.className = `${type}-message`;
 
     const time = new Date().toLocaleTimeString();
-    
+
     if (type === 'user') {
       messageDiv.innerHTML = `
         <div class="message-avatar">👤</div>
@@ -460,7 +508,9 @@ class TerminalAIChat {
     const indicator = document.getElementById('typing-indicator');
     if (indicator) {
       indicator.style.display = 'flex';
-      const messagesContainer = document.getElementById('terminal-chat-messages');
+      const messagesContainer = document.getElementById(
+        'terminal-chat-messages'
+      );
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   }
@@ -517,7 +567,7 @@ class TerminalAIChat {
       this.terminalElement.style.transform = 'scale(1)';
       this.terminalElement.style.opacity = '1';
       this.isChatMode = false;
-      
+
       // AI word triggers disabled - no re-setup needed
     }, 200);
   }
@@ -534,6 +584,29 @@ function initializeTerminalAI() {
   window.terminalAI = new TerminalAIChat();
   // eslint-disable-next-line no-console
   console.log('Moses AI Terminal Chat initialized:', window.terminalAI);
+
+  // Add global debug function
+  window.testChat = function () {
+    // eslint-disable-next-line no-console
+    console.log('Testing chat manually...');
+    if (window.terminalAI) {
+      window.terminalAI.showChat();
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('TerminalAI not available');
+    }
+  };
+
+  // Add icon visibility check
+  window.checkFloatingIcon = function () {
+    const icons = document.querySelectorAll('.floating-chat-icon');
+    // eslint-disable-next-line no-console
+    console.log('Floating icons found:', icons.length);
+    icons.forEach((icon, index) => {
+      // eslint-disable-next-line no-console
+      console.log(`Icon ${index}:`, icon, 'Visible:', icon.offsetHeight > 0);
+    });
+  };
 }
 
 // Also make the class available globally
