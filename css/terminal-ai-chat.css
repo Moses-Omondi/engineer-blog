@@ -220,19 +220,25 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  /* Ensure chat stays within bounds */
+  min-height: 0;
+  flex-shrink: 0;
 }
 
-/* Mobile chat interface */
-@supports (padding: max(0px)) {
-  @media (max-width: 768px) {
-    .terminal-ai-chat {
-      max-width: none;
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      border-radius: inherit;
-      box-shadow: none;
-    }
+/* Mobile chat interface - match desktop behavior */
+@media (max-width: 768px) {
+  .terminal-ai-chat {
+    max-width: 600px;
+    height: 500px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid #3c3c3c;
+    /* Ensure consistent sizing */
+    min-height: 500px;
+    max-height: 500px;
+    flex-shrink: 0;
   }
 }
 
@@ -951,72 +957,75 @@ body.chat-open {
   }
 }
 
-/* Tablet portrait */
+/* Tablet portrait - maintain desktop-like behavior */
 @media (max-width: 768px) {
   .terminal-ai-chat {
     position: static !important;
     width: 100% !important;
-    height: 100% !important;
-    max-width: inherit !important;
-    max-height: inherit !important;
-    margin: inherit !important;
-    border-radius: inherit !important;
-    border: inherit !important;
-    box-shadow: inherit !important;
+    height: 500px !important;
+    max-width: 600px !important;
+    max-height: 500px !important;
+    margin: 0 auto !important;
+    border-radius: 12px !important;
+    border: 1px solid #3c3c3c !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
     z-index: 1 !important;
     transform: none !important;
     opacity: 1 !important;
+    /* Prevent expansion */
+    flex-shrink: 0 !important;
+    min-height: 500px !important;
   }
 
   .terminal-ai-chat .terminal-header {
-    height: 56px; /* Bigger touch targets */
-    padding: 0 24px;
+    height: 44px; /* Match desktop */
+    padding: 0 16px; /* Match desktop */
   }
 
   .terminal-ai-chat .terminal-title {
-    font-size: 16px;
+    font-size: 13px; /* Match desktop */
   }
 
   .chat-messages {
-    padding: 20px;
+    padding: 16px 20px; /* Match desktop */
   }
 
   .message-avatar {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
+    width: 24px; /* Match desktop */
+    height: 24px; /* Match desktop */
+    font-size: 12px; /* Match desktop */
   }
 
   .message-text {
-    padding: 12px 0;
-    font-size: 16px;
+    padding: 8px 0; /* Match desktop */
+    font-size: 14px; /* Match desktop */
     line-height: 1.5;
   }
 
   .chat-input-container {
-    padding: 20px 24px 24px;
+    padding: 16px 20px; /* Match desktop */
   }
 
   .input-wrapper {
-    gap: 16px;
+    gap: 12px; /* Match desktop */
   }
 
   .input-wrapper textarea {
     font-size: 16px; /* Prevent zoom on iOS */
-    padding: 14px 18px;
-    border-radius: 12px;
-    min-height: 24px;
+    padding: 10px 14px; /* Match desktop */
+    border-radius: 8px; /* Match desktop */
+    min-height: 20px; /* Match desktop */
   }
 
   .input-wrapper button {
-    width: 48px;
-    height: 48px;
-    font-size: 18px;
-    border-radius: 12px;
+    width: 36px; /* Match desktop */
+    height: 36px; /* Match desktop */
+    font-size: 16px; /* Match desktop */
+    border-radius: 6px; /* Match desktop */
   }
 
   .message-time {
-    font-size: 11px;
+    font-size: 10px; /* Match desktop */
   }
 
   /* Mobile AI trigger improvements */
@@ -1034,11 +1043,16 @@ body.chat-open {
   }
 }
 
-/* Mobile phones */
+/* Mobile phones - keep desktop consistency */
 @media (max-width: 480px) {
   .terminal-ai-chat {
-    position: relative;
-    border-radius: inherit;
+    position: static;
+    border-radius: 12px;
+    max-width: 600px;
+    height: 500px;
+    margin: 0 auto;
+    min-height: 500px;
+    max-height: 500px;
   }
 
   .terminal-ai-chat .terminal-header {
